@@ -38,7 +38,7 @@ def cmd_doctor() -> int:
     domains = allowed_domains(perms)
     print(f"  Web allowlist: {len(domains)} domains")
     print(f"  Robot max joint vel: {perms.get('robot', {}).get('max_joint_velocity_rad_s')} rad/s")
-    print("\n  Name options: docs/NAMES.md")
+    print("\n  Codenames: docs/FUSION.md")
     print("  Architecture: docs/ARCHITECTURE.md")
     return 0 if integrity and not is_stopped() else 1
 
@@ -68,7 +68,7 @@ def cmd_run(args: argparse.Namespace) -> int:
 
 
 def cmd_names() -> int:
-    path = project_root() / "docs" / "NAMES.md"
+    path = project_root() / "docs" / "FUSION.md"
     print(path.read_text(encoding="utf-8"))
     return 0
 

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import fnmatch
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -44,24 +45,44 @@ def assert_mutable_path(target: Path, permissions: Dict[str, Any] | None = None)
     perms = permissions or load_permissions()
     root = core_dir().parent.resolve()
     resolved = target.resolve()
-    rel = str(resolved.relative_to(root)) if resolved.is_relative_to(root) else str(resolved)
 
-    immutable = perms.get("paths", {}).get("immutable") or []
+    paths_cfg = perms.get("paths") or {}
+    mutable_prefixes = paths_cfg.get("mutable")
+    if not mutable_prefixes:
+        raise ValueError("permissions.yaml paths.mutable is required")
+
+    if resolved.is_relative_to(root):
+        rel = resolved.relative_to(root).as_posix()
+    else:
+        rel = resolved.as_posix()
+
+    immutable = paths_cfg.get("immutable") or []
     for prefix in immutable:
         if rel == prefix or rel.startswith(prefix + "/"):
             raise PermissionError(f"immutable path: {rel}")
 
-    forbidden = perms.get("paths", {}).get("forbidden_write") or []
+    forbidden = paths_cfg.get("forbidden_write") or []
     for pattern in forbidden:
-        if _matches_glob(rel, pattern):
+        if _matches_forbidden(resolved, rel, pattern):
             raise PermissionError(f"forbidden path: {rel}")
 
-    mutable_prefixes = perms.get("paths", {}).get("mutable") or ["mutable", "sandbox/canary", "memory"]
     if not any(rel == p or rel.startswith(p + "/") for p in mutable_prefixes):
         raise PermissionError(f"not a mutable path: {rel}")
 
 
-def _matches_glob(rel: str, pattern: str) -> bool:
+def _matches_forbidden(resolved: Path, rel: str, pattern: str) -> bool:
+    """Match project-relative or absolute forbidden_write patterns."""
+    if pattern.startswith("/"):
+        target = resolved.as_posix()
+        if fnmatch.fnmatch(target, pattern):
+            return True
+        if pattern.endswith("*"):
+            return target.startswith(pattern[:-1])
+        return target == pattern or target.startswith(pattern + "/")
+    return _matches_relative(rel, pattern)
+
+
+def _matches_relative(rel: str, pattern: str) -> bool:
     if pattern.endswith("*"):
         return rel.startswith(pattern[:-1])
     return rel == pattern or rel.startswith(pattern + "/")

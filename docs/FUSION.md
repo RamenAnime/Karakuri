@@ -49,4 +49,4 @@ Set in `.env`:
 KARAKURI_DISPLAY_NAME=KARAKURI
 ```
 
-For docs you can write: **KARAKURI fusion stack (KODAMA · KAGE · RAIKO · SHIKAI · MUSUBI · HANE · MIRAI · TSUKUMO · SENRAI)**
+For docs you can write: **KARAKURI fusion stack (KODAMA, KAGE, RAIKO, SHIKAI, MUSUBI, HANE, MIRAI, TSUKUMO, SENRAI)**

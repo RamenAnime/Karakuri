@@ -9,6 +9,7 @@ paths:
   mutable:
     - mutable
     - sandbox/canary
+    - memory
   forbidden_write:
     - /
     - /etc

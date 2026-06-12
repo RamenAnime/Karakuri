@@ -57,54 +57,39 @@ Phases **0, 1, and 2** are implemented in software: core safety, web research, p
 
 ---
 
-## Copy-paste setup (Windows 11)
+## Copy-paste setup (Git Bash)
 
-Run these blocks in **PowerShell** on your work PC. Full version with troubleshooting: [docs/SETUP-GIT.md](docs/SETUP-GIT.md).
+Full guide: [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md)
 
-### 1. Git identity (once)
+Local folder:
 
-```powershell
-git config --global user.name "RamenAnime"
-git config --global user.email "YOUR_GITHUB_EMAIL@example.com"
+```text
+C:\Users\Jason Jones\Downloads\Karakuri
 ```
 
-### 2. Clone
-
-```powershell
-cd $HOME\Documents
-git clone https://github.com/RamenAnime/Karakuri.git
-cd Karakuri
-```
-
-### 3. Install
-
-```powershell
-.\scripts\install-windows.ps1
-```
-
-### 4. Verify
-
-```powershell
-.\.venv\Scripts\Activate.ps1
+```bash
+cd "/c/Users/Jason Jones/Downloads/Karakuri"
+git config user.name "RamenAnime"
+git config user.email "your-github-email@example.com"
+python -m venv .venv
+source .venv/Scripts/activate
+pip install -e ".[dev,research]"
+cp .env.example .env
 python -m karakuri doctor
 python -m pytest -q
 ```
 
-### 5. Open in Cursor
+Push changes:
 
-**File > Open Folder >** `Documents\Karakuri`
-
-### 6. Push your changes later
-
-```powershell
+```bash
 git add -A
 git commit -m "Your message"
 git push origin main
 ```
 
-### Emergency stop
+Emergency stop:
 
-```powershell
+```bash
 python -m karakuri stop
 python -m karakuri stop --clear
 ```
@@ -247,7 +232,7 @@ Karakuri/
 |   |-- blueprints/                # CAD and wiring (Phase 5+, planned)
 |
 |-- docs/
-|   |-- SETUP-GIT.md               # Copy-paste Git blocks
+|   |-- GETTING-STARTED.md         # Git Bash setup and install
 |   |-- ROADMAP.md                 # Phase 0-8 detail
 |   |-- HARDWARE-BLUEPRINT.md      # BOM, layout, wiring
 |   |-- ARCHITECTURE.md            # Technical architecture
@@ -255,6 +240,9 @@ Karakuri/
 |   |-- ROBOT-MISSION.md           # Mission and classes
 |   |-- WINDOWS.md                 # Windows 11 install
 |   |-- GITHUB.md                  # Sole contributor notes
+|
+|-- Downloads-Setup/
+|   |-- GIT-BASH.txt               # Copy-paste Git blocks
 |
 |-- scripts/
 |   |-- install-windows.ps1        # One-shot Windows installer
@@ -623,7 +611,7 @@ Immutable robot and security limits live in `core/permissions.yaml` (human-edite
 
 | Environment | Use for |
 |-------------|---------|
-| Windows 11 native | KODAMA core, RAIKO research, KAGE promotion, Cursor dev |
+| Windows 11 native | KODAMA core, RAIKO research, KAGE promotion, local dev |
 | WSL2 Ubuntu 22.04 | ROS 2 Humble, Gazebo sim (Phase 3+) |
 | Ubuntu native | Same as WSL2 if on dedicated Linux machine |
 
@@ -648,14 +636,14 @@ Current suite: **29 tests** covering core, research, promotion, and robot config
 
 | Document | Contents |
 |----------|----------|
-| [docs/SETUP-GIT.md](docs/SETUP-GIT.md) | Copy-paste Git commands for RamenAnime/Karakuri |
+| [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Git Bash setup and install |
+| [docs/GITHUB.md](docs/GITHUB.md) | Push rules and sole contributor |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Phase 0-8 deliverables and exit criteria |
 | [docs/HARDWARE-BLUEPRINT.md](docs/HARDWARE-BLUEPRINT.md) | BOM, layout, mechanical/electronics tree, wiring |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Rings of trust and module map |
 | [docs/FUSION.md](docs/FUSION.md) | All codenames |
 | [docs/ROBOT-MISSION.md](docs/ROBOT-MISSION.md) | Mission, classes, safety |
 | [docs/WINDOWS.md](docs/WINDOWS.md) | Windows 11 setup |
-| [docs/GITHUB.md](docs/GITHUB.md) | Sole contributor workflow |
 
 ---
 
@@ -665,4 +653,4 @@ MIT. See [LICENSE](LICENSE).
 
 ---
 
-**KARAKURI fusion stack:** KODAMA · KAGE · MIRAI · TSUKUMO · RAIKO · SENRAI · SHIKAI · MUSUBI · HANE · からくり
+**KARAKURI fusion stack:** KODAMA, KAGE, MIRAI, TSUKUMO, RAIKO, SENRAI, SHIKAI, MUSUBI, HANE

@@ -18,14 +18,14 @@ Close and reopen PowerShell, then confirm:
 git --version
 ```
 
-Set your identity (use your work email if this is a work PC):
+Set your identity:
 
 ```powershell
-git config --global user.name "Your Name"
-git config --global user.email "you@example.com"
+git config --global user.name "RamenAnime"
+git config --global user.email "your-github-email@example.com"
 ```
 
-See [docs/GITHUB.md](GITHUB.md) for creating the remote repo and keeping yourself as the sole contributor.
+See [GITHUB.md](GITHUB.md) and [GETTING-STARTED.md](GETTING-STARTED.md).
 
 ---
 
@@ -53,21 +53,26 @@ You should see `Python 3.11.x` or newer.
 
 ---
 
-## 3. Clone the repo
+## 3. Clone or open the repo
 
-Pick a folder for projects, then clone:
+Default local path:
 
-```powershell
-cd $HOME\Projects
-git clone https://github.com/YOUR_USER/karakuri.git
-cd karakuri
+```text
+C:\Users\Jason Jones\Downloads\Karakuri
 ```
 
-If you use SSH:
+Git Bash:
 
-```powershell
-git clone git@github.com:YOUR_USER/karakuri.git
-cd karakuri
+```bash
+cd "/c/Users/Jason Jones/Downloads/Karakuri"
+```
+
+Or clone fresh:
+
+```bash
+cd ~/Downloads
+git clone https://github.com/RamenAnime/Karakuri.git
+cd Karakuri
 ```
 
 ---

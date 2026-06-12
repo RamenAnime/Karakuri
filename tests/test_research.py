@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import time
 from unittest.mock import patch
 
 import httpx
@@ -91,6 +92,59 @@ def test_fetcher_wraps_web_fetch():
 def test_fetcher_skips_denied_urls():
     results = fetcher.fetch_urls(["https://evil.example.com/x"])
     assert results == []
+
+
+def test_web_fetch_denied_raises():
+    from karakuri.research.web import fetch
+
+    with pytest.raises(PermissionError):
+        fetch("https://evil.example.com/x")
+
+
+def test_web_fetch_cache_hit(tmp_path, monkeypatch):
+    from karakuri.research import web
+
+    monkeypatch.setattr(web, "memory_dir", lambda: tmp_path)
+    url = "https://docs.ros.org/en/humble/index.html"
+    cache = web._cache_path(url)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(
+        json.dumps(
+            {
+                "url": url,
+                "fetched_at": time.time(),
+                "status": 200,
+                "content_type": "text/html",
+                "text": "cached body",
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    with patch("karakuri.research.web.httpx.get") as mock_get:
+        payload = web.fetch(url, ttl_hours=168.0)
+        mock_get.assert_not_called()
+
+    assert payload["text"] == "cached body"
+
+
+def test_web_fetch_writes_cache(tmp_path, monkeypatch):
+    from karakuri.research import web
+
+    monkeypatch.setattr(web, "memory_dir", lambda: tmp_path)
+    url = "https://docs.ros.org/en/humble/index.html"
+
+    with patch("karakuri.research.web.httpx.get") as mock_get:
+        mock_get.return_value = httpx.Response(
+            200,
+            text="<html>fresh</html>",
+            headers={"content-type": "text/html"},
+            request=httpx.Request("GET", url),
+        )
+        payload = web.fetch(url)
+
+    assert "fresh" in payload["text"]
+    assert web._cache_path(url).exists()
 
 
 def test_worker_process_item(queue_file, monkeypatch):
