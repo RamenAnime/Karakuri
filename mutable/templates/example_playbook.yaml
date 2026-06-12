@@ -1,0 +1,33 @@
+name: example_playbook
+version: 1
+mission: floor cleanup for dog toys, foam, hair, and trash
+
+workspace_bounds_mm:
+  x: [0, 800]
+  y: [0, 800]
+  z: [0, 400]
+
+labels:
+  toy:
+    action: grasp
+    target: toy_box
+  toy_box:
+    action: drop_target
+  foam_bit:
+    action: vacuum
+  hair_clump:
+    action: vacuum
+  trash:
+    action: grasp_or_vacuum
+  floor:
+    action: ignore
+
+sequence:
+  - detect: camera
+  - classify: yolo
+  - plan: moveit
+  - act: end_effector
+
+safety:
+  max_joint_velocity_rad_s: 0.5
+  require_estop: true

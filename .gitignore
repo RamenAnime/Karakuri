@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+STOP
+*.egg-info/
+dist/
+build/
+memory/web/cache/
+memory/promotion_queue.json
+memory/logs/*
+!memory/logs/.gitkeep
+sandbox/canary/*
+!sandbox/canary/.gitkeep
+mutable/generated/*
+!mutable/generated/.gitkeep

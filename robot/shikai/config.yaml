@@ -1,0 +1,49 @@
+version: 1
+subsystem: shikai
+description: Vision and perception (視界)
+
+ros2:
+  package: shikai_perception
+  node: yolo_detector
+  topics:
+    image_in: /camera/color/image_raw
+    camera_info: /camera/color/camera_info
+    detections: /shikai/detections
+  frame_id: camera_color_optical_frame
+
+model:
+  backend: ultralytics
+  weights: models/floor_objects.pt
+  input_size: 640
+  confidence: 0.45
+  iou: 0.5
+
+classes:
+  - id: 0
+    name: toy
+    action: grasp
+    planner: musubi
+  - id: 1
+    name: toy_box
+    action: place_target
+    planner: musubi
+  - id: 2
+    name: foam_bit
+    action: vacuum
+    planner: hane
+  - id: 3
+    name: hair_clump
+    action: vacuum
+    planner: hane
+  - id: 4
+    name: trash
+    action: grasp_or_vacuum
+    planner: musubi
+    size_threshold_mm: 40
+  - id: 5
+    name: floor
+    action: ignore
+    planner: none
+
+ignore_classes:
+  - floor

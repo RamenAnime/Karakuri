@@ -1,0 +1,52 @@
+================================================================================
+KARAKURI - GIT BASH ONLY (Windows 11)
+Repo: https://github.com/RamenAnime/Karakuri
+================================================================================
+
+STEP 1 - Open Git Bash (Start menu > Git Bash)
+
+STEP 2 - Confirm your repo URL in the browser. Copy the exact URL from GitHub.
+         Example: https://github.com/RamenAnime/Karakuri
+
+STEP 3 - If the Karakuri project folder is already on your PC (from Cursor),
+         go into that folder. It must contain README.md, core/, karakuri/, robot/
+
+         cd /c/Users/YOUR_NAME/path/to/karakuri
+
+STEP 4 - Paste this block (edit YOUR_GITHUB_EMAIL):
+
+--------------------------------------------------------------------------------
+
+git config user.name "RamenAnime"
+git config user.email "YOUR_GITHUB_EMAIL@example.com"
+git remote remove origin 2>/dev/null
+git remote add origin https://github.com/RamenAnime/Karakuri.git
+git branch -M main
+git push -u origin main
+
+--------------------------------------------------------------------------------
+
+STEP 5 - If you do NOT have the project files yet, use Downloads folder:
+
+--------------------------------------------------------------------------------
+
+cd ~/Downloads
+git clone https://github.com/RamenAnime/Karakuri.git
+cd Karakuri
+
+--------------------------------------------------------------------------------
+
+If clone is empty, copy all files from your Cursor karakuri folder into
+Downloads/Karakuri (keep the .git folder), then:
+
+--------------------------------------------------------------------------------
+
+git add -A
+git commit -m "Initial KARAKURI fusion stack"
+git push -u origin main
+
+--------------------------------------------------------------------------------
+
+STEP 6 - Check GitHub Insights > Contributors. Only RamenAnime should appear.
+
+================================================================================

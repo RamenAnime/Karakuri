@@ -1,0 +1,91 @@
+version: 1
+subsystem: hane
+description: Vacuum and debris path schema (羽)
+
+ros2:
+  package: hane_vacuum
+  node: vacuum_path_server
+  action: /hane/vacuum_path
+  topics:
+    cmd_vel: /hane/cmd_vel
+    suction: /hane/suction/cmd
+
+schema:
+  vacuum_plan:
+    type: object
+    required:
+      - mission_id
+      - target_classes
+      - waypoints
+    properties:
+      mission_id:
+        type: string
+      workspace_frame:
+        type: string
+        default: base_link
+      target_classes:
+        type: array
+        items:
+          type: string
+          enum: [foam_bit, hair_clump, trash]
+      tool:
+        type: object
+        properties:
+          hover_height_m:
+            type: number
+            default: 0.015
+          suction_power:
+            type: number
+            minimum: 0.0
+            maximum: 1.0
+            default: 0.7
+          brush_enable:
+            type: boolean
+            default: false
+      waypoints:
+        type: array
+        min_items: 1
+        items:
+          type: object
+          required:
+            - waypoint_id
+            - x
+            - y
+          properties:
+            waypoint_id:
+              type: string
+            x:
+              type: number
+            y:
+              type: number
+            dwell_s:
+              type: number
+              default: 1.5
+            object_class:
+              type: string
+              enum: [foam_bit, hair_clump, trash]
+            brush_enable:
+              type: boolean
+
+example:
+  mission_id: foam_sweep_001
+  workspace_frame: base_link
+  target_classes:
+    - foam_bit
+    - hair_clump
+  tool:
+    hover_height_m: 0.015
+    suction_power: 0.7
+    brush_enable: false
+  waypoints:
+    - waypoint_id: wp_01
+      x: 0.42
+      y: -0.18
+      dwell_s: 2.0
+      object_class: foam_bit
+    - waypoint_id: wp_02
+      x: 0.55
+      y: 0.05
+      dwell_s: 1.5
+      object_class: hair_clump
+      brush_enable: true

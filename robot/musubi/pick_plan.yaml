@@ -1,0 +1,86 @@
+version: 1
+subsystem: musubi
+description: Pick-to-box manipulation schema (結)
+
+ros2:
+  package: musubi_manipulation
+  node: pick_place_server
+  action: /musubi/pick_place
+  services:
+    plan_valid: /musubi/validate_plan
+
+schema:
+  pick_plan:
+    type: object
+    required:
+      - mission_id
+      - steps
+    properties:
+      mission_id:
+        type: string
+      workspace_frame:
+        type: string
+        default: base_link
+      steps:
+        type: array
+        min_items: 1
+        items:
+          type: object
+          required:
+            - step_id
+            - object_class
+            - action
+          properties:
+            step_id:
+              type: string
+            object_class:
+              type: string
+              enum: [toy, trash]
+            action:
+              type: string
+              enum: [pick, place, retreat]
+            detection_topic:
+              type: string
+              default: /shikai/detections
+            place_target_class:
+              type: string
+              default: toy_box
+            approach:
+              type: object
+              properties:
+                offset_z_m:
+                  type: number
+                  default: 0.08
+                max_reach_m:
+                  type: number
+                  default: 0.35
+            gripper:
+              type: object
+              properties:
+                close_width_m:
+                  type: number
+                open_width_m:
+                  type: number
+
+example:
+  mission_id: toys_to_box_001
+  workspace_frame: base_link
+  steps:
+    - step_id: pick_toy
+      object_class: toy
+      action: pick
+      approach:
+        offset_z_m: 0.08
+        max_reach_m: 0.35
+      gripper:
+        close_width_m: 0.02
+        open_width_m: 0.06
+    - step_id: place_in_box
+      object_class: toy
+      action: place
+      place_target_class: toy_box
+      gripper:
+        open_width_m: 0.06
+    - step_id: retreat
+      object_class: toy
+      action: retreat
