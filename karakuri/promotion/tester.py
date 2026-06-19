@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -18,9 +19,14 @@ def run_sandbox_tests(sandbox_path: Path | None = None) -> bool:
         return False
 
     audit("promotion.test_start", path=str(root))
+    env = os.environ.copy()
+    env.pop("PYTEST_CURRENT_TEST", None)
+    env["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] = "1"
     result = subprocess.run(
         [sys.executable, "-m", "pytest", str(root), "-q"],
         cwd=str(project_root()),
+        env=env,
+        stdin=subprocess.DEVNULL,
         capture_output=True,
         text=True,
     )
