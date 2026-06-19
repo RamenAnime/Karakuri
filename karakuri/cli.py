@@ -588,6 +588,56 @@ def cmd_calibrate(args: argparse.Namespace) -> int:
     return 0 if payload["ok"] else 1
 
 
+def cmd_database(args: argparse.Namespace) -> int:
+    _load_env()
+    from karakuri.database import enterprise_table_specs, initialize_database, schema_sql
+
+    if args.database_command == "schema":
+        specs = enterprise_table_specs(args.tables)
+        sql = schema_sql(args.tables)
+        if args.output is not None:
+            args.output.parent.mkdir(parents=True, exist_ok=True)
+            args.output.write_text(sql, encoding="utf-8")
+            print(f"schema written: {args.output}")
+            return 0
+        if args.print_sql:
+            print(sql, end="")
+            return 0
+        payload = {
+            "tables": len(specs),
+            "core_tables": sum(1 for spec in specs if not spec.kind.startswith("ledger:")),
+            "ledger_tables": sum(1 for spec in specs if spec.kind.startswith("ledger:")),
+        }
+        if args.json:
+            _print_json(payload)
+        else:
+            print(f"tables: {payload['tables']}")
+            print(f"core tables: {payload['core_tables']}")
+            print(f"ledger tables: {payload['ledger_tables']}")
+        return 0
+
+    if args.database_command == "health":
+        health = initialize_database(args.path, table_count=args.tables)
+        if args.json:
+            _print_json(health.to_dict())
+        else:
+            print(f"database: {health.path}")
+            print(f"status: {'OK' if health.ok else 'FAIL'}")
+            print(f"tables: {health.table_count}/{health.expected_table_count}")
+            print(f"indexes: {health.index_count}")
+            print(f"catalog rows: {health.catalog_rows}")
+            print(f"integrity: {health.integrity}")
+            print(f"foreign key errors: {health.foreign_key_errors}")
+            if health.missing_tables:
+                print("missing tables:")
+                for table in health.missing_tables:
+                    print(f"  {table}")
+        return 0 if health.ok else 1
+
+    print("Use: karakuri database [schema|health]")
+    return 0
+
+
 def _demo_frame():
     from karakuri.robot.detections import BoundingBox, Detection, DetectionFrame
 
@@ -712,6 +762,21 @@ def build_parser() -> argparse.ArgumentParser:
     calibrate_p = sub.add_parser("calibrate", help="Validate a calibration profile")
     calibrate_p.add_argument("profile", type=Path, help="Calibration JSON file")
 
+    database_p = sub.add_parser("database", help="Manage the hardened local database")
+    database_sub = database_p.add_subparsers(dest="database_command")
+    database_schema_p = database_sub.add_parser("schema", help="Inspect or export the SQL schema")
+    database_schema_p.add_argument("--tables", type=int, default=750, help="Managed table count")
+    database_schema_p.add_argument("--json", action="store_true", help="Output JSON summary")
+    database_schema_p.add_argument("--print-sql", action="store_true", help="Print the SQL migration")
+    database_schema_p.add_argument("--output", type=Path, default=None, help="Write SQL to this path")
+    database_health_p = database_sub.add_parser(
+        "health",
+        help="Initialize the database and run integrity checks",
+    )
+    database_health_p.add_argument("--tables", type=int, default=750, help="Managed table count")
+    database_health_p.add_argument("--path", type=Path, default=None, help="SQLite file path")
+    database_health_p.add_argument("--json", action="store_true", help="Output JSON health report")
+
     evolve_p = sub.add_parser("evolve", help="Draft a canary fix from repeated failures")
     evolve_p.add_argument("--threshold", type=int, default=3, help="Failure repeat threshold")
 
@@ -777,6 +842,8 @@ def main(argv: list[str] | None = None) -> int:
         return cmd_map(args)
     if args.command == "calibrate":
         return cmd_calibrate(args)
+    if args.command == "database":
+        return cmd_database(args)
     if args.command == "evolve":
         return cmd_evolve(args)
     if args.command == "research":

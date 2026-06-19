@@ -114,3 +114,19 @@ def test_research_list_empty(tmp_path, monkeypatch, capsys):
     rc = main(["research", "list"])
     assert rc == 0
     assert "queue empty" in capsys.readouterr().out
+
+
+def test_database_schema_command_json(capsys):
+    rc = main(["database", "schema", "--json"])
+    assert rc == 0
+    data = json.loads(capsys.readouterr().out)
+    assert data["tables"] == 750
+    assert data["ledger_tables"] > data["core_tables"]
+
+
+def test_database_health_command_json(tmp_path, capsys):
+    rc = main(["database", "health", "--path", str(tmp_path / "karakuri.sqlite3"), "--json"])
+    assert rc == 0
+    data = json.loads(capsys.readouterr().out)
+    assert data["ok"] is True
+    assert data["table_count"] == 750

@@ -204,6 +204,7 @@ Karakuri/
 |   |-- audit.py                   # Append-only audit log + read-back queries
 |   |-- settings.py                # Typed env settings with validation
 |   |-- paths.py                   # Project root and directory helpers
+|   |-- database/                  # SQLite schema, migrations, and health checks
 |   |
 |   |-- research/                  # RAIKO + SENRAI
 |   |   |-- web.py                 # Allowlisted HTTP fetch + cache + rate limit
@@ -677,6 +678,8 @@ Never run raw shell commands copied from the web. Only template actions in the p
 | `python -m karakuri chores` | autonomy | Show what the robot would do on its own |
 | `python -m karakuri balance` | KARADA | Balance recovery simulation gate (IMU, ankle and hip strategy) |
 | `python -m karakuri map` | KARADA | Onboard occupancy mapping and obstacle-safe path demo |
+| `python -m karakuri database schema --json` | persistence | Show the 750-table managed schema summary |
+| `python -m karakuri database health --json` | persistence | Initialize SQLite and run integrity checks |
 | `python -m karakuri evolve` | KAGE | Draft a canary fix from repeated failures |
 | `python -m karakuri names` | docs | Print codename reference |
 | `python -m karakuri version` | meta | Print version |
@@ -723,7 +726,10 @@ WSL install script: `bash scripts/install-wsl.sh`
 python -m pytest -q
 ```
 
-Current suite: **252 tests** covering core safety, permissions, research, rate limiting, extraction, promotion, robot config loading, schema validation, the safety envelope, the fusion planner, trust scoring, failure history, settings, and the CLI.
+Current suite covers core safety, permissions, research, rate limiting,
+extraction, promotion, robot config loading, schema validation, the safety
+envelope, the fusion planner, trust scoring, failure history, database
+hardening, settings, and the CLI.
 
 Lint gate:
 
@@ -742,6 +748,7 @@ ruff check karakuri tests mutable/templates
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Phase 0-8 deliverables and exit criteria |
 | [docs/CORPORATE-ROBOTICS-BUILD.md](docs/CORPORATE-ROBOTICS-BUILD.md) | Multi-agent build plan, topology, power, BOM, diagnostics, and STL QA |
 | [docs/GAPS-AND-ENHANCEMENTS.md](docs/GAPS-AND-ENHANCEMENTS.md) | Missing build needs, enhancements, and next engineering gates |
+| [docs/DATABASE-HARDENING.md](docs/DATABASE-HARDENING.md) | SQLite persistence, 750-table managed schema, and integrity checks |
 | [docs/ESTOP-PROOF.md](docs/ESTOP-PROOF.md) | Physical e-stop wiring and timing proof procedure |
 | [docs/HARDWARE-BLUEPRINT.md](docs/HARDWARE-BLUEPRINT.md) | BOM, layout, mechanical/electronics tree, wiring |
 | [docs/MOBILE-BASE.md](docs/MOBILE-BASE.md) | Mobile build: printed parts, Kinect, Walmart vacuum donor, stairs safety |
