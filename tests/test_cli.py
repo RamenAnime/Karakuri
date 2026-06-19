@@ -121,7 +121,16 @@ def test_database_schema_command_json(capsys):
     assert rc == 0
     data = json.loads(capsys.readouterr().out)
     assert data["tables"] == 750
+    assert data["dialect"] == "sqlite"
     assert data["ledger_tables"] > data["core_tables"]
+
+
+def test_database_schema_command_tidb_json(capsys):
+    rc = main(["database", "schema", "--dialect", "tidb", "--json"])
+    assert rc == 0
+    data = json.loads(capsys.readouterr().out)
+    assert data["tables"] == 750
+    assert data["dialect"] == "tidb"
 
 
 def test_database_health_command_json(tmp_path, capsys):

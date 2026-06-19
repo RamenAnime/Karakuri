@@ -6,6 +6,7 @@ from pathlib import Path
 
 from karakuri.database import (
     DEFAULT_TABLE_COUNT,
+    cloud,
     connect,
     enterprise_table_specs,
     initialize_database,
@@ -37,6 +38,25 @@ def test_schema_sql_contains_all_create_statements():
     assert 'CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_accepted_ring0_hash"' in sql
     assert 'CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_accepted_ring0_touch"' in sql
     assert 'CREATE VIEW IF NOT EXISTS "v_ledger_audit_accepted_ring0"' in sql
+
+
+def test_tidb_schema_sql_uses_cloud_dialect():
+    sql = cloud.schema_sql()
+    assert sql.count("CREATE TABLE IF NOT EXISTS") == DEFAULT_TABLE_COUNT
+    assert "AUTO_INCREMENT" in sql
+    assert "`meta_schema_catalog`" in sql
+    assert "`ledger_audit_accepted_ring0`" in sql
+    assert "CURRENT_TIMESTAMP(3)" in sql
+    assert '"meta_schema_catalog"' not in sql
+
+
+def test_tidb_url_parsing():
+    cfg = cloud.parse_database_url("tidb://user:pass@example.com/karakuri?ssl=true")
+    assert cfg.host == "example.com"
+    assert cfg.port == 4000
+    assert cfg.database == "karakuri"
+    assert cfg.ssl_enabled is True
+    assert cloud.is_cloud_url(cfg.raw)
 
 
 def test_checked_in_migration_matches_renderer():

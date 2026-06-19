@@ -1,12 +1,14 @@
 # Database Hardening
 
-KARAKURI now has a managed SQLite persistence layer for audit mirrors, safety
-state, robot missions, hardware inventory, diagnostics, firmware records,
-calibration, simulation results, and high volume telemetry ledgers.
+KARAKURI now has a managed persistence layer for audit mirrors, safety state,
+robot missions, hardware inventory, diagnostics, firmware records, calibration,
+simulation results, and high volume telemetry ledgers.
 
-The default enterprise profile contains 750 managed SQL tables. It is generated
-from audited Python schema definitions so the same source can be tested, printed
-as SQL, and applied to a live database without hand copying a huge migration.
+The default enterprise profile contains 750 managed SQL tables. It can run in a
+local SQLite file for offline development or in a TiDB cloud database through
+the MySQL-compatible backend. The schema is generated from audited Python
+definitions so the same source can be tested, printed as SQL, and applied to a
+live database without hand copying a huge migration.
 
 ## Commands
 
@@ -33,6 +35,34 @@ Use a specific path for install tests or staging:
 ```powershell
 python -m karakuri database health --path memory/staging.sqlite3
 ```
+
+Install cloud database support:
+
+```powershell
+pip install -e ".[cloud]"
+```
+
+Configure TiDB:
+
+```powershell
+$env:KARAKURI_DATABASE_URL="tidb://USER:PASSWORD@gateway01.us-west-2.prod.aws.tidbcloud.com:4000/karakuri?ssl=true"
+```
+
+Preview TiDB SQL:
+
+```powershell
+python -m karakuri database schema --dialect tidb --print-sql
+```
+
+Create or update the TiDB tables and run coverage checks:
+
+```powershell
+python -m karakuri database health --json
+```
+
+If `KARAKURI_DATABASE_URL` is set, runtime evidence writers use TiDB by
+default. Passing an explicit `--path` or a direct test path keeps SQLite local
+for offline tests.
 
 ## Evidence Flow
 
@@ -75,7 +105,9 @@ diagnostics, and simulation runs can grow without mixing unrelated records.
 
 The SQLite helper enables foreign keys, recursive triggers, a busy timeout, WAL
 mode for file backed databases, and `trusted_schema=OFF` when the local SQLite
-build supports it.
+build supports it. The TiDB helper emits MySQL-compatible DDL with
+`AUTO_INCREMENT`, JSON columns, touch triggers, cloud-safe views, and table
+coverage checks.
 
 The health command checks:
 

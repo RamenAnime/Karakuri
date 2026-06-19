@@ -7,21 +7,51 @@ import json
 import os
 import time
 from collections.abc import Iterable, Mapping
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import karakuri.database.cloud as cloud
 from karakuri.database.sqlite import apply_schema, connect, database_path
 
 _READY_PATHS: set[str] = set()
 
 
+class _EvidenceConnection:
+    def __init__(self, conn: Any, dialect: str) -> None:
+        self.conn = conn
+        self.dialect = dialect
+
+    def execute(self, sql: str, params: tuple[object, ...] = ()) -> Any:
+        if self.dialect == "tidb":
+            cur = self.conn.cursor()
+            cur.execute(_tidb_sql(sql), params)
+            return cur
+        return self.conn.execute(sql, params)
+
+    def commit(self) -> None:
+        self.conn.commit()
+
+    def close(self) -> None:
+        self.conn.close()
+
+
+def _tidb_sql(sql: str) -> str:
+    text = sql.replace("INSERT OR IGNORE INTO", "INSERT IGNORE INTO")
+    text = text.replace("INSERT OR REPLACE INTO", "REPLACE INTO")
+    return text.replace("?", "%s")
+
+
 def _now_text() -> str:
-    return datetime.now(tz=UTC).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+    return datetime.now(tz=timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z")
 
 
 def _epoch_text(ts: float) -> str:
-    return datetime.fromtimestamp(ts, tz=UTC).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+    return (
+        datetime.fromtimestamp(ts, tz=timezone.utc)
+        .isoformat(timespec="milliseconds")
+        .replace("+00:00", "Z")
+    )
 
 
 def _json(data: Mapping[str, Any] | dict[str, Any]) -> str:
@@ -37,13 +67,22 @@ def _hash(*parts: object) -> str:
 
 
 def _connect_ready(path: Path | str | None = None):
+    if cloud.should_use_cloud(path):
+        target = cloud.configured_url()
+        conn = cloud.connect(target)
+        key = f"tidb:{target}"
+        if key not in _READY_PATHS:
+            cloud.apply_schema(conn)
+            _READY_PATHS.add(key)
+        return _EvidenceConnection(conn, "tidb")
+
     target = path if path is not None else database_path()
     conn = connect(target)
     key = str(target)
     if key not in _READY_PATHS:
         apply_schema(conn)
         _READY_PATHS.add(key)
-    return conn
+    return _EvidenceConnection(conn, "sqlite")
 
 
 def record_audit_event(

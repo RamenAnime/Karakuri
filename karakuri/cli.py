@@ -590,11 +590,11 @@ def cmd_calibrate(args: argparse.Namespace) -> int:
 
 def cmd_database(args: argparse.Namespace) -> int:
     _load_env()
-    from karakuri.database import enterprise_table_specs, initialize_database, schema_sql
+    from karakuri.database import cloud, enterprise_table_specs, initialize_database, schema_sql
 
     if args.database_command == "schema":
         specs = enterprise_table_specs(args.tables)
-        sql = schema_sql(args.tables)
+        sql = cloud.schema_sql(args.tables) if args.dialect == "tidb" else schema_sql(args.tables)
         if args.output is not None:
             args.output.parent.mkdir(parents=True, exist_ok=True)
             args.output.write_text(sql, encoding="utf-8")
@@ -607,6 +607,7 @@ def cmd_database(args: argparse.Namespace) -> int:
             "tables": len(specs),
             "core_tables": sum(1 for spec in specs if not spec.kind.startswith("ledger:")),
             "ledger_tables": sum(1 for spec in specs if spec.kind.startswith("ledger:")),
+            "dialect": args.dialect,
         }
         if args.json:
             _print_json(payload)
@@ -617,7 +618,10 @@ def cmd_database(args: argparse.Namespace) -> int:
         return 0
 
     if args.database_command == "health":
-        health = initialize_database(args.path, table_count=args.tables)
+        if args.url or (args.path is None and cloud.configured_url()):
+            health = cloud.initialize_database(args.url, table_count=args.tables)
+        else:
+            health = initialize_database(args.path, table_count=args.tables)
         if args.json:
             _print_json(health.to_dict())
         else:
@@ -766,6 +770,12 @@ def build_parser() -> argparse.ArgumentParser:
     database_sub = database_p.add_subparsers(dest="database_command")
     database_schema_p = database_sub.add_parser("schema", help="Inspect or export the SQL schema")
     database_schema_p.add_argument("--tables", type=int, default=750, help="Managed table count")
+    database_schema_p.add_argument(
+        "--dialect",
+        default="sqlite",
+        choices=["sqlite", "tidb"],
+        help="SQL dialect",
+    )
     database_schema_p.add_argument("--json", action="store_true", help="Output JSON summary")
     database_schema_p.add_argument("--print-sql", action="store_true", help="Print the SQL migration")
     database_schema_p.add_argument("--output", type=Path, default=None, help="Write SQL to this path")
@@ -775,6 +785,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     database_health_p.add_argument("--tables", type=int, default=750, help="Managed table count")
     database_health_p.add_argument("--path", type=Path, default=None, help="SQLite file path")
+    database_health_p.add_argument("--url", default=None, help="TiDB or MySQL cloud database URL")
     database_health_p.add_argument("--json", action="store_true", help="Output JSON health report")
 
     evolve_p = sub.add_parser("evolve", help="Draft a canary fix from repeated failures")
