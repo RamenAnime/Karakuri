@@ -33,6 +33,10 @@ memory/logs/*
 memory/promotion_queue.json
 memory/trust.json
 memory/watchdog.pid
+memory/*.sqlite
+memory/*.sqlite3
+memory/*.sqlite3-shm
+memory/*.sqlite3-wal
 memory/web/queue.json
 memory/web/ratelimit.json
 memory/web/cache/

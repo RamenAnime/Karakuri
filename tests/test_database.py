@@ -9,8 +9,15 @@ from karakuri.database import (
     connect,
     enterprise_table_specs,
     initialize_database,
+    record_audit_event,
+    record_bms_sample,
+    record_diagnostic_run,
+    record_firmware_build,
+    record_ros_launch_health,
+    record_stl_validation,
     schema_sql,
 )
+from karakuri.hardware.bms import BmsSample, store_bms_sample
 
 
 def test_enterprise_profile_has_750_unique_tables():
@@ -47,5 +54,97 @@ def test_initialize_database_creates_healthy_store(tmp_path):
 
 
 def test_secure_connection_enables_foreign_keys():
-    with connect(":memory:") as conn:
+    conn = connect(":memory:")
+    try:
         assert conn.execute("PRAGMA foreign_keys").fetchone()[0] == 1
+    finally:
+        conn.close()
+
+
+def test_evidence_writers_populate_operational_tables(tmp_path):
+    db = tmp_path / "evidence.sqlite3"
+    record_audit_event("unit.test", 1_700_000_000.0, {"ok": True}, path=db)
+    run_key = record_diagnostic_run(
+        "unit_diagnostic",
+        "passed",
+        [{"check_name": "database", "status": "passed"}],
+        path=db,
+    )
+    build_key = record_firmware_build("teensy41", "abc123", status="planned", path=db)
+    record_ros_launch_health(
+        [{"node_name": "controller_manager", "package_name": "karakuri_bringup"}],
+        [{"topic_name": "/diagnostics", "message_type": "diagnostic_msgs/msg/DiagnosticArray"}],
+        path=db,
+    )
+    sample = BmsSample(
+        pack_voltage_v=26.4,
+        pack_current_a=1.2,
+        state_of_charge_pct=88.0,
+        cell_voltages_v=(3.3,) * 8,
+        temperatures_c=(24.0,) * 8,
+    )
+    record_bms_sample(sample, path=db)
+    record_stl_validation(
+        [
+            {
+                "file": "robot/blueprints/stl/demo.stl",
+                "status": "ok",
+                "boundary_edges": 0,
+                "nonmanifold_edges": 0,
+                "degenerate_triangles": 0,
+                "fits_ender3_v3": True,
+            }
+        ],
+        path=db,
+    )
+
+    conn = connect(db)
+    try:
+        assert conn.execute("SELECT COUNT(*) FROM audit_event_log").fetchone()[0] == 1
+        assert conn.execute("SELECT COUNT(*) FROM ledger_audit_events_ring0").fetchone()[0] == 1
+        diagnostic_count = conn.execute(
+            "SELECT COUNT(*) FROM diagnostic_runs WHERE run_key = ?",
+            (run_key,),
+        ).fetchone()[0]
+        firmware_count = conn.execute(
+            "SELECT COUNT(*) FROM firmware_builds WHERE build_key = ?",
+            (build_key,),
+        ).fetchone()[0]
+        assert diagnostic_count == 1
+        assert firmware_count == 1
+        assert conn.execute("SELECT COUNT(*) FROM ros_node_registry").fetchone()[0] == 1
+        assert conn.execute("SELECT COUNT(*) FROM ros_topic_registry").fetchone()[0] == 1
+        assert conn.execute("SELECT COUNT(*) FROM battery_cell_samples").fetchone()[0] == 8
+        assert conn.execute("SELECT COUNT(*) FROM stl_validation_results").fetchone()[0] == 1
+    finally:
+        conn.close()
+
+
+def test_store_bms_sample_returns_faults_and_records(tmp_path):
+    db = tmp_path / "bms.sqlite3"
+    sample = BmsSample(
+        pack_voltage_v=20.0,
+        pack_current_a=0.0,
+        state_of_charge_pct=5.0,
+        cell_voltages_v=(2.5,) * 8,
+        temperatures_c=(20.0,) * 8,
+    )
+    from karakuri.database import evidence
+
+    original = evidence.record_bms_sample
+
+    def _record_with_temp_path(sample, *, pack_key="main_pack", path=None):
+        return original(sample, pack_key=pack_key, path=db)
+
+    evidence.record_bms_sample = _record_with_temp_path
+    try:
+        faults = store_bms_sample(sample)
+    finally:
+        evidence.record_bms_sample = original
+
+    assert "ERR_VOLT_DROP_01" in faults
+    conn = connect(db)
+    try:
+        assert conn.execute("SELECT COUNT(*) FROM battery_cell_samples").fetchone()[0] == 8
+    finally:
+        conn.close()

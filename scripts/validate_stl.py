@@ -132,6 +132,12 @@ def main() -> int:
             stl_paths.append(path)
 
     report = [validate_stl(path) for path in stl_paths]
+    try:
+        from karakuri.database.evidence import record_stl_validation
+
+        record_stl_validation(report)
+    except Exception:
+        pass
     failures = [item for item in report if item["status"] == "fail"]
     if args.json:
         print(json.dumps(report, indent=2))

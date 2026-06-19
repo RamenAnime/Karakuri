@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import sqlite3
+from contextlib import closing
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -107,7 +108,8 @@ def _create_touch_trigger_sql(spec: TableSpec) -> str:
         f"CREATE TRIGGER IF NOT EXISTS {quote_identifier(trigger)}\n"
         f"AFTER UPDATE ON {table}\n"
         "FOR EACH ROW\n"
-        "WHEN NEW.updated_at = OLD.updated_at\n"
+        "WHEN NEW.updated_at = OLD.updated_at "
+        "AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')\n"
         "BEGIN\n"
         f"  UPDATE {table} SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;\n"
         "END;"
@@ -169,7 +171,7 @@ def initialize_database(
     table_count: int = DEFAULT_TABLE_COUNT,
 ) -> DatabaseHealth:
     """Create or migrate the database, then return its health."""
-    with connect(path) as conn:
+    with closing(connect(path)) as conn:
         apply_schema(conn, table_count=table_count)
         return health_check(conn, table_count=table_count, path=path)
 

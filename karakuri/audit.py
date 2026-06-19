@@ -19,10 +19,17 @@ from karakuri.paths import audit_log_path
 
 def audit(event: str, **fields: Any) -> None:
     """Append one event with a timestamp and arbitrary structured fields."""
-    entry: dict[str, Any] = {"ts": time.time(), "event": event, **fields}
+    ts = time.time()
+    entry: dict[str, Any] = {"ts": ts, "event": event, **fields}
     path = audit_log_path()
     with path.open("a", encoding="utf-8") as fh:
         fh.write(json.dumps(entry, ensure_ascii=False) + "\n")
+    try:
+        from karakuri.database.evidence import record_audit_event
+
+        record_audit_event(event, ts, fields)
+    except Exception:
+        return
 
 
 def iter_events(path: Path | None = None) -> Iterator[dict[str, Any]]:

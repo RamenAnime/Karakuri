@@ -34,6 +34,24 @@ Use a specific path for install tests or staging:
 python -m karakuri database health --path memory/staging.sqlite3
 ```
 
+## Evidence Flow
+
+The database now receives runtime evidence from these paths:
+
+- `karakuri.audit.audit()` still writes `memory/logs/audit.log` first, then mirrors
+  the event into `audit_event_log`, `audit_event_chain`, and the audit ledger.
+- `scripts/validate_stl.py` records every mesh validation result into
+  `stl_assets` and `stl_validation_results`.
+- `scripts/verify_system_integrity.py` records a diagnostic run, expected ROS
+  nodes, expected ROS topics, and firmware source hashes.
+- `karakuri.hardware.bms.store_bms_sample()` records BMS cell samples and pack
+  summary sensor readings.
+- `karakuri.database.evidence` exposes direct writers for diagnostics, firmware,
+  STL QA, BMS telemetry, audit events, and ROS launch health.
+
+All evidence writers initialize the managed schema on first use. Audit mirroring
+is guarded so the text audit log still works if SQLite is unavailable.
+
 ## Profile
 
 The first tables are hand named operational tables:

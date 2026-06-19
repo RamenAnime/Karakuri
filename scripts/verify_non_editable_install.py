@@ -23,7 +23,6 @@ def main() -> int:
             "--target",
             str(target),
             "--no-deps",
-            "--no-build-isolation",
             str(root),
         ]
         subprocess.run(install_cmd, cwd=temp, check=True)

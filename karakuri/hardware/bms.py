@@ -70,3 +70,12 @@ def evaluate_bms(sample: BmsSample) -> list[str]:
     if sample.max_temp_c > MAX_PACK_TEMP_C:
         faults.append("ERR_BMS_TEMP")
     return faults
+
+
+def store_bms_sample(sample: BmsSample, pack_key: str = "main_pack") -> list[str]:
+    """Persist one BMS sample and return its evaluated faults."""
+    faults = evaluate_bms(sample)
+    from karakuri.database.evidence import record_bms_sample
+
+    record_bms_sample(sample, pack_key=pack_key)
+    return faults

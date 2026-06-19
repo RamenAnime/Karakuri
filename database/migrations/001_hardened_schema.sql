@@ -33,7 +33,7 @@ CREATE INDEX IF NOT EXISTS "idx_security_principals_type" ON "security_principal
 CREATE TRIGGER IF NOT EXISTS "trg_security_principals_touch"
 AFTER UPDATE ON "security_principals"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "security_principals" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS "security_roles" (
 CREATE TRIGGER IF NOT EXISTS "trg_security_roles_touch"
 AFTER UPDATE ON "security_roles"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "security_roles" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -76,7 +76,7 @@ CREATE INDEX IF NOT EXISTS "idx_security_role_assignments_principal" ON "securit
 CREATE TRIGGER IF NOT EXISTS "trg_security_role_assignments_touch"
 AFTER UPDATE ON "security_role_assignments"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "security_role_assignments" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS "security_capabilities" (
 CREATE TRIGGER IF NOT EXISTS "trg_security_capabilities_touch"
 AFTER UPDATE ON "security_capabilities"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "security_capabilities" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -121,7 +121,7 @@ CREATE INDEX IF NOT EXISTS "idx_security_sessions_principal" ON "security_sessio
 CREATE TRIGGER IF NOT EXISTS "trg_security_sessions_touch"
 AFTER UPDATE ON "security_sessions"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "security_sessions" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -147,7 +147,7 @@ CREATE INDEX IF NOT EXISTS "idx_audit_event_log_created" ON "audit_event_log" ("
 CREATE TRIGGER IF NOT EXISTS "trg_audit_event_log_touch"
 AFTER UPDATE ON "audit_event_log"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "audit_event_log" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS "audit_event_chain" (
 CREATE TRIGGER IF NOT EXISTS "trg_audit_event_chain_touch"
 AFTER UPDATE ON "audit_event_chain"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "audit_event_chain" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -194,7 +194,7 @@ CREATE INDEX IF NOT EXISTS "idx_robot_missions_state" ON "robot_missions" ("stat
 CREATE TRIGGER IF NOT EXISTS "trg_robot_missions_touch"
 AFTER UPDATE ON "robot_missions"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "robot_missions" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -222,7 +222,7 @@ CREATE INDEX IF NOT EXISTS "idx_robot_mission_steps_mission" ON "robot_mission_s
 CREATE TRIGGER IF NOT EXISTS "trg_robot_mission_steps_touch"
 AFTER UPDATE ON "robot_mission_steps"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "robot_mission_steps" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS "robot_safety_envelopes" (
 CREATE TRIGGER IF NOT EXISTS "trg_robot_safety_envelopes_touch"
 AFTER UPDATE ON "robot_safety_envelopes"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "robot_safety_envelopes" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -273,7 +273,7 @@ CREATE INDEX IF NOT EXISTS "idx_robot_stop_events_kind" ON "robot_stop_events" (
 CREATE TRIGGER IF NOT EXISTS "trg_robot_stop_events_touch"
 AFTER UPDATE ON "robot_stop_events"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "robot_stop_events" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -300,7 +300,7 @@ CREATE INDEX IF NOT EXISTS "idx_hardware_components_type" ON "hardware_component
 CREATE TRIGGER IF NOT EXISTS "trg_hardware_components_touch"
 AFTER UPDATE ON "hardware_components"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "hardware_components" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -327,7 +327,7 @@ CREATE INDEX IF NOT EXISTS "idx_hardware_sensor_samples_sensor" ON "hardware_sen
 CREATE TRIGGER IF NOT EXISTS "trg_hardware_sensor_samples_touch"
 AFTER UPDATE ON "hardware_sensor_samples"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "hardware_sensor_samples" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -354,7 +354,7 @@ CREATE INDEX IF NOT EXISTS "idx_hardware_motor_commands_motor" ON "hardware_moto
 CREATE TRIGGER IF NOT EXISTS "trg_hardware_motor_commands_touch"
 AFTER UPDATE ON "hardware_motor_commands"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "hardware_motor_commands" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -379,7 +379,7 @@ CREATE TABLE IF NOT EXISTS "battery_packs" (
 CREATE TRIGGER IF NOT EXISTS "trg_battery_packs_touch"
 AFTER UPDATE ON "battery_packs"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "battery_packs" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -407,7 +407,7 @@ CREATE INDEX IF NOT EXISTS "idx_battery_cell_samples_pack" ON "battery_cell_samp
 CREATE TRIGGER IF NOT EXISTS "trg_battery_cell_samples_touch"
 AFTER UPDATE ON "battery_cell_samples"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "battery_cell_samples" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -431,7 +431,7 @@ CREATE TABLE IF NOT EXISTS "ros_node_registry" (
 CREATE TRIGGER IF NOT EXISTS "trg_ros_node_registry_touch"
 AFTER UPDATE ON "ros_node_registry"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ros_node_registry" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -456,7 +456,7 @@ CREATE TABLE IF NOT EXISTS "ros_topic_registry" (
 CREATE TRIGGER IF NOT EXISTS "trg_ros_topic_registry_touch"
 AFTER UPDATE ON "ros_topic_registry"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ros_topic_registry" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -482,7 +482,7 @@ CREATE INDEX IF NOT EXISTS "idx_maintenance_work_orders_state" ON "maintenance_w
 CREATE TRIGGER IF NOT EXISTS "trg_maintenance_work_orders_touch"
 AFTER UPDATE ON "maintenance_work_orders"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "maintenance_work_orders" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -508,7 +508,7 @@ CREATE TABLE IF NOT EXISTS "inventory_parts" (
 CREATE TRIGGER IF NOT EXISTS "trg_inventory_parts_touch"
 AFTER UPDATE ON "inventory_parts"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "inventory_parts" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -535,7 +535,7 @@ CREATE INDEX IF NOT EXISTS "idx_bom_line_items_bom" ON "bom_line_items" ("bom_ke
 CREATE TRIGGER IF NOT EXISTS "trg_bom_line_items_touch"
 AFTER UPDATE ON "bom_line_items"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "bom_line_items" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -559,7 +559,7 @@ CREATE TABLE IF NOT EXISTS "calibration_profiles" (
 CREATE TRIGGER IF NOT EXISTS "trg_calibration_profiles_touch"
 AFTER UPDATE ON "calibration_profiles"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "calibration_profiles" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -586,7 +586,7 @@ CREATE INDEX IF NOT EXISTS "idx_diagnostic_runs_status" ON "diagnostic_runs" ("s
 CREATE TRIGGER IF NOT EXISTS "trg_diagnostic_runs_touch"
 AFTER UPDATE ON "diagnostic_runs"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "diagnostic_runs" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -613,7 +613,7 @@ CREATE INDEX IF NOT EXISTS "idx_diagnostic_results_run" ON "diagnostic_results" 
 CREATE TRIGGER IF NOT EXISTS "trg_diagnostic_results_touch"
 AFTER UPDATE ON "diagnostic_results"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "diagnostic_results" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -638,7 +638,7 @@ CREATE TABLE IF NOT EXISTS "stl_assets" (
 CREATE TRIGGER IF NOT EXISTS "trg_stl_assets_touch"
 AFTER UPDATE ON "stl_assets"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "stl_assets" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -666,7 +666,7 @@ CREATE INDEX IF NOT EXISTS "idx_stl_validation_results_asset" ON "stl_validation
 CREATE TRIGGER IF NOT EXISTS "trg_stl_validation_results_touch"
 AFTER UPDATE ON "stl_validation_results"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "stl_validation_results" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -691,7 +691,7 @@ CREATE TABLE IF NOT EXISTS "firmware_builds" (
 CREATE TRIGGER IF NOT EXISTS "trg_firmware_builds_touch"
 AFTER UPDATE ON "firmware_builds"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "firmware_builds" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -718,7 +718,7 @@ CREATE INDEX IF NOT EXISTS "idx_firmware_flash_events_device" ON "firmware_flash
 CREATE TRIGGER IF NOT EXISTS "trg_firmware_flash_events_touch"
 AFTER UPDATE ON "firmware_flash_events"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "firmware_flash_events" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -741,7 +741,7 @@ CREATE TABLE IF NOT EXISTS "research_sources" (
 CREATE TRIGGER IF NOT EXISTS "trg_research_sources_touch"
 AFTER UPDATE ON "research_sources"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "research_sources" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -768,7 +768,7 @@ CREATE INDEX IF NOT EXISTS "idx_research_fetch_events_domain" ON "research_fetch
 CREATE TRIGGER IF NOT EXISTS "trg_research_fetch_events_touch"
 AFTER UPDATE ON "research_fetch_events"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "research_fetch_events" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -792,7 +792,7 @@ CREATE TABLE IF NOT EXISTS "promotion_candidates" (
 CREATE TRIGGER IF NOT EXISTS "trg_promotion_candidates_touch"
 AFTER UPDATE ON "promotion_candidates"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "promotion_candidates" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -818,7 +818,7 @@ CREATE INDEX IF NOT EXISTS "idx_promotion_results_candidate" ON "promotion_resul
 CREATE TRIGGER IF NOT EXISTS "trg_promotion_results_touch"
 AFTER UPDATE ON "promotion_results"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "promotion_results" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -842,7 +842,7 @@ CREATE TABLE IF NOT EXISTS "configuration_entries" (
 CREATE TRIGGER IF NOT EXISTS "trg_configuration_entries_touch"
 AFTER UPDATE ON "configuration_entries"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "configuration_entries" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -867,7 +867,7 @@ CREATE TABLE IF NOT EXISTS "backup_manifests" (
 CREATE TRIGGER IF NOT EXISTS "trg_backup_manifests_touch"
 AFTER UPDATE ON "backup_manifests"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "backup_manifests" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -893,7 +893,7 @@ CREATE INDEX IF NOT EXISTS "idx_incident_reports_state" ON "incident_reports" ("
 CREATE TRIGGER IF NOT EXISTS "trg_incident_reports_touch"
 AFTER UPDATE ON "incident_reports"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "incident_reports" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -919,7 +919,7 @@ CREATE INDEX IF NOT EXISTS "idx_incident_actions_incident" ON "incident_actions"
 CREATE TRIGGER IF NOT EXISTS "trg_incident_actions_touch"
 AFTER UPDATE ON "incident_actions"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "incident_actions" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -944,7 +944,7 @@ CREATE TABLE IF NOT EXISTS "simulation_runs" (
 CREATE TRIGGER IF NOT EXISTS "trg_simulation_runs_touch"
 AFTER UPDATE ON "simulation_runs"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "simulation_runs" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -971,7 +971,7 @@ CREATE INDEX IF NOT EXISTS "idx_simulation_metrics_run" ON "simulation_metrics" 
 CREATE TRIGGER IF NOT EXISTS "trg_simulation_metrics_touch"
 AFTER UPDATE ON "simulation_metrics"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "simulation_metrics" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1000,7 +1000,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_accepted_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_accepted_ring0_touch"
 AFTER UPDATE ON "ledger_audit_accepted_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_accepted_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1034,7 +1034,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_accepted_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_accepted_ring1_touch"
 AFTER UPDATE ON "ledger_audit_accepted_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_accepted_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1068,7 +1068,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_accepted_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_accepted_ring2_touch"
 AFTER UPDATE ON "ledger_audit_accepted_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_accepted_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1102,7 +1102,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_accepted_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_accepted_robot_touch"
 AFTER UPDATE ON "ledger_audit_accepted_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_accepted_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1136,7 +1136,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_accepted_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_accepted_ros_touch"
 AFTER UPDATE ON "ledger_audit_accepted_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_accepted_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1170,7 +1170,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_accepted_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_accepted_firmware_touch"
 AFTER UPDATE ON "ledger_audit_accepted_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_accepted_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1204,7 +1204,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_accepted_field_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_accepted_field_touch"
 AFTER UPDATE ON "ledger_audit_accepted_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_accepted_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1238,7 +1238,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_accepted_lab_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_accepted_lab_touch"
 AFTER UPDATE ON "ledger_audit_accepted_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_accepted_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1272,7 +1272,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_alerts_ring0_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_alerts_ring0_touch"
 AFTER UPDATE ON "ledger_audit_alerts_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_alerts_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1306,7 +1306,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_alerts_ring1_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_alerts_ring1_touch"
 AFTER UPDATE ON "ledger_audit_alerts_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_alerts_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1340,7 +1340,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_alerts_ring2_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_alerts_ring2_touch"
 AFTER UPDATE ON "ledger_audit_alerts_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_alerts_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1374,7 +1374,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_alerts_robot_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_alerts_robot_touch"
 AFTER UPDATE ON "ledger_audit_alerts_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_alerts_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1408,7 +1408,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_alerts_ros_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_alerts_ros_touch"
 AFTER UPDATE ON "ledger_audit_alerts_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_alerts_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1442,7 +1442,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_alerts_firmware_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_alerts_firmware_touch"
 AFTER UPDATE ON "ledger_audit_alerts_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_alerts_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1476,7 +1476,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_alerts_field_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_alerts_field_touch"
 AFTER UPDATE ON "ledger_audit_alerts_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_alerts_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1510,7 +1510,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_alerts_lab_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_alerts_lab_touch"
 AFTER UPDATE ON "ledger_audit_alerts_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_alerts_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1544,7 +1544,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_baselines_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_baselines_ring0_touch"
 AFTER UPDATE ON "ledger_audit_baselines_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_baselines_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1578,7 +1578,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_baselines_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_baselines_ring1_touch"
 AFTER UPDATE ON "ledger_audit_baselines_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_baselines_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1612,7 +1612,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_baselines_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_baselines_ring2_touch"
 AFTER UPDATE ON "ledger_audit_baselines_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_baselines_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1646,7 +1646,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_baselines_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_baselines_robot_touch"
 AFTER UPDATE ON "ledger_audit_baselines_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_baselines_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1680,7 +1680,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_baselines_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_baselines_ros_touch"
 AFTER UPDATE ON "ledger_audit_baselines_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_baselines_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1714,7 +1714,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_baselines_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_baselines_firmware_touch"
 AFTER UPDATE ON "ledger_audit_baselines_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_baselines_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1748,7 +1748,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_baselines_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_baselines_field_touch"
 AFTER UPDATE ON "ledger_audit_baselines_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_baselines_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1782,7 +1782,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_baselines_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_baselines_lab_touch"
 AFTER UPDATE ON "ledger_audit_baselines_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_baselines_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1816,7 +1816,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_commands_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_commands_ring0_touch"
 AFTER UPDATE ON "ledger_audit_commands_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_commands_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1850,7 +1850,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_commands_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_commands_ring1_touch"
 AFTER UPDATE ON "ledger_audit_commands_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_commands_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1884,7 +1884,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_commands_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_commands_ring2_touch"
 AFTER UPDATE ON "ledger_audit_commands_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_commands_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1918,7 +1918,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_commands_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_commands_robot_touch"
 AFTER UPDATE ON "ledger_audit_commands_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_commands_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1952,7 +1952,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_commands_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_commands_ros_touch"
 AFTER UPDATE ON "ledger_audit_commands_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_commands_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -1986,7 +1986,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_commands_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_commands_firmware_touch"
 AFTER UPDATE ON "ledger_audit_commands_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_commands_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2020,7 +2020,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_commands_field_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_commands_field_touch"
 AFTER UPDATE ON "ledger_audit_commands_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_commands_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2054,7 +2054,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_commands_lab_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_commands_lab_touch"
 AFTER UPDATE ON "ledger_audit_commands_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_commands_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2088,7 +2088,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_events_ring0_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_events_ring0_touch"
 AFTER UPDATE ON "ledger_audit_events_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_events_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2122,7 +2122,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_events_ring1_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_events_ring1_touch"
 AFTER UPDATE ON "ledger_audit_events_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_events_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2156,7 +2156,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_events_ring2_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_events_ring2_touch"
 AFTER UPDATE ON "ledger_audit_events_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_events_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2190,7 +2190,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_events_robot_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_events_robot_touch"
 AFTER UPDATE ON "ledger_audit_events_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_events_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2224,7 +2224,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_events_ros_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_events_ros_touch"
 AFTER UPDATE ON "ledger_audit_events_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_events_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2258,7 +2258,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_events_firmware_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_events_firmware_touch"
 AFTER UPDATE ON "ledger_audit_events_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_events_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2292,7 +2292,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_events_field_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_events_field_touch"
 AFTER UPDATE ON "ledger_audit_events_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_events_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2326,7 +2326,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_events_lab_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_events_lab_touch"
 AFTER UPDATE ON "ledger_audit_events_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_events_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2360,7 +2360,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_failures_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_failures_ring0_touch"
 AFTER UPDATE ON "ledger_audit_failures_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_failures_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2394,7 +2394,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_failures_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_failures_ring1_touch"
 AFTER UPDATE ON "ledger_audit_failures_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_failures_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2428,7 +2428,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_failures_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_failures_ring2_touch"
 AFTER UPDATE ON "ledger_audit_failures_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_failures_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2462,7 +2462,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_failures_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_failures_robot_touch"
 AFTER UPDATE ON "ledger_audit_failures_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_failures_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2496,7 +2496,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_failures_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_failures_ros_touch"
 AFTER UPDATE ON "ledger_audit_failures_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_failures_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2530,7 +2530,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_failures_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_failures_firmware_touch"
 AFTER UPDATE ON "ledger_audit_failures_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_failures_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2564,7 +2564,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_failures_field_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_failures_field_touch"
 AFTER UPDATE ON "ledger_audit_failures_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_failures_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2598,7 +2598,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_failures_lab_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_failures_lab_touch"
 AFTER UPDATE ON "ledger_audit_failures_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_failures_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2632,7 +2632,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_heartbeats_ring0_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_heartbeats_ring0_touch"
 AFTER UPDATE ON "ledger_audit_heartbeats_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_heartbeats_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2666,7 +2666,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_heartbeats_ring1_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_heartbeats_ring1_touch"
 AFTER UPDATE ON "ledger_audit_heartbeats_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_heartbeats_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2700,7 +2700,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_heartbeats_ring2_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_heartbeats_ring2_touch"
 AFTER UPDATE ON "ledger_audit_heartbeats_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_heartbeats_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2734,7 +2734,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_heartbeats_robot_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_heartbeats_robot_touch"
 AFTER UPDATE ON "ledger_audit_heartbeats_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_heartbeats_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2768,7 +2768,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_heartbeats_ros_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_heartbeats_ros_touch"
 AFTER UPDATE ON "ledger_audit_heartbeats_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_heartbeats_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2802,7 +2802,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_heartbeats_firmware_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_heartbeats_firmware_touch"
 AFTER UPDATE ON "ledger_audit_heartbeats_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_heartbeats_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2836,7 +2836,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_heartbeats_field_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_heartbeats_field_touch"
 AFTER UPDATE ON "ledger_audit_heartbeats_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_heartbeats_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2870,7 +2870,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_heartbeats_lab_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_heartbeats_lab_touch"
 AFTER UPDATE ON "ledger_audit_heartbeats_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_heartbeats_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2904,7 +2904,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_limits_ring0_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_limits_ring0_touch"
 AFTER UPDATE ON "ledger_audit_limits_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_limits_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2938,7 +2938,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_limits_ring1_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_limits_ring1_touch"
 AFTER UPDATE ON "ledger_audit_limits_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_limits_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -2972,7 +2972,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_limits_ring2_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_limits_ring2_touch"
 AFTER UPDATE ON "ledger_audit_limits_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_limits_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3006,7 +3006,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_limits_robot_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_limits_robot_touch"
 AFTER UPDATE ON "ledger_audit_limits_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_limits_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3040,7 +3040,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_limits_ros_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_limits_ros_touch"
 AFTER UPDATE ON "ledger_audit_limits_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_limits_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3074,7 +3074,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_limits_firmware_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_limits_firmware_touch"
 AFTER UPDATE ON "ledger_audit_limits_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_limits_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3108,7 +3108,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_limits_field_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_limits_field_touch"
 AFTER UPDATE ON "ledger_audit_limits_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_limits_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3142,7 +3142,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_limits_lab_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_limits_lab_touch"
 AFTER UPDATE ON "ledger_audit_limits_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_limits_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3176,7 +3176,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_metrics_ring0_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_metrics_ring0_touch"
 AFTER UPDATE ON "ledger_audit_metrics_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_metrics_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3210,7 +3210,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_metrics_ring1_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_metrics_ring1_touch"
 AFTER UPDATE ON "ledger_audit_metrics_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_metrics_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3244,7 +3244,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_metrics_ring2_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_metrics_ring2_touch"
 AFTER UPDATE ON "ledger_audit_metrics_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_metrics_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3278,7 +3278,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_metrics_robot_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_metrics_robot_touch"
 AFTER UPDATE ON "ledger_audit_metrics_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_metrics_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3312,7 +3312,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_metrics_ros_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_metrics_ros_touch"
 AFTER UPDATE ON "ledger_audit_metrics_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_metrics_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3346,7 +3346,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_metrics_firmware_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_metrics_firmware_touch"
 AFTER UPDATE ON "ledger_audit_metrics_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_metrics_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3380,7 +3380,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_metrics_field_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_metrics_field_touch"
 AFTER UPDATE ON "ledger_audit_metrics_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_metrics_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3414,7 +3414,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_metrics_lab_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_metrics_lab_touch"
 AFTER UPDATE ON "ledger_audit_metrics_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_metrics_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3448,7 +3448,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_observations_ring0_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_observations_ring0_touch"
 AFTER UPDATE ON "ledger_audit_observations_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_observations_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3482,7 +3482,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_observations_ring1_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_observations_ring1_touch"
 AFTER UPDATE ON "ledger_audit_observations_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_observations_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3516,7 +3516,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_observations_ring2_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_observations_ring2_touch"
 AFTER UPDATE ON "ledger_audit_observations_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_observations_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3550,7 +3550,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_observations_robot_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_observations_robot_touch"
 AFTER UPDATE ON "ledger_audit_observations_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_observations_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3584,7 +3584,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_observations_ros_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_observations_ros_touch"
 AFTER UPDATE ON "ledger_audit_observations_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_observations_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3618,7 +3618,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_observations_firmware_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_observations_firmware_touch"
 AFTER UPDATE ON "ledger_audit_observations_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_observations_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3652,7 +3652,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_observations_field_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_observations_field_touch"
 AFTER UPDATE ON "ledger_audit_observations_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_observations_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3686,7 +3686,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_observations_lab_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_observations_lab_touch"
 AFTER UPDATE ON "ledger_audit_observations_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_observations_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3720,7 +3720,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_plans_ring0_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_plans_ring0_touch"
 AFTER UPDATE ON "ledger_audit_plans_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_plans_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3754,7 +3754,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_plans_ring1_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_plans_ring1_touch"
 AFTER UPDATE ON "ledger_audit_plans_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_plans_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3788,7 +3788,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_plans_ring2_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_plans_ring2_touch"
 AFTER UPDATE ON "ledger_audit_plans_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_plans_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3822,7 +3822,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_plans_robot_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_plans_robot_touch"
 AFTER UPDATE ON "ledger_audit_plans_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_plans_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3856,7 +3856,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_plans_ros_hash" ON "ledger_a
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_plans_ros_touch"
 AFTER UPDATE ON "ledger_audit_plans_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_plans_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3890,7 +3890,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_plans_firmware_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_plans_firmware_touch"
 AFTER UPDATE ON "ledger_audit_plans_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_plans_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3924,7 +3924,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_plans_field_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_plans_field_touch"
 AFTER UPDATE ON "ledger_audit_plans_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_plans_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3958,7 +3958,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_plans_lab_hash" ON "ledger_a
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_plans_lab_touch"
 AFTER UPDATE ON "ledger_audit_plans_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_plans_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -3992,7 +3992,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_proofs_ring0_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_proofs_ring0_touch"
 AFTER UPDATE ON "ledger_audit_proofs_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_proofs_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4026,7 +4026,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_proofs_ring1_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_proofs_ring1_touch"
 AFTER UPDATE ON "ledger_audit_proofs_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_proofs_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4060,7 +4060,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_proofs_ring2_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_proofs_ring2_touch"
 AFTER UPDATE ON "ledger_audit_proofs_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_proofs_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4094,7 +4094,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_proofs_robot_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_proofs_robot_touch"
 AFTER UPDATE ON "ledger_audit_proofs_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_proofs_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4128,7 +4128,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_proofs_ros_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_proofs_ros_touch"
 AFTER UPDATE ON "ledger_audit_proofs_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_proofs_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4162,7 +4162,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_proofs_firmware_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_proofs_firmware_touch"
 AFTER UPDATE ON "ledger_audit_proofs_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_proofs_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4196,7 +4196,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_proofs_field_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_proofs_field_touch"
 AFTER UPDATE ON "ledger_audit_proofs_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_proofs_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4230,7 +4230,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_proofs_lab_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_proofs_lab_touch"
 AFTER UPDATE ON "ledger_audit_proofs_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_proofs_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4264,7 +4264,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_samples_ring0_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_samples_ring0_touch"
 AFTER UPDATE ON "ledger_audit_samples_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_samples_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4298,7 +4298,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_samples_ring1_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_samples_ring1_touch"
 AFTER UPDATE ON "ledger_audit_samples_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_samples_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4332,7 +4332,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_samples_ring2_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_samples_ring2_touch"
 AFTER UPDATE ON "ledger_audit_samples_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_samples_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4366,7 +4366,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_samples_robot_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_samples_robot_touch"
 AFTER UPDATE ON "ledger_audit_samples_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_samples_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4400,7 +4400,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_samples_ros_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_samples_ros_touch"
 AFTER UPDATE ON "ledger_audit_samples_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_samples_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4434,7 +4434,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_samples_firmware_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_samples_firmware_touch"
 AFTER UPDATE ON "ledger_audit_samples_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_samples_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4468,7 +4468,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_samples_field_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_samples_field_touch"
 AFTER UPDATE ON "ledger_audit_samples_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_samples_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4502,7 +4502,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_samples_lab_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_samples_lab_touch"
 AFTER UPDATE ON "ledger_audit_samples_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_samples_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4536,7 +4536,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_snapshots_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_snapshots_ring0_touch"
 AFTER UPDATE ON "ledger_audit_snapshots_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_snapshots_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4570,7 +4570,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_snapshots_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_snapshots_ring1_touch"
 AFTER UPDATE ON "ledger_audit_snapshots_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_snapshots_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4604,7 +4604,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_snapshots_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_snapshots_ring2_touch"
 AFTER UPDATE ON "ledger_audit_snapshots_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_snapshots_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4638,7 +4638,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_snapshots_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_snapshots_robot_touch"
 AFTER UPDATE ON "ledger_audit_snapshots_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_snapshots_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4672,7 +4672,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_snapshots_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_snapshots_ros_touch"
 AFTER UPDATE ON "ledger_audit_snapshots_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_snapshots_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4706,7 +4706,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_snapshots_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_snapshots_firmware_touch"
 AFTER UPDATE ON "ledger_audit_snapshots_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_snapshots_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4740,7 +4740,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_snapshots_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_snapshots_field_touch"
 AFTER UPDATE ON "ledger_audit_snapshots_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_snapshots_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4774,7 +4774,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_snapshots_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_snapshots_lab_touch"
 AFTER UPDATE ON "ledger_audit_snapshots_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_snapshots_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4808,7 +4808,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_states_ring0_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_states_ring0_touch"
 AFTER UPDATE ON "ledger_audit_states_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_states_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4842,7 +4842,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_states_ring1_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_states_ring1_touch"
 AFTER UPDATE ON "ledger_audit_states_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_states_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4876,7 +4876,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_states_ring2_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_states_ring2_touch"
 AFTER UPDATE ON "ledger_audit_states_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_states_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4910,7 +4910,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_states_robot_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_states_robot_touch"
 AFTER UPDATE ON "ledger_audit_states_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_states_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4944,7 +4944,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_states_ros_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_states_ros_touch"
 AFTER UPDATE ON "ledger_audit_states_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_states_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -4978,7 +4978,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_states_firmware_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_states_firmware_touch"
 AFTER UPDATE ON "ledger_audit_states_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_states_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5012,7 +5012,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_states_field_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_states_field_touch"
 AFTER UPDATE ON "ledger_audit_states_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_states_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5046,7 +5046,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_states_lab_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_states_lab_touch"
 AFTER UPDATE ON "ledger_audit_states_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_states_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5080,7 +5080,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_transitions_ring0_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_transitions_ring0_touch"
 AFTER UPDATE ON "ledger_audit_transitions_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_transitions_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5114,7 +5114,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_transitions_ring1_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_transitions_ring1_touch"
 AFTER UPDATE ON "ledger_audit_transitions_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_transitions_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5148,7 +5148,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_transitions_ring2_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_transitions_ring2_touch"
 AFTER UPDATE ON "ledger_audit_transitions_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_transitions_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5182,7 +5182,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_transitions_robot_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_transitions_robot_touch"
 AFTER UPDATE ON "ledger_audit_transitions_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_transitions_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5216,7 +5216,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_transitions_ros_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_transitions_ros_touch"
 AFTER UPDATE ON "ledger_audit_transitions_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_transitions_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5250,7 +5250,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_transitions_firmware_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_transitions_firmware_touch"
 AFTER UPDATE ON "ledger_audit_transitions_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_transitions_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5284,7 +5284,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_transitions_field_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_transitions_field_touch"
 AFTER UPDATE ON "ledger_audit_transitions_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_transitions_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5318,7 +5318,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_transitions_lab_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_transitions_lab_touch"
 AFTER UPDATE ON "ledger_audit_transitions_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_audit_transitions_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5352,7 +5352,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_accepted_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_accepted_ring0_touch"
 AFTER UPDATE ON "ledger_safety_accepted_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_accepted_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5386,7 +5386,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_accepted_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_accepted_ring1_touch"
 AFTER UPDATE ON "ledger_safety_accepted_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_accepted_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5420,7 +5420,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_accepted_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_accepted_ring2_touch"
 AFTER UPDATE ON "ledger_safety_accepted_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_accepted_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5454,7 +5454,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_accepted_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_accepted_robot_touch"
 AFTER UPDATE ON "ledger_safety_accepted_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_accepted_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5488,7 +5488,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_accepted_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_accepted_ros_touch"
 AFTER UPDATE ON "ledger_safety_accepted_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_accepted_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5522,7 +5522,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_accepted_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_accepted_firmware_touch"
 AFTER UPDATE ON "ledger_safety_accepted_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_accepted_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5556,7 +5556,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_accepted_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_accepted_field_touch"
 AFTER UPDATE ON "ledger_safety_accepted_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_accepted_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5590,7 +5590,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_accepted_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_accepted_lab_touch"
 AFTER UPDATE ON "ledger_safety_accepted_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_accepted_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5624,7 +5624,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_alerts_ring0_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_alerts_ring0_touch"
 AFTER UPDATE ON "ledger_safety_alerts_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_alerts_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5658,7 +5658,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_alerts_ring1_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_alerts_ring1_touch"
 AFTER UPDATE ON "ledger_safety_alerts_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_alerts_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5692,7 +5692,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_alerts_ring2_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_alerts_ring2_touch"
 AFTER UPDATE ON "ledger_safety_alerts_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_alerts_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5726,7 +5726,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_alerts_robot_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_alerts_robot_touch"
 AFTER UPDATE ON "ledger_safety_alerts_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_alerts_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5760,7 +5760,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_alerts_ros_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_alerts_ros_touch"
 AFTER UPDATE ON "ledger_safety_alerts_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_alerts_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5794,7 +5794,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_alerts_firmware_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_alerts_firmware_touch"
 AFTER UPDATE ON "ledger_safety_alerts_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_alerts_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5828,7 +5828,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_alerts_field_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_alerts_field_touch"
 AFTER UPDATE ON "ledger_safety_alerts_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_alerts_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5862,7 +5862,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_alerts_lab_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_alerts_lab_touch"
 AFTER UPDATE ON "ledger_safety_alerts_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_alerts_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5896,7 +5896,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_baselines_ring0_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_baselines_ring0_touch"
 AFTER UPDATE ON "ledger_safety_baselines_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_baselines_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5930,7 +5930,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_baselines_ring1_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_baselines_ring1_touch"
 AFTER UPDATE ON "ledger_safety_baselines_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_baselines_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5964,7 +5964,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_baselines_ring2_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_baselines_ring2_touch"
 AFTER UPDATE ON "ledger_safety_baselines_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_baselines_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -5998,7 +5998,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_baselines_robot_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_baselines_robot_touch"
 AFTER UPDATE ON "ledger_safety_baselines_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_baselines_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6032,7 +6032,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_baselines_ros_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_baselines_ros_touch"
 AFTER UPDATE ON "ledger_safety_baselines_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_baselines_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6066,7 +6066,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_baselines_firmware_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_baselines_firmware_touch"
 AFTER UPDATE ON "ledger_safety_baselines_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_baselines_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6100,7 +6100,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_baselines_field_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_baselines_field_touch"
 AFTER UPDATE ON "ledger_safety_baselines_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_baselines_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6134,7 +6134,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_baselines_lab_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_baselines_lab_touch"
 AFTER UPDATE ON "ledger_safety_baselines_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_baselines_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6168,7 +6168,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_commands_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_commands_ring0_touch"
 AFTER UPDATE ON "ledger_safety_commands_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_commands_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6202,7 +6202,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_commands_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_commands_ring1_touch"
 AFTER UPDATE ON "ledger_safety_commands_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_commands_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6236,7 +6236,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_commands_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_commands_ring2_touch"
 AFTER UPDATE ON "ledger_safety_commands_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_commands_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6270,7 +6270,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_commands_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_commands_robot_touch"
 AFTER UPDATE ON "ledger_safety_commands_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_commands_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6304,7 +6304,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_commands_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_commands_ros_touch"
 AFTER UPDATE ON "ledger_safety_commands_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_commands_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6338,7 +6338,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_commands_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_commands_firmware_touch"
 AFTER UPDATE ON "ledger_safety_commands_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_commands_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6372,7 +6372,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_commands_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_commands_field_touch"
 AFTER UPDATE ON "ledger_safety_commands_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_commands_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6406,7 +6406,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_commands_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_commands_lab_touch"
 AFTER UPDATE ON "ledger_safety_commands_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_commands_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6440,7 +6440,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_events_ring0_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_events_ring0_touch"
 AFTER UPDATE ON "ledger_safety_events_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_events_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6474,7 +6474,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_events_ring1_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_events_ring1_touch"
 AFTER UPDATE ON "ledger_safety_events_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_events_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6508,7 +6508,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_events_ring2_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_events_ring2_touch"
 AFTER UPDATE ON "ledger_safety_events_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_events_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6542,7 +6542,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_events_robot_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_events_robot_touch"
 AFTER UPDATE ON "ledger_safety_events_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_events_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6576,7 +6576,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_events_ros_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_events_ros_touch"
 AFTER UPDATE ON "ledger_safety_events_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_events_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6610,7 +6610,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_events_firmware_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_events_firmware_touch"
 AFTER UPDATE ON "ledger_safety_events_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_events_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6644,7 +6644,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_events_field_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_events_field_touch"
 AFTER UPDATE ON "ledger_safety_events_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_events_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6678,7 +6678,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_events_lab_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_events_lab_touch"
 AFTER UPDATE ON "ledger_safety_events_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_events_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6712,7 +6712,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_failures_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_failures_ring0_touch"
 AFTER UPDATE ON "ledger_safety_failures_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_failures_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6746,7 +6746,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_failures_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_failures_ring1_touch"
 AFTER UPDATE ON "ledger_safety_failures_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_failures_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6780,7 +6780,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_failures_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_failures_ring2_touch"
 AFTER UPDATE ON "ledger_safety_failures_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_failures_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6814,7 +6814,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_failures_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_failures_robot_touch"
 AFTER UPDATE ON "ledger_safety_failures_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_failures_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6848,7 +6848,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_failures_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_failures_ros_touch"
 AFTER UPDATE ON "ledger_safety_failures_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_failures_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6882,7 +6882,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_failures_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_failures_firmware_touch"
 AFTER UPDATE ON "ledger_safety_failures_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_failures_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6916,7 +6916,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_failures_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_failures_field_touch"
 AFTER UPDATE ON "ledger_safety_failures_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_failures_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6950,7 +6950,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_failures_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_failures_lab_touch"
 AFTER UPDATE ON "ledger_safety_failures_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_failures_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -6984,7 +6984,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_heartbeats_ring0_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_heartbeats_ring0_touch"
 AFTER UPDATE ON "ledger_safety_heartbeats_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_heartbeats_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7018,7 +7018,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_heartbeats_ring1_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_heartbeats_ring1_touch"
 AFTER UPDATE ON "ledger_safety_heartbeats_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_heartbeats_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7052,7 +7052,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_heartbeats_ring2_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_heartbeats_ring2_touch"
 AFTER UPDATE ON "ledger_safety_heartbeats_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_heartbeats_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7086,7 +7086,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_heartbeats_robot_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_heartbeats_robot_touch"
 AFTER UPDATE ON "ledger_safety_heartbeats_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_heartbeats_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7120,7 +7120,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_heartbeats_ros_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_heartbeats_ros_touch"
 AFTER UPDATE ON "ledger_safety_heartbeats_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_heartbeats_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7154,7 +7154,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_heartbeats_firmware_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_heartbeats_firmware_touch"
 AFTER UPDATE ON "ledger_safety_heartbeats_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_heartbeats_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7188,7 +7188,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_heartbeats_field_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_heartbeats_field_touch"
 AFTER UPDATE ON "ledger_safety_heartbeats_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_heartbeats_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7222,7 +7222,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_heartbeats_lab_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_heartbeats_lab_touch"
 AFTER UPDATE ON "ledger_safety_heartbeats_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_heartbeats_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7256,7 +7256,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_limits_ring0_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_limits_ring0_touch"
 AFTER UPDATE ON "ledger_safety_limits_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_limits_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7290,7 +7290,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_limits_ring1_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_limits_ring1_touch"
 AFTER UPDATE ON "ledger_safety_limits_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_limits_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7324,7 +7324,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_limits_ring2_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_limits_ring2_touch"
 AFTER UPDATE ON "ledger_safety_limits_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_limits_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7358,7 +7358,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_limits_robot_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_limits_robot_touch"
 AFTER UPDATE ON "ledger_safety_limits_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_limits_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7392,7 +7392,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_limits_ros_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_limits_ros_touch"
 AFTER UPDATE ON "ledger_safety_limits_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_limits_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7426,7 +7426,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_limits_firmware_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_limits_firmware_touch"
 AFTER UPDATE ON "ledger_safety_limits_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_limits_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7460,7 +7460,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_limits_field_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_limits_field_touch"
 AFTER UPDATE ON "ledger_safety_limits_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_limits_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7494,7 +7494,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_limits_lab_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_limits_lab_touch"
 AFTER UPDATE ON "ledger_safety_limits_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_limits_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7528,7 +7528,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_metrics_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_metrics_ring0_touch"
 AFTER UPDATE ON "ledger_safety_metrics_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_metrics_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7562,7 +7562,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_metrics_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_metrics_ring1_touch"
 AFTER UPDATE ON "ledger_safety_metrics_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_metrics_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7596,7 +7596,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_metrics_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_metrics_ring2_touch"
 AFTER UPDATE ON "ledger_safety_metrics_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_metrics_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7630,7 +7630,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_metrics_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_metrics_robot_touch"
 AFTER UPDATE ON "ledger_safety_metrics_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_metrics_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7664,7 +7664,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_metrics_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_metrics_ros_touch"
 AFTER UPDATE ON "ledger_safety_metrics_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_metrics_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7698,7 +7698,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_metrics_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_metrics_firmware_touch"
 AFTER UPDATE ON "ledger_safety_metrics_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_metrics_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7732,7 +7732,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_metrics_field_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_metrics_field_touch"
 AFTER UPDATE ON "ledger_safety_metrics_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_metrics_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7766,7 +7766,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_metrics_lab_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_metrics_lab_touch"
 AFTER UPDATE ON "ledger_safety_metrics_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_metrics_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7800,7 +7800,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_observations_ring0_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_observations_ring0_touch"
 AFTER UPDATE ON "ledger_safety_observations_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_observations_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7834,7 +7834,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_observations_ring1_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_observations_ring1_touch"
 AFTER UPDATE ON "ledger_safety_observations_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_observations_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7868,7 +7868,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_observations_ring2_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_observations_ring2_touch"
 AFTER UPDATE ON "ledger_safety_observations_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_observations_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7902,7 +7902,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_observations_robot_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_observations_robot_touch"
 AFTER UPDATE ON "ledger_safety_observations_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_observations_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7936,7 +7936,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_observations_ros_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_observations_ros_touch"
 AFTER UPDATE ON "ledger_safety_observations_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_observations_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -7970,7 +7970,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_observations_firmware_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_observations_firmware_touch"
 AFTER UPDATE ON "ledger_safety_observations_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_observations_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8004,7 +8004,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_observations_field_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_observations_field_touch"
 AFTER UPDATE ON "ledger_safety_observations_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_observations_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8038,7 +8038,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_observations_lab_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_observations_lab_touch"
 AFTER UPDATE ON "ledger_safety_observations_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_observations_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8072,7 +8072,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_plans_ring0_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_plans_ring0_touch"
 AFTER UPDATE ON "ledger_safety_plans_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_plans_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8106,7 +8106,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_plans_ring1_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_plans_ring1_touch"
 AFTER UPDATE ON "ledger_safety_plans_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_plans_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8140,7 +8140,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_plans_ring2_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_plans_ring2_touch"
 AFTER UPDATE ON "ledger_safety_plans_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_plans_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8174,7 +8174,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_plans_robot_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_plans_robot_touch"
 AFTER UPDATE ON "ledger_safety_plans_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_plans_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8208,7 +8208,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_plans_ros_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_plans_ros_touch"
 AFTER UPDATE ON "ledger_safety_plans_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_plans_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8242,7 +8242,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_plans_firmware_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_plans_firmware_touch"
 AFTER UPDATE ON "ledger_safety_plans_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_plans_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8276,7 +8276,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_plans_field_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_plans_field_touch"
 AFTER UPDATE ON "ledger_safety_plans_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_plans_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8310,7 +8310,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_plans_lab_hash" ON "ledger_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_plans_lab_touch"
 AFTER UPDATE ON "ledger_safety_plans_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_plans_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8344,7 +8344,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_proofs_ring0_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_proofs_ring0_touch"
 AFTER UPDATE ON "ledger_safety_proofs_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_proofs_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8378,7 +8378,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_proofs_ring1_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_proofs_ring1_touch"
 AFTER UPDATE ON "ledger_safety_proofs_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_proofs_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8412,7 +8412,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_proofs_ring2_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_proofs_ring2_touch"
 AFTER UPDATE ON "ledger_safety_proofs_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_proofs_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8446,7 +8446,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_proofs_robot_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_proofs_robot_touch"
 AFTER UPDATE ON "ledger_safety_proofs_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_proofs_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8480,7 +8480,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_proofs_ros_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_proofs_ros_touch"
 AFTER UPDATE ON "ledger_safety_proofs_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_proofs_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8514,7 +8514,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_proofs_firmware_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_proofs_firmware_touch"
 AFTER UPDATE ON "ledger_safety_proofs_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_proofs_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8548,7 +8548,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_proofs_field_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_proofs_field_touch"
 AFTER UPDATE ON "ledger_safety_proofs_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_proofs_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8582,7 +8582,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_proofs_lab_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_proofs_lab_touch"
 AFTER UPDATE ON "ledger_safety_proofs_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_proofs_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8616,7 +8616,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_samples_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_samples_ring0_touch"
 AFTER UPDATE ON "ledger_safety_samples_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_samples_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8650,7 +8650,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_samples_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_samples_ring1_touch"
 AFTER UPDATE ON "ledger_safety_samples_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_samples_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8684,7 +8684,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_samples_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_samples_ring2_touch"
 AFTER UPDATE ON "ledger_safety_samples_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_samples_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8718,7 +8718,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_samples_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_samples_robot_touch"
 AFTER UPDATE ON "ledger_safety_samples_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_samples_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8752,7 +8752,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_samples_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_samples_ros_touch"
 AFTER UPDATE ON "ledger_safety_samples_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_samples_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8786,7 +8786,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_samples_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_samples_firmware_touch"
 AFTER UPDATE ON "ledger_safety_samples_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_samples_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8820,7 +8820,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_samples_field_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_samples_field_touch"
 AFTER UPDATE ON "ledger_safety_samples_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_samples_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8854,7 +8854,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_samples_lab_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_samples_lab_touch"
 AFTER UPDATE ON "ledger_safety_samples_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_samples_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8888,7 +8888,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_snapshots_ring0_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_snapshots_ring0_touch"
 AFTER UPDATE ON "ledger_safety_snapshots_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_snapshots_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8922,7 +8922,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_snapshots_ring1_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_snapshots_ring1_touch"
 AFTER UPDATE ON "ledger_safety_snapshots_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_snapshots_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8956,7 +8956,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_snapshots_ring2_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_snapshots_ring2_touch"
 AFTER UPDATE ON "ledger_safety_snapshots_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_snapshots_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -8990,7 +8990,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_snapshots_robot_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_snapshots_robot_touch"
 AFTER UPDATE ON "ledger_safety_snapshots_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_snapshots_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9024,7 +9024,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_snapshots_ros_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_snapshots_ros_touch"
 AFTER UPDATE ON "ledger_safety_snapshots_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_snapshots_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9058,7 +9058,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_snapshots_firmware_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_snapshots_firmware_touch"
 AFTER UPDATE ON "ledger_safety_snapshots_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_snapshots_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9092,7 +9092,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_snapshots_field_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_snapshots_field_touch"
 AFTER UPDATE ON "ledger_safety_snapshots_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_snapshots_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9126,7 +9126,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_snapshots_lab_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_snapshots_lab_touch"
 AFTER UPDATE ON "ledger_safety_snapshots_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_snapshots_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9160,7 +9160,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_states_ring0_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_states_ring0_touch"
 AFTER UPDATE ON "ledger_safety_states_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_states_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9194,7 +9194,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_states_ring1_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_states_ring1_touch"
 AFTER UPDATE ON "ledger_safety_states_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_states_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9228,7 +9228,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_states_ring2_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_states_ring2_touch"
 AFTER UPDATE ON "ledger_safety_states_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_states_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9262,7 +9262,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_states_robot_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_states_robot_touch"
 AFTER UPDATE ON "ledger_safety_states_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_states_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9296,7 +9296,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_states_ros_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_states_ros_touch"
 AFTER UPDATE ON "ledger_safety_states_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_states_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9330,7 +9330,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_states_firmware_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_states_firmware_touch"
 AFTER UPDATE ON "ledger_safety_states_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_states_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9364,7 +9364,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_states_field_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_states_field_touch"
 AFTER UPDATE ON "ledger_safety_states_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_states_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9398,7 +9398,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_states_lab_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_states_lab_touch"
 AFTER UPDATE ON "ledger_safety_states_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_states_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9432,7 +9432,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_transitions_ring0_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_transitions_ring0_touch"
 AFTER UPDATE ON "ledger_safety_transitions_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_transitions_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9466,7 +9466,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_transitions_ring1_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_transitions_ring1_touch"
 AFTER UPDATE ON "ledger_safety_transitions_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_transitions_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9500,7 +9500,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_transitions_ring2_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_transitions_ring2_touch"
 AFTER UPDATE ON "ledger_safety_transitions_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_transitions_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9534,7 +9534,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_transitions_robot_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_transitions_robot_touch"
 AFTER UPDATE ON "ledger_safety_transitions_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_transitions_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9568,7 +9568,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_transitions_ros_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_transitions_ros_touch"
 AFTER UPDATE ON "ledger_safety_transitions_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_transitions_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9602,7 +9602,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_transitions_firmware_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_transitions_firmware_touch"
 AFTER UPDATE ON "ledger_safety_transitions_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_transitions_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9636,7 +9636,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_transitions_field_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_transitions_field_touch"
 AFTER UPDATE ON "ledger_safety_transitions_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_transitions_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9670,7 +9670,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_safety_transitions_lab_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_safety_transitions_lab_touch"
 AFTER UPDATE ON "ledger_safety_transitions_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_safety_transitions_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9704,7 +9704,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_accepted_ring0_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_accepted_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_accepted_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_accepted_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9738,7 +9738,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_accepted_ring1_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_accepted_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_accepted_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_accepted_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9772,7 +9772,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_accepted_ring2_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_accepted_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_accepted_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_accepted_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9806,7 +9806,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_accepted_robot_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_accepted_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_accepted_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_accepted_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9840,7 +9840,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_accepted_ros_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_accepted_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_accepted_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_accepted_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9874,7 +9874,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_accepted_firmware_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_accepted_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_accepted_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_accepted_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9908,7 +9908,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_accepted_field_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_accepted_field_touch"
 AFTER UPDATE ON "ledger_autonomy_accepted_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_accepted_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9942,7 +9942,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_accepted_lab_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_accepted_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_accepted_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_accepted_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -9976,7 +9976,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_alerts_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_alerts_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_alerts_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_alerts_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10010,7 +10010,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_alerts_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_alerts_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_alerts_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_alerts_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10044,7 +10044,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_alerts_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_alerts_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_alerts_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_alerts_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10078,7 +10078,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_alerts_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_alerts_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_alerts_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_alerts_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10112,7 +10112,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_alerts_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_alerts_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_alerts_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_alerts_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10146,7 +10146,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_alerts_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_alerts_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_alerts_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_alerts_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10180,7 +10180,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_alerts_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_alerts_field_touch"
 AFTER UPDATE ON "ledger_autonomy_alerts_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_alerts_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10214,7 +10214,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_alerts_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_alerts_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_alerts_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_alerts_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10248,7 +10248,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_baselines_ring0_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_baselines_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_baselines_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_baselines_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10282,7 +10282,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_baselines_ring1_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_baselines_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_baselines_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_baselines_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10316,7 +10316,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_baselines_ring2_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_baselines_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_baselines_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_baselines_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10350,7 +10350,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_baselines_robot_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_baselines_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_baselines_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_baselines_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10384,7 +10384,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_baselines_ros_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_baselines_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_baselines_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_baselines_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10418,7 +10418,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_baselines_firmware_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_baselines_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_baselines_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_baselines_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10452,7 +10452,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_baselines_field_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_baselines_field_touch"
 AFTER UPDATE ON "ledger_autonomy_baselines_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_baselines_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10486,7 +10486,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_baselines_lab_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_baselines_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_baselines_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_baselines_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10520,7 +10520,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_commands_ring0_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_commands_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_commands_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_commands_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10554,7 +10554,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_commands_ring1_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_commands_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_commands_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_commands_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10588,7 +10588,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_commands_ring2_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_commands_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_commands_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_commands_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10622,7 +10622,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_commands_robot_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_commands_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_commands_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_commands_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10656,7 +10656,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_commands_ros_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_commands_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_commands_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_commands_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10690,7 +10690,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_commands_firmware_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_commands_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_commands_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_commands_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10724,7 +10724,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_commands_field_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_commands_field_touch"
 AFTER UPDATE ON "ledger_autonomy_commands_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_commands_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10758,7 +10758,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_commands_lab_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_commands_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_commands_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_commands_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10792,7 +10792,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_events_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_events_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_events_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_events_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10826,7 +10826,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_events_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_events_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_events_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_events_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10860,7 +10860,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_events_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_events_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_events_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_events_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10894,7 +10894,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_events_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_events_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_events_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_events_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10928,7 +10928,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_events_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_events_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_events_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_events_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10962,7 +10962,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_events_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_events_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_events_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_events_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -10996,7 +10996,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_events_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_events_field_touch"
 AFTER UPDATE ON "ledger_autonomy_events_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_events_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11030,7 +11030,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_events_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_events_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_events_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_events_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11064,7 +11064,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_failures_ring0_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_failures_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_failures_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_failures_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11098,7 +11098,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_failures_ring1_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_failures_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_failures_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_failures_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11132,7 +11132,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_failures_ring2_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_failures_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_failures_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_failures_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11166,7 +11166,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_failures_robot_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_failures_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_failures_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_failures_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11200,7 +11200,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_failures_ros_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_failures_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_failures_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_failures_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11234,7 +11234,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_failures_firmware_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_failures_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_failures_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_failures_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11268,7 +11268,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_failures_field_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_failures_field_touch"
 AFTER UPDATE ON "ledger_autonomy_failures_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_failures_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11302,7 +11302,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_failures_lab_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_failures_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_failures_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_failures_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11336,7 +11336,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_heartbeats_ring0_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_heartbeats_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_heartbeats_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_heartbeats_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11370,7 +11370,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_heartbeats_ring1_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_heartbeats_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_heartbeats_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_heartbeats_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11404,7 +11404,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_heartbeats_ring2_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_heartbeats_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_heartbeats_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_heartbeats_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11438,7 +11438,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_heartbeats_robot_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_heartbeats_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_heartbeats_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_heartbeats_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11472,7 +11472,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_heartbeats_ros_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_heartbeats_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_heartbeats_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_heartbeats_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11506,7 +11506,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_heartbeats_firmware_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_heartbeats_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_heartbeats_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_heartbeats_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11540,7 +11540,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_heartbeats_field_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_heartbeats_field_touch"
 AFTER UPDATE ON "ledger_autonomy_heartbeats_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_heartbeats_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11574,7 +11574,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_heartbeats_lab_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_heartbeats_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_heartbeats_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_heartbeats_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11608,7 +11608,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_limits_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_limits_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_limits_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_limits_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11642,7 +11642,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_limits_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_limits_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_limits_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_limits_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11676,7 +11676,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_limits_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_limits_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_limits_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_limits_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11710,7 +11710,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_limits_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_limits_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_limits_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_limits_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11744,7 +11744,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_limits_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_limits_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_limits_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_limits_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11778,7 +11778,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_limits_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_limits_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_limits_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_limits_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11812,7 +11812,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_limits_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_limits_field_touch"
 AFTER UPDATE ON "ledger_autonomy_limits_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_limits_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11846,7 +11846,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_limits_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_limits_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_limits_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_limits_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11880,7 +11880,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_metrics_ring0_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_metrics_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_metrics_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_metrics_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11914,7 +11914,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_metrics_ring1_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_metrics_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_metrics_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_metrics_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11948,7 +11948,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_metrics_ring2_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_metrics_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_metrics_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_metrics_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -11982,7 +11982,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_metrics_robot_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_metrics_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_metrics_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_metrics_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12016,7 +12016,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_metrics_ros_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_metrics_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_metrics_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_metrics_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12050,7 +12050,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_metrics_firmware_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_metrics_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_metrics_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_metrics_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12084,7 +12084,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_metrics_field_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_metrics_field_touch"
 AFTER UPDATE ON "ledger_autonomy_metrics_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_metrics_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12118,7 +12118,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_metrics_lab_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_metrics_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_metrics_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_metrics_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12152,7 +12152,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_observations_ring0_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_observations_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_observations_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_observations_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12186,7 +12186,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_observations_ring1_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_observations_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_observations_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_observations_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12220,7 +12220,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_observations_ring2_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_observations_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_observations_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_observations_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12254,7 +12254,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_observations_robot_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_observations_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_observations_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_observations_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12288,7 +12288,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_observations_ros_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_observations_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_observations_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_observations_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12322,7 +12322,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_observations_firmware_has
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_observations_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_observations_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_observations_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12356,7 +12356,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_observations_field_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_observations_field_touch"
 AFTER UPDATE ON "ledger_autonomy_observations_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_observations_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12390,7 +12390,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_observations_lab_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_observations_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_observations_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_observations_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12424,7 +12424,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_plans_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_plans_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_plans_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_plans_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12458,7 +12458,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_plans_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_plans_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_plans_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_plans_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12492,7 +12492,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_plans_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_plans_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_plans_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_plans_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12526,7 +12526,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_plans_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_plans_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_plans_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_plans_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12560,7 +12560,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_plans_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_plans_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_plans_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_plans_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12594,7 +12594,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_plans_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_plans_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_plans_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_plans_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12628,7 +12628,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_plans_field_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_plans_field_touch"
 AFTER UPDATE ON "ledger_autonomy_plans_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_plans_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12662,7 +12662,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_plans_lab_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_plans_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_plans_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_plans_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12696,7 +12696,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_proofs_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_proofs_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_proofs_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_proofs_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12730,7 +12730,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_proofs_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_proofs_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_proofs_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_proofs_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12764,7 +12764,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_proofs_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_proofs_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_proofs_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_proofs_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12798,7 +12798,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_proofs_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_proofs_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_proofs_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_proofs_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12832,7 +12832,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_proofs_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_proofs_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_proofs_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_proofs_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12866,7 +12866,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_proofs_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_proofs_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_proofs_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_proofs_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12900,7 +12900,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_proofs_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_proofs_field_touch"
 AFTER UPDATE ON "ledger_autonomy_proofs_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_proofs_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12934,7 +12934,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_proofs_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_proofs_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_proofs_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_proofs_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -12968,7 +12968,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_samples_ring0_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_samples_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_samples_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_samples_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13002,7 +13002,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_samples_ring1_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_samples_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_samples_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_samples_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13036,7 +13036,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_samples_ring2_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_samples_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_samples_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_samples_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13070,7 +13070,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_samples_robot_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_samples_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_samples_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_samples_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13104,7 +13104,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_samples_ros_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_samples_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_samples_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_samples_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13138,7 +13138,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_samples_firmware_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_samples_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_samples_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_samples_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13172,7 +13172,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_samples_field_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_samples_field_touch"
 AFTER UPDATE ON "ledger_autonomy_samples_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_samples_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13206,7 +13206,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_samples_lab_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_samples_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_samples_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_samples_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13240,7 +13240,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_snapshots_ring0_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_snapshots_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_snapshots_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_snapshots_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13274,7 +13274,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_snapshots_ring1_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_snapshots_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_snapshots_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_snapshots_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13308,7 +13308,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_snapshots_ring2_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_snapshots_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_snapshots_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_snapshots_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13342,7 +13342,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_snapshots_robot_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_snapshots_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_snapshots_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_snapshots_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13376,7 +13376,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_snapshots_ros_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_snapshots_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_snapshots_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_snapshots_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13410,7 +13410,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_snapshots_firmware_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_snapshots_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_snapshots_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_snapshots_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13444,7 +13444,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_snapshots_field_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_snapshots_field_touch"
 AFTER UPDATE ON "ledger_autonomy_snapshots_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_snapshots_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13478,7 +13478,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_snapshots_lab_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_snapshots_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_snapshots_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_snapshots_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13512,7 +13512,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_states_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_states_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_states_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_states_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13546,7 +13546,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_states_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_states_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_states_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_states_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13580,7 +13580,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_states_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_states_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_states_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_states_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13614,7 +13614,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_states_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_states_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_states_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_states_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13648,7 +13648,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_states_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_states_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_states_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_states_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13682,7 +13682,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_states_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_states_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_states_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_states_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13716,7 +13716,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_states_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_states_field_touch"
 AFTER UPDATE ON "ledger_autonomy_states_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_states_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13750,7 +13750,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_states_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_states_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_states_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_states_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13784,7 +13784,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_transitions_ring0_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_transitions_ring0_touch"
 AFTER UPDATE ON "ledger_autonomy_transitions_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_transitions_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13818,7 +13818,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_transitions_ring1_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_transitions_ring1_touch"
 AFTER UPDATE ON "ledger_autonomy_transitions_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_transitions_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13852,7 +13852,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_transitions_ring2_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_transitions_ring2_touch"
 AFTER UPDATE ON "ledger_autonomy_transitions_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_transitions_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13886,7 +13886,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_transitions_robot_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_transitions_robot_touch"
 AFTER UPDATE ON "ledger_autonomy_transitions_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_transitions_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13920,7 +13920,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_transitions_ros_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_transitions_ros_touch"
 AFTER UPDATE ON "ledger_autonomy_transitions_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_transitions_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13954,7 +13954,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_transitions_firmware_hash
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_transitions_firmware_touch"
 AFTER UPDATE ON "ledger_autonomy_transitions_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_transitions_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -13988,7 +13988,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_transitions_field_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_transitions_field_touch"
 AFTER UPDATE ON "ledger_autonomy_transitions_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_transitions_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14022,7 +14022,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_autonomy_transitions_lab_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_autonomy_transitions_lab_touch"
 AFTER UPDATE ON "ledger_autonomy_transitions_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_autonomy_transitions_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14056,7 +14056,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_accepted_ring0_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_accepted_ring0_touch"
 AFTER UPDATE ON "ledger_battery_accepted_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_accepted_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14090,7 +14090,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_accepted_ring1_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_accepted_ring1_touch"
 AFTER UPDATE ON "ledger_battery_accepted_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_accepted_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14124,7 +14124,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_accepted_ring2_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_accepted_ring2_touch"
 AFTER UPDATE ON "ledger_battery_accepted_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_accepted_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14158,7 +14158,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_accepted_robot_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_accepted_robot_touch"
 AFTER UPDATE ON "ledger_battery_accepted_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_accepted_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14192,7 +14192,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_accepted_ros_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_accepted_ros_touch"
 AFTER UPDATE ON "ledger_battery_accepted_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_accepted_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14226,7 +14226,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_accepted_firmware_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_accepted_firmware_touch"
 AFTER UPDATE ON "ledger_battery_accepted_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_accepted_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14260,7 +14260,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_accepted_field_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_accepted_field_touch"
 AFTER UPDATE ON "ledger_battery_accepted_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_accepted_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14294,7 +14294,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_accepted_lab_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_accepted_lab_touch"
 AFTER UPDATE ON "ledger_battery_accepted_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_accepted_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14328,7 +14328,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_alerts_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_alerts_ring0_touch"
 AFTER UPDATE ON "ledger_battery_alerts_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_alerts_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14362,7 +14362,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_alerts_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_alerts_ring1_touch"
 AFTER UPDATE ON "ledger_battery_alerts_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_alerts_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14396,7 +14396,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_alerts_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_alerts_ring2_touch"
 AFTER UPDATE ON "ledger_battery_alerts_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_alerts_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14430,7 +14430,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_alerts_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_alerts_robot_touch"
 AFTER UPDATE ON "ledger_battery_alerts_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_alerts_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14464,7 +14464,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_alerts_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_alerts_ros_touch"
 AFTER UPDATE ON "ledger_battery_alerts_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_alerts_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14498,7 +14498,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_alerts_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_alerts_firmware_touch"
 AFTER UPDATE ON "ledger_battery_alerts_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_alerts_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14532,7 +14532,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_alerts_field_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_alerts_field_touch"
 AFTER UPDATE ON "ledger_battery_alerts_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_alerts_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14566,7 +14566,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_alerts_lab_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_alerts_lab_touch"
 AFTER UPDATE ON "ledger_battery_alerts_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_alerts_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14600,7 +14600,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_baselines_ring0_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_baselines_ring0_touch"
 AFTER UPDATE ON "ledger_battery_baselines_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_baselines_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14634,7 +14634,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_baselines_ring1_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_baselines_ring1_touch"
 AFTER UPDATE ON "ledger_battery_baselines_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_baselines_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14668,7 +14668,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_baselines_ring2_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_baselines_ring2_touch"
 AFTER UPDATE ON "ledger_battery_baselines_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_baselines_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14702,7 +14702,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_baselines_robot_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_baselines_robot_touch"
 AFTER UPDATE ON "ledger_battery_baselines_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_baselines_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14736,7 +14736,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_baselines_ros_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_baselines_ros_touch"
 AFTER UPDATE ON "ledger_battery_baselines_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_baselines_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14770,7 +14770,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_baselines_firmware_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_baselines_firmware_touch"
 AFTER UPDATE ON "ledger_battery_baselines_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_baselines_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14804,7 +14804,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_baselines_field_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_baselines_field_touch"
 AFTER UPDATE ON "ledger_battery_baselines_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_baselines_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14838,7 +14838,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_baselines_lab_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_baselines_lab_touch"
 AFTER UPDATE ON "ledger_battery_baselines_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_baselines_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14872,7 +14872,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_commands_ring0_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_commands_ring0_touch"
 AFTER UPDATE ON "ledger_battery_commands_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_commands_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14906,7 +14906,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_commands_ring1_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_commands_ring1_touch"
 AFTER UPDATE ON "ledger_battery_commands_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_commands_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14940,7 +14940,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_commands_ring2_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_commands_ring2_touch"
 AFTER UPDATE ON "ledger_battery_commands_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_commands_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -14974,7 +14974,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_commands_robot_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_commands_robot_touch"
 AFTER UPDATE ON "ledger_battery_commands_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_commands_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15008,7 +15008,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_commands_ros_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_commands_ros_touch"
 AFTER UPDATE ON "ledger_battery_commands_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_commands_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15042,7 +15042,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_commands_firmware_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_commands_firmware_touch"
 AFTER UPDATE ON "ledger_battery_commands_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_commands_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15076,7 +15076,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_commands_field_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_commands_field_touch"
 AFTER UPDATE ON "ledger_battery_commands_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_commands_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15110,7 +15110,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_commands_lab_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_commands_lab_touch"
 AFTER UPDATE ON "ledger_battery_commands_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_commands_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15144,7 +15144,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_events_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_events_ring0_touch"
 AFTER UPDATE ON "ledger_battery_events_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_events_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15178,7 +15178,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_events_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_events_ring1_touch"
 AFTER UPDATE ON "ledger_battery_events_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_events_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15212,7 +15212,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_events_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_events_ring2_touch"
 AFTER UPDATE ON "ledger_battery_events_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_events_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15246,7 +15246,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_events_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_events_robot_touch"
 AFTER UPDATE ON "ledger_battery_events_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_events_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15280,7 +15280,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_events_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_events_ros_touch"
 AFTER UPDATE ON "ledger_battery_events_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_events_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15314,7 +15314,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_events_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_events_firmware_touch"
 AFTER UPDATE ON "ledger_battery_events_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_events_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15348,7 +15348,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_events_field_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_events_field_touch"
 AFTER UPDATE ON "ledger_battery_events_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_events_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15382,7 +15382,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_events_lab_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_events_lab_touch"
 AFTER UPDATE ON "ledger_battery_events_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_events_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15416,7 +15416,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_failures_ring0_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_failures_ring0_touch"
 AFTER UPDATE ON "ledger_battery_failures_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_failures_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15450,7 +15450,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_failures_ring1_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_failures_ring1_touch"
 AFTER UPDATE ON "ledger_battery_failures_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_failures_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15484,7 +15484,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_failures_ring2_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_failures_ring2_touch"
 AFTER UPDATE ON "ledger_battery_failures_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_failures_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15518,7 +15518,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_failures_robot_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_failures_robot_touch"
 AFTER UPDATE ON "ledger_battery_failures_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_failures_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15552,7 +15552,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_failures_ros_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_failures_ros_touch"
 AFTER UPDATE ON "ledger_battery_failures_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_failures_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15586,7 +15586,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_failures_firmware_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_failures_firmware_touch"
 AFTER UPDATE ON "ledger_battery_failures_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_failures_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15620,7 +15620,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_failures_field_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_failures_field_touch"
 AFTER UPDATE ON "ledger_battery_failures_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_failures_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15654,7 +15654,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_failures_lab_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_failures_lab_touch"
 AFTER UPDATE ON "ledger_battery_failures_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_failures_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15688,7 +15688,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_heartbeats_ring0_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_heartbeats_ring0_touch"
 AFTER UPDATE ON "ledger_battery_heartbeats_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_heartbeats_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15722,7 +15722,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_heartbeats_ring1_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_heartbeats_ring1_touch"
 AFTER UPDATE ON "ledger_battery_heartbeats_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_heartbeats_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15756,7 +15756,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_heartbeats_ring2_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_heartbeats_ring2_touch"
 AFTER UPDATE ON "ledger_battery_heartbeats_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_heartbeats_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15790,7 +15790,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_heartbeats_robot_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_heartbeats_robot_touch"
 AFTER UPDATE ON "ledger_battery_heartbeats_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_heartbeats_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15824,7 +15824,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_heartbeats_ros_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_heartbeats_ros_touch"
 AFTER UPDATE ON "ledger_battery_heartbeats_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_heartbeats_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15858,7 +15858,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_heartbeats_firmware_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_heartbeats_firmware_touch"
 AFTER UPDATE ON "ledger_battery_heartbeats_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_heartbeats_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15892,7 +15892,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_heartbeats_field_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_heartbeats_field_touch"
 AFTER UPDATE ON "ledger_battery_heartbeats_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_heartbeats_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15926,7 +15926,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_heartbeats_lab_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_heartbeats_lab_touch"
 AFTER UPDATE ON "ledger_battery_heartbeats_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_heartbeats_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15960,7 +15960,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_limits_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_limits_ring0_touch"
 AFTER UPDATE ON "ledger_battery_limits_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_limits_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -15994,7 +15994,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_limits_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_limits_ring1_touch"
 AFTER UPDATE ON "ledger_battery_limits_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_limits_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16028,7 +16028,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_limits_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_limits_ring2_touch"
 AFTER UPDATE ON "ledger_battery_limits_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_limits_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16062,7 +16062,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_limits_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_limits_robot_touch"
 AFTER UPDATE ON "ledger_battery_limits_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_limits_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16096,7 +16096,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_limits_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_limits_ros_touch"
 AFTER UPDATE ON "ledger_battery_limits_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_limits_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16130,7 +16130,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_limits_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_limits_firmware_touch"
 AFTER UPDATE ON "ledger_battery_limits_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_limits_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16164,7 +16164,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_limits_field_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_limits_field_touch"
 AFTER UPDATE ON "ledger_battery_limits_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_limits_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16198,7 +16198,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_limits_lab_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_limits_lab_touch"
 AFTER UPDATE ON "ledger_battery_limits_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_limits_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16232,7 +16232,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_metrics_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_metrics_ring0_touch"
 AFTER UPDATE ON "ledger_battery_metrics_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_metrics_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16266,7 +16266,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_metrics_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_metrics_ring1_touch"
 AFTER UPDATE ON "ledger_battery_metrics_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_metrics_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16300,7 +16300,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_metrics_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_metrics_ring2_touch"
 AFTER UPDATE ON "ledger_battery_metrics_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_metrics_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16334,7 +16334,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_metrics_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_metrics_robot_touch"
 AFTER UPDATE ON "ledger_battery_metrics_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_metrics_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16368,7 +16368,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_metrics_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_metrics_ros_touch"
 AFTER UPDATE ON "ledger_battery_metrics_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_metrics_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16402,7 +16402,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_metrics_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_metrics_firmware_touch"
 AFTER UPDATE ON "ledger_battery_metrics_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_metrics_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16436,7 +16436,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_metrics_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_metrics_field_touch"
 AFTER UPDATE ON "ledger_battery_metrics_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_metrics_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16470,7 +16470,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_metrics_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_metrics_lab_touch"
 AFTER UPDATE ON "ledger_battery_metrics_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_metrics_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16504,7 +16504,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_observations_ring0_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_observations_ring0_touch"
 AFTER UPDATE ON "ledger_battery_observations_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_observations_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16538,7 +16538,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_observations_ring1_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_observations_ring1_touch"
 AFTER UPDATE ON "ledger_battery_observations_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_observations_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16572,7 +16572,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_observations_ring2_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_observations_ring2_touch"
 AFTER UPDATE ON "ledger_battery_observations_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_observations_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16606,7 +16606,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_observations_robot_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_observations_robot_touch"
 AFTER UPDATE ON "ledger_battery_observations_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_observations_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16640,7 +16640,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_observations_ros_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_observations_ros_touch"
 AFTER UPDATE ON "ledger_battery_observations_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_observations_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16674,7 +16674,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_observations_firmware_hash
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_observations_firmware_touch"
 AFTER UPDATE ON "ledger_battery_observations_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_observations_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16708,7 +16708,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_observations_field_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_observations_field_touch"
 AFTER UPDATE ON "ledger_battery_observations_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_observations_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16742,7 +16742,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_observations_lab_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_observations_lab_touch"
 AFTER UPDATE ON "ledger_battery_observations_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_observations_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16776,7 +16776,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_plans_ring0_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_plans_ring0_touch"
 AFTER UPDATE ON "ledger_battery_plans_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_plans_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16810,7 +16810,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_plans_ring1_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_plans_ring1_touch"
 AFTER UPDATE ON "ledger_battery_plans_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_plans_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16844,7 +16844,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_plans_ring2_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_plans_ring2_touch"
 AFTER UPDATE ON "ledger_battery_plans_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_plans_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16878,7 +16878,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_plans_robot_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_plans_robot_touch"
 AFTER UPDATE ON "ledger_battery_plans_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_plans_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16912,7 +16912,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_plans_ros_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_plans_ros_touch"
 AFTER UPDATE ON "ledger_battery_plans_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_plans_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16946,7 +16946,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_plans_firmware_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_plans_firmware_touch"
 AFTER UPDATE ON "ledger_battery_plans_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_plans_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -16980,7 +16980,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_plans_field_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_plans_field_touch"
 AFTER UPDATE ON "ledger_battery_plans_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_plans_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17014,7 +17014,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_plans_lab_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_plans_lab_touch"
 AFTER UPDATE ON "ledger_battery_plans_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_plans_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17048,7 +17048,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_proofs_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_proofs_ring0_touch"
 AFTER UPDATE ON "ledger_battery_proofs_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_proofs_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17082,7 +17082,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_proofs_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_proofs_ring1_touch"
 AFTER UPDATE ON "ledger_battery_proofs_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_proofs_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17116,7 +17116,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_proofs_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_proofs_ring2_touch"
 AFTER UPDATE ON "ledger_battery_proofs_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_proofs_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17150,7 +17150,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_proofs_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_proofs_robot_touch"
 AFTER UPDATE ON "ledger_battery_proofs_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_proofs_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17184,7 +17184,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_proofs_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_proofs_ros_touch"
 AFTER UPDATE ON "ledger_battery_proofs_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_proofs_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17218,7 +17218,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_proofs_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_proofs_firmware_touch"
 AFTER UPDATE ON "ledger_battery_proofs_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_proofs_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17252,7 +17252,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_proofs_field_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_proofs_field_touch"
 AFTER UPDATE ON "ledger_battery_proofs_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_proofs_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17286,7 +17286,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_proofs_lab_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_proofs_lab_touch"
 AFTER UPDATE ON "ledger_battery_proofs_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_proofs_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17320,7 +17320,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_samples_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_samples_ring0_touch"
 AFTER UPDATE ON "ledger_battery_samples_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_samples_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17354,7 +17354,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_samples_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_samples_ring1_touch"
 AFTER UPDATE ON "ledger_battery_samples_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_samples_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17388,7 +17388,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_samples_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_samples_ring2_touch"
 AFTER UPDATE ON "ledger_battery_samples_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_samples_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17422,7 +17422,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_samples_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_samples_robot_touch"
 AFTER UPDATE ON "ledger_battery_samples_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_samples_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17456,7 +17456,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_samples_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_samples_ros_touch"
 AFTER UPDATE ON "ledger_battery_samples_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_samples_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17490,7 +17490,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_samples_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_samples_firmware_touch"
 AFTER UPDATE ON "ledger_battery_samples_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_samples_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17524,7 +17524,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_samples_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_samples_field_touch"
 AFTER UPDATE ON "ledger_battery_samples_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_samples_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17558,7 +17558,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_samples_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_samples_lab_touch"
 AFTER UPDATE ON "ledger_battery_samples_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_samples_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17592,7 +17592,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_snapshots_ring0_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_snapshots_ring0_touch"
 AFTER UPDATE ON "ledger_battery_snapshots_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_snapshots_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17626,7 +17626,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_snapshots_ring1_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_snapshots_ring1_touch"
 AFTER UPDATE ON "ledger_battery_snapshots_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_snapshots_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17660,7 +17660,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_snapshots_ring2_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_snapshots_ring2_touch"
 AFTER UPDATE ON "ledger_battery_snapshots_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_snapshots_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17694,7 +17694,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_snapshots_robot_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_snapshots_robot_touch"
 AFTER UPDATE ON "ledger_battery_snapshots_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_snapshots_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17728,7 +17728,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_snapshots_ros_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_snapshots_ros_touch"
 AFTER UPDATE ON "ledger_battery_snapshots_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_snapshots_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17762,7 +17762,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_snapshots_firmware_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_snapshots_firmware_touch"
 AFTER UPDATE ON "ledger_battery_snapshots_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_snapshots_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17796,7 +17796,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_snapshots_field_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_snapshots_field_touch"
 AFTER UPDATE ON "ledger_battery_snapshots_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_snapshots_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17830,7 +17830,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_snapshots_lab_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_snapshots_lab_touch"
 AFTER UPDATE ON "ledger_battery_snapshots_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_snapshots_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17864,7 +17864,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_states_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_states_ring0_touch"
 AFTER UPDATE ON "ledger_battery_states_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_states_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17898,7 +17898,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_states_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_states_ring1_touch"
 AFTER UPDATE ON "ledger_battery_states_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_states_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17932,7 +17932,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_states_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_states_ring2_touch"
 AFTER UPDATE ON "ledger_battery_states_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_states_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -17966,7 +17966,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_states_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_states_robot_touch"
 AFTER UPDATE ON "ledger_battery_states_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_states_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18000,7 +18000,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_states_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_states_ros_touch"
 AFTER UPDATE ON "ledger_battery_states_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_states_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18034,7 +18034,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_states_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_states_firmware_touch"
 AFTER UPDATE ON "ledger_battery_states_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_states_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18068,7 +18068,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_states_field_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_states_field_touch"
 AFTER UPDATE ON "ledger_battery_states_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_states_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18102,7 +18102,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_states_lab_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_states_lab_touch"
 AFTER UPDATE ON "ledger_battery_states_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_states_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18136,7 +18136,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_transitions_ring0_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_transitions_ring0_touch"
 AFTER UPDATE ON "ledger_battery_transitions_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_transitions_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18170,7 +18170,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_transitions_ring1_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_transitions_ring1_touch"
 AFTER UPDATE ON "ledger_battery_transitions_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_transitions_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18204,7 +18204,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_transitions_ring2_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_transitions_ring2_touch"
 AFTER UPDATE ON "ledger_battery_transitions_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_transitions_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18238,7 +18238,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_transitions_robot_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_transitions_robot_touch"
 AFTER UPDATE ON "ledger_battery_transitions_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_transitions_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18272,7 +18272,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_transitions_ros_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_transitions_ros_touch"
 AFTER UPDATE ON "ledger_battery_transitions_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_transitions_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18306,7 +18306,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_transitions_firmware_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_transitions_firmware_touch"
 AFTER UPDATE ON "ledger_battery_transitions_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_transitions_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18340,7 +18340,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_transitions_field_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_transitions_field_touch"
 AFTER UPDATE ON "ledger_battery_transitions_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_transitions_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18374,7 +18374,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_battery_transitions_lab_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_battery_transitions_lab_touch"
 AFTER UPDATE ON "ledger_battery_transitions_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_battery_transitions_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18408,7 +18408,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_accepted_ring0_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_accepted_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_accepted_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_accepted_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18442,7 +18442,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_accepted_ring1_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_accepted_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_accepted_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_accepted_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18476,7 +18476,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_accepted_ring2_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_accepted_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_accepted_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_accepted_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18510,7 +18510,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_accepted_robot_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_accepted_robot_touch"
 AFTER UPDATE ON "ledger_calibration_accepted_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_accepted_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18544,7 +18544,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_accepted_ros_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_accepted_ros_touch"
 AFTER UPDATE ON "ledger_calibration_accepted_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_accepted_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18578,7 +18578,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_accepted_firmware_hash
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_accepted_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_accepted_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_accepted_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18612,7 +18612,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_accepted_field_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_accepted_field_touch"
 AFTER UPDATE ON "ledger_calibration_accepted_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_accepted_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18646,7 +18646,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_accepted_lab_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_accepted_lab_touch"
 AFTER UPDATE ON "ledger_calibration_accepted_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_accepted_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18680,7 +18680,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_alerts_ring0_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_alerts_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_alerts_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_alerts_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18714,7 +18714,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_alerts_ring1_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_alerts_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_alerts_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_alerts_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18748,7 +18748,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_alerts_ring2_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_alerts_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_alerts_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_alerts_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18782,7 +18782,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_alerts_robot_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_alerts_robot_touch"
 AFTER UPDATE ON "ledger_calibration_alerts_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_alerts_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18816,7 +18816,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_alerts_ros_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_alerts_ros_touch"
 AFTER UPDATE ON "ledger_calibration_alerts_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_alerts_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18850,7 +18850,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_alerts_firmware_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_alerts_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_alerts_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_alerts_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18884,7 +18884,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_alerts_field_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_alerts_field_touch"
 AFTER UPDATE ON "ledger_calibration_alerts_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_alerts_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18918,7 +18918,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_alerts_lab_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_alerts_lab_touch"
 AFTER UPDATE ON "ledger_calibration_alerts_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_alerts_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18952,7 +18952,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_baselines_ring0_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_baselines_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_baselines_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_baselines_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -18986,7 +18986,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_baselines_ring1_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_baselines_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_baselines_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_baselines_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19020,7 +19020,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_baselines_ring2_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_baselines_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_baselines_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_baselines_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19054,7 +19054,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_baselines_robot_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_baselines_robot_touch"
 AFTER UPDATE ON "ledger_calibration_baselines_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_baselines_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19088,7 +19088,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_baselines_ros_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_baselines_ros_touch"
 AFTER UPDATE ON "ledger_calibration_baselines_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_baselines_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19122,7 +19122,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_baselines_firmware_has
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_baselines_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_baselines_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_baselines_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19156,7 +19156,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_baselines_field_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_baselines_field_touch"
 AFTER UPDATE ON "ledger_calibration_baselines_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_baselines_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19190,7 +19190,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_baselines_lab_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_baselines_lab_touch"
 AFTER UPDATE ON "ledger_calibration_baselines_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_baselines_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19224,7 +19224,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_commands_ring0_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_commands_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_commands_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_commands_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19258,7 +19258,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_commands_ring1_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_commands_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_commands_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_commands_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19292,7 +19292,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_commands_ring2_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_commands_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_commands_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_commands_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19326,7 +19326,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_commands_robot_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_commands_robot_touch"
 AFTER UPDATE ON "ledger_calibration_commands_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_commands_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19360,7 +19360,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_commands_ros_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_commands_ros_touch"
 AFTER UPDATE ON "ledger_calibration_commands_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_commands_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19394,7 +19394,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_commands_firmware_hash
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_commands_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_commands_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_commands_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19428,7 +19428,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_commands_field_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_commands_field_touch"
 AFTER UPDATE ON "ledger_calibration_commands_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_commands_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19462,7 +19462,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_commands_lab_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_commands_lab_touch"
 AFTER UPDATE ON "ledger_calibration_commands_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_commands_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19496,7 +19496,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_events_ring0_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_events_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_events_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_events_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19530,7 +19530,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_events_ring1_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_events_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_events_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_events_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19564,7 +19564,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_events_ring2_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_events_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_events_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_events_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19598,7 +19598,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_events_robot_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_events_robot_touch"
 AFTER UPDATE ON "ledger_calibration_events_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_events_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19632,7 +19632,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_events_ros_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_events_ros_touch"
 AFTER UPDATE ON "ledger_calibration_events_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_events_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19666,7 +19666,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_events_firmware_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_events_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_events_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_events_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19700,7 +19700,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_events_field_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_events_field_touch"
 AFTER UPDATE ON "ledger_calibration_events_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_events_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19734,7 +19734,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_events_lab_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_events_lab_touch"
 AFTER UPDATE ON "ledger_calibration_events_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_events_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19768,7 +19768,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_failures_ring0_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_failures_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_failures_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_failures_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19802,7 +19802,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_failures_ring1_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_failures_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_failures_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_failures_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19836,7 +19836,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_failures_ring2_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_failures_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_failures_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_failures_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19870,7 +19870,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_failures_robot_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_failures_robot_touch"
 AFTER UPDATE ON "ledger_calibration_failures_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_failures_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19904,7 +19904,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_failures_ros_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_failures_ros_touch"
 AFTER UPDATE ON "ledger_calibration_failures_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_failures_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19938,7 +19938,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_failures_firmware_hash
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_failures_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_failures_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_failures_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -19972,7 +19972,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_failures_field_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_failures_field_touch"
 AFTER UPDATE ON "ledger_calibration_failures_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_failures_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20006,7 +20006,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_failures_lab_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_failures_lab_touch"
 AFTER UPDATE ON "ledger_calibration_failures_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_failures_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20040,7 +20040,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_heartbeats_ring0_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_heartbeats_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_heartbeats_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_heartbeats_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20074,7 +20074,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_heartbeats_ring1_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_heartbeats_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_heartbeats_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_heartbeats_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20108,7 +20108,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_heartbeats_ring2_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_heartbeats_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_heartbeats_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_heartbeats_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20142,7 +20142,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_heartbeats_robot_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_heartbeats_robot_touch"
 AFTER UPDATE ON "ledger_calibration_heartbeats_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_heartbeats_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20176,7 +20176,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_heartbeats_ros_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_heartbeats_ros_touch"
 AFTER UPDATE ON "ledger_calibration_heartbeats_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_heartbeats_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20210,7 +20210,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_heartbeats_firmware_ha
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_heartbeats_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_heartbeats_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_heartbeats_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20244,7 +20244,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_heartbeats_field_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_heartbeats_field_touch"
 AFTER UPDATE ON "ledger_calibration_heartbeats_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_heartbeats_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20278,7 +20278,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_heartbeats_lab_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_heartbeats_lab_touch"
 AFTER UPDATE ON "ledger_calibration_heartbeats_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_heartbeats_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20312,7 +20312,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_limits_ring0_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_limits_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_limits_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_limits_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20346,7 +20346,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_limits_ring1_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_limits_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_limits_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_limits_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20380,7 +20380,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_limits_ring2_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_limits_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_limits_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_limits_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20414,7 +20414,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_limits_robot_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_limits_robot_touch"
 AFTER UPDATE ON "ledger_calibration_limits_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_limits_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20448,7 +20448,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_limits_ros_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_limits_ros_touch"
 AFTER UPDATE ON "ledger_calibration_limits_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_limits_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20482,7 +20482,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_limits_firmware_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_limits_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_limits_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_limits_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20516,7 +20516,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_limits_field_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_limits_field_touch"
 AFTER UPDATE ON "ledger_calibration_limits_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_limits_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20550,7 +20550,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_limits_lab_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_limits_lab_touch"
 AFTER UPDATE ON "ledger_calibration_limits_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_limits_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20584,7 +20584,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_metrics_ring0_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_metrics_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_metrics_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_metrics_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20618,7 +20618,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_metrics_ring1_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_metrics_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_metrics_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_metrics_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20652,7 +20652,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_metrics_ring2_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_metrics_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_metrics_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_metrics_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20686,7 +20686,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_metrics_robot_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_metrics_robot_touch"
 AFTER UPDATE ON "ledger_calibration_metrics_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_metrics_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20720,7 +20720,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_metrics_ros_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_metrics_ros_touch"
 AFTER UPDATE ON "ledger_calibration_metrics_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_metrics_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20754,7 +20754,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_metrics_firmware_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_metrics_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_metrics_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_metrics_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20788,7 +20788,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_metrics_field_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_metrics_field_touch"
 AFTER UPDATE ON "ledger_calibration_metrics_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_metrics_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20822,7 +20822,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_metrics_lab_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_metrics_lab_touch"
 AFTER UPDATE ON "ledger_calibration_metrics_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_metrics_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20856,7 +20856,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_observations_ring0_has
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_observations_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_observations_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_observations_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20890,7 +20890,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_observations_ring1_has
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_observations_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_observations_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_observations_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20924,7 +20924,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_observations_ring2_has
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_observations_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_observations_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_observations_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20958,7 +20958,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_observations_robot_has
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_observations_robot_touch"
 AFTER UPDATE ON "ledger_calibration_observations_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_observations_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -20992,7 +20992,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_observations_ros_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_observations_ros_touch"
 AFTER UPDATE ON "ledger_calibration_observations_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_observations_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21026,7 +21026,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_observations_firmware_
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_observations_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_observations_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_observations_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21060,7 +21060,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_observations_field_has
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_observations_field_touch"
 AFTER UPDATE ON "ledger_calibration_observations_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_observations_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21094,7 +21094,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_observations_lab_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_observations_lab_touch"
 AFTER UPDATE ON "ledger_calibration_observations_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_observations_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21128,7 +21128,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_plans_ring0_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_plans_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_plans_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_plans_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21162,7 +21162,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_plans_ring1_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_plans_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_plans_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_plans_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21196,7 +21196,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_plans_ring2_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_plans_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_plans_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_plans_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21230,7 +21230,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_plans_robot_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_plans_robot_touch"
 AFTER UPDATE ON "ledger_calibration_plans_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_plans_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21264,7 +21264,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_plans_ros_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_plans_ros_touch"
 AFTER UPDATE ON "ledger_calibration_plans_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_plans_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21298,7 +21298,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_plans_firmware_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_plans_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_plans_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_plans_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21332,7 +21332,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_plans_field_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_plans_field_touch"
 AFTER UPDATE ON "ledger_calibration_plans_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_plans_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21366,7 +21366,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_plans_lab_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_plans_lab_touch"
 AFTER UPDATE ON "ledger_calibration_plans_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_plans_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21400,7 +21400,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_proofs_ring0_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_proofs_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_proofs_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_proofs_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21434,7 +21434,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_proofs_ring1_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_proofs_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_proofs_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_proofs_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21468,7 +21468,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_proofs_ring2_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_proofs_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_proofs_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_proofs_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21502,7 +21502,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_proofs_robot_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_proofs_robot_touch"
 AFTER UPDATE ON "ledger_calibration_proofs_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_proofs_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21536,7 +21536,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_proofs_ros_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_proofs_ros_touch"
 AFTER UPDATE ON "ledger_calibration_proofs_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_proofs_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21570,7 +21570,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_proofs_firmware_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_proofs_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_proofs_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_proofs_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21604,7 +21604,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_proofs_field_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_proofs_field_touch"
 AFTER UPDATE ON "ledger_calibration_proofs_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_proofs_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21638,7 +21638,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_proofs_lab_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_proofs_lab_touch"
 AFTER UPDATE ON "ledger_calibration_proofs_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_proofs_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21672,7 +21672,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_samples_ring0_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_samples_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_samples_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_samples_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21706,7 +21706,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_samples_ring1_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_samples_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_samples_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_samples_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21740,7 +21740,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_samples_ring2_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_samples_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_samples_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_samples_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21774,7 +21774,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_samples_robot_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_samples_robot_touch"
 AFTER UPDATE ON "ledger_calibration_samples_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_samples_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21808,7 +21808,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_samples_ros_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_samples_ros_touch"
 AFTER UPDATE ON "ledger_calibration_samples_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_samples_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21842,7 +21842,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_samples_firmware_hash"
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_samples_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_samples_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_samples_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21876,7 +21876,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_samples_field_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_samples_field_touch"
 AFTER UPDATE ON "ledger_calibration_samples_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_samples_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21910,7 +21910,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_samples_lab_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_samples_lab_touch"
 AFTER UPDATE ON "ledger_calibration_samples_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_samples_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21944,7 +21944,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_snapshots_ring0_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_snapshots_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_snapshots_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_snapshots_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -21978,7 +21978,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_snapshots_ring1_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_snapshots_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_snapshots_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_snapshots_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22012,7 +22012,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_snapshots_ring2_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_snapshots_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_snapshots_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_snapshots_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22046,7 +22046,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_snapshots_robot_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_snapshots_robot_touch"
 AFTER UPDATE ON "ledger_calibration_snapshots_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_snapshots_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22080,7 +22080,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_snapshots_ros_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_snapshots_ros_touch"
 AFTER UPDATE ON "ledger_calibration_snapshots_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_snapshots_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22114,7 +22114,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_snapshots_firmware_has
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_snapshots_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_snapshots_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_snapshots_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22148,7 +22148,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_snapshots_field_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_snapshots_field_touch"
 AFTER UPDATE ON "ledger_calibration_snapshots_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_snapshots_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22182,7 +22182,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_snapshots_lab_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_snapshots_lab_touch"
 AFTER UPDATE ON "ledger_calibration_snapshots_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_snapshots_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22216,7 +22216,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_states_ring0_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_states_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_states_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_states_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22250,7 +22250,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_states_ring1_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_states_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_states_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_states_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22284,7 +22284,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_states_ring2_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_states_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_states_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_states_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22318,7 +22318,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_states_robot_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_states_robot_touch"
 AFTER UPDATE ON "ledger_calibration_states_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_states_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22352,7 +22352,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_states_ros_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_states_ros_touch"
 AFTER UPDATE ON "ledger_calibration_states_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_states_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22386,7 +22386,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_states_firmware_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_states_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_states_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_states_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22420,7 +22420,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_states_field_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_states_field_touch"
 AFTER UPDATE ON "ledger_calibration_states_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_states_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22454,7 +22454,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_states_lab_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_states_lab_touch"
 AFTER UPDATE ON "ledger_calibration_states_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_states_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22488,7 +22488,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_transitions_ring0_hash
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_transitions_ring0_touch"
 AFTER UPDATE ON "ledger_calibration_transitions_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_transitions_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22522,7 +22522,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_transitions_ring1_hash
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_transitions_ring1_touch"
 AFTER UPDATE ON "ledger_calibration_transitions_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_transitions_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22556,7 +22556,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_transitions_ring2_hash
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_transitions_ring2_touch"
 AFTER UPDATE ON "ledger_calibration_transitions_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_transitions_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22590,7 +22590,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_transitions_robot_hash
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_transitions_robot_touch"
 AFTER UPDATE ON "ledger_calibration_transitions_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_transitions_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22624,7 +22624,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_transitions_ros_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_transitions_ros_touch"
 AFTER UPDATE ON "ledger_calibration_transitions_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_transitions_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22658,7 +22658,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_transitions_firmware_h
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_transitions_firmware_touch"
 AFTER UPDATE ON "ledger_calibration_transitions_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_transitions_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22692,7 +22692,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_transitions_field_hash
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_transitions_field_touch"
 AFTER UPDATE ON "ledger_calibration_transitions_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_transitions_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22726,7 +22726,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_calibration_transitions_lab_hash" 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_calibration_transitions_lab_touch"
 AFTER UPDATE ON "ledger_calibration_transitions_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_calibration_transitions_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22760,7 +22760,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_accepted_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_accepted_ring0_touch"
 AFTER UPDATE ON "ledger_camera_accepted_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_accepted_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22794,7 +22794,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_accepted_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_accepted_ring1_touch"
 AFTER UPDATE ON "ledger_camera_accepted_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_accepted_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22828,7 +22828,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_accepted_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_accepted_ring2_touch"
 AFTER UPDATE ON "ledger_camera_accepted_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_accepted_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22862,7 +22862,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_accepted_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_accepted_robot_touch"
 AFTER UPDATE ON "ledger_camera_accepted_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_accepted_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22896,7 +22896,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_accepted_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_accepted_ros_touch"
 AFTER UPDATE ON "ledger_camera_accepted_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_accepted_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22930,7 +22930,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_accepted_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_accepted_firmware_touch"
 AFTER UPDATE ON "ledger_camera_accepted_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_accepted_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22964,7 +22964,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_accepted_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_accepted_field_touch"
 AFTER UPDATE ON "ledger_camera_accepted_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_accepted_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -22998,7 +22998,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_accepted_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_accepted_lab_touch"
 AFTER UPDATE ON "ledger_camera_accepted_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_accepted_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23032,7 +23032,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_alerts_ring0_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_alerts_ring0_touch"
 AFTER UPDATE ON "ledger_camera_alerts_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_alerts_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23066,7 +23066,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_alerts_ring1_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_alerts_ring1_touch"
 AFTER UPDATE ON "ledger_camera_alerts_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_alerts_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23100,7 +23100,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_alerts_ring2_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_alerts_ring2_touch"
 AFTER UPDATE ON "ledger_camera_alerts_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_alerts_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23134,7 +23134,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_alerts_robot_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_alerts_robot_touch"
 AFTER UPDATE ON "ledger_camera_alerts_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_alerts_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23168,7 +23168,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_alerts_ros_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_alerts_ros_touch"
 AFTER UPDATE ON "ledger_camera_alerts_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_alerts_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23202,7 +23202,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_alerts_firmware_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_alerts_firmware_touch"
 AFTER UPDATE ON "ledger_camera_alerts_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_alerts_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23236,7 +23236,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_alerts_field_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_alerts_field_touch"
 AFTER UPDATE ON "ledger_camera_alerts_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_alerts_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23270,7 +23270,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_alerts_lab_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_alerts_lab_touch"
 AFTER UPDATE ON "ledger_camera_alerts_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_alerts_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23304,7 +23304,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_baselines_ring0_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_baselines_ring0_touch"
 AFTER UPDATE ON "ledger_camera_baselines_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_baselines_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23338,7 +23338,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_baselines_ring1_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_baselines_ring1_touch"
 AFTER UPDATE ON "ledger_camera_baselines_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_baselines_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23372,7 +23372,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_baselines_ring2_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_baselines_ring2_touch"
 AFTER UPDATE ON "ledger_camera_baselines_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_baselines_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23406,7 +23406,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_baselines_robot_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_baselines_robot_touch"
 AFTER UPDATE ON "ledger_camera_baselines_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_baselines_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23440,7 +23440,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_baselines_ros_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_baselines_ros_touch"
 AFTER UPDATE ON "ledger_camera_baselines_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_baselines_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23474,7 +23474,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_baselines_firmware_hash" ON
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_baselines_firmware_touch"
 AFTER UPDATE ON "ledger_camera_baselines_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_baselines_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23508,7 +23508,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_baselines_field_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_baselines_field_touch"
 AFTER UPDATE ON "ledger_camera_baselines_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_baselines_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23542,7 +23542,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_baselines_lab_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_baselines_lab_touch"
 AFTER UPDATE ON "ledger_camera_baselines_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_baselines_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23576,7 +23576,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_commands_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_commands_ring0_touch"
 AFTER UPDATE ON "ledger_camera_commands_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_commands_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23610,7 +23610,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_commands_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_commands_ring1_touch"
 AFTER UPDATE ON "ledger_camera_commands_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_commands_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23644,7 +23644,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_commands_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_commands_ring2_touch"
 AFTER UPDATE ON "ledger_camera_commands_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_commands_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23678,7 +23678,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_commands_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_commands_robot_touch"
 AFTER UPDATE ON "ledger_camera_commands_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_commands_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23712,7 +23712,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_commands_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_commands_ros_touch"
 AFTER UPDATE ON "ledger_camera_commands_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_commands_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23746,7 +23746,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_commands_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_commands_firmware_touch"
 AFTER UPDATE ON "ledger_camera_commands_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_commands_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23780,7 +23780,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_commands_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_commands_field_touch"
 AFTER UPDATE ON "ledger_camera_commands_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_commands_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23814,7 +23814,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_commands_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_commands_lab_touch"
 AFTER UPDATE ON "ledger_camera_commands_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_commands_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23848,7 +23848,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_events_ring0_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_events_ring0_touch"
 AFTER UPDATE ON "ledger_camera_events_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_events_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23882,7 +23882,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_events_ring1_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_events_ring1_touch"
 AFTER UPDATE ON "ledger_camera_events_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_events_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23916,7 +23916,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_events_ring2_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_events_ring2_touch"
 AFTER UPDATE ON "ledger_camera_events_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_events_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23950,7 +23950,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_events_robot_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_events_robot_touch"
 AFTER UPDATE ON "ledger_camera_events_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_events_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -23984,7 +23984,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_events_ros_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_events_ros_touch"
 AFTER UPDATE ON "ledger_camera_events_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_events_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24018,7 +24018,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_events_firmware_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_events_firmware_touch"
 AFTER UPDATE ON "ledger_camera_events_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_events_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24052,7 +24052,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_events_field_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_events_field_touch"
 AFTER UPDATE ON "ledger_camera_events_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_events_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24086,7 +24086,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_events_lab_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_events_lab_touch"
 AFTER UPDATE ON "ledger_camera_events_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_events_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24120,7 +24120,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_failures_ring0_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_failures_ring0_touch"
 AFTER UPDATE ON "ledger_camera_failures_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_failures_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24154,7 +24154,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_failures_ring1_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_failures_ring1_touch"
 AFTER UPDATE ON "ledger_camera_failures_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_failures_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24188,7 +24188,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_failures_ring2_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_failures_ring2_touch"
 AFTER UPDATE ON "ledger_camera_failures_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_failures_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24222,7 +24222,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_failures_robot_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_failures_robot_touch"
 AFTER UPDATE ON "ledger_camera_failures_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_failures_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24256,7 +24256,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_failures_ros_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_failures_ros_touch"
 AFTER UPDATE ON "ledger_camera_failures_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_failures_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24290,7 +24290,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_failures_firmware_hash" ON 
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_failures_firmware_touch"
 AFTER UPDATE ON "ledger_camera_failures_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_failures_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24324,7 +24324,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_failures_field_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_failures_field_touch"
 AFTER UPDATE ON "ledger_camera_failures_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_failures_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24358,7 +24358,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_failures_lab_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_failures_lab_touch"
 AFTER UPDATE ON "ledger_camera_failures_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_failures_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24392,7 +24392,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_heartbeats_ring0_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_heartbeats_ring0_touch"
 AFTER UPDATE ON "ledger_camera_heartbeats_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_heartbeats_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24426,7 +24426,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_heartbeats_ring1_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_heartbeats_ring1_touch"
 AFTER UPDATE ON "ledger_camera_heartbeats_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_heartbeats_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24460,7 +24460,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_heartbeats_ring2_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_heartbeats_ring2_touch"
 AFTER UPDATE ON "ledger_camera_heartbeats_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_heartbeats_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24494,7 +24494,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_heartbeats_robot_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_heartbeats_robot_touch"
 AFTER UPDATE ON "ledger_camera_heartbeats_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_heartbeats_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24528,7 +24528,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_heartbeats_ros_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_heartbeats_ros_touch"
 AFTER UPDATE ON "ledger_camera_heartbeats_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_heartbeats_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24562,7 +24562,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_heartbeats_firmware_hash" O
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_heartbeats_firmware_touch"
 AFTER UPDATE ON "ledger_camera_heartbeats_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_heartbeats_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24596,7 +24596,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_heartbeats_field_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_heartbeats_field_touch"
 AFTER UPDATE ON "ledger_camera_heartbeats_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_heartbeats_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24630,7 +24630,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_heartbeats_lab_hash" ON "le
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_heartbeats_lab_touch"
 AFTER UPDATE ON "ledger_camera_heartbeats_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_heartbeats_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24664,7 +24664,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_limits_ring0_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_limits_ring0_touch"
 AFTER UPDATE ON "ledger_camera_limits_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_limits_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24698,7 +24698,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_limits_ring1_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_limits_ring1_touch"
 AFTER UPDATE ON "ledger_camera_limits_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_limits_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24732,7 +24732,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_limits_ring2_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_limits_ring2_touch"
 AFTER UPDATE ON "ledger_camera_limits_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_limits_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24766,7 +24766,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_limits_robot_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_limits_robot_touch"
 AFTER UPDATE ON "ledger_camera_limits_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_limits_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24800,7 +24800,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_limits_ros_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_limits_ros_touch"
 AFTER UPDATE ON "ledger_camera_limits_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_limits_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24834,7 +24834,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_limits_firmware_hash" ON "l
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_limits_firmware_touch"
 AFTER UPDATE ON "ledger_camera_limits_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_limits_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24868,7 +24868,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_limits_field_hash" ON "ledg
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_limits_field_touch"
 AFTER UPDATE ON "ledger_camera_limits_field"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_limits_field" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24902,7 +24902,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_limits_lab_hash" ON "ledger
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_limits_lab_touch"
 AFTER UPDATE ON "ledger_camera_limits_lab"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_limits_lab" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24936,7 +24936,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_metrics_ring0_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_metrics_ring0_touch"
 AFTER UPDATE ON "ledger_camera_metrics_ring0"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_metrics_ring0" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -24970,7 +24970,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_metrics_ring1_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_metrics_ring1_touch"
 AFTER UPDATE ON "ledger_camera_metrics_ring1"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_metrics_ring1" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -25004,7 +25004,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_metrics_ring2_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_metrics_ring2_touch"
 AFTER UPDATE ON "ledger_camera_metrics_ring2"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_metrics_ring2" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -25038,7 +25038,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_metrics_robot_hash" ON "led
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_metrics_robot_touch"
 AFTER UPDATE ON "ledger_camera_metrics_robot"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_metrics_robot" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -25072,7 +25072,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_metrics_ros_hash" ON "ledge
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_metrics_ros_touch"
 AFTER UPDATE ON "ledger_camera_metrics_ros"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_metrics_ros" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
@@ -25106,7 +25106,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_camera_metrics_firmware_hash" ON "
 CREATE TRIGGER IF NOT EXISTS "trg_ledger_camera_metrics_firmware_touch"
 AFTER UPDATE ON "ledger_camera_metrics_firmware"
 FOR EACH ROW
-WHEN NEW.updated_at = OLD.updated_at
+WHEN NEW.updated_at = OLD.updated_at AND NEW.updated_at <> strftime('%Y-%m-%dT%H:%M:%fZ','now')
 BEGIN
   UPDATE "ledger_camera_metrics_firmware" SET updated_at = strftime('%Y-%m-%dT%H:%M:%fZ','now') WHERE id = NEW.id;
 END;
