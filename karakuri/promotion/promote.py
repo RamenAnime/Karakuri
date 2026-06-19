@@ -6,7 +6,7 @@ import json
 import shutil
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 from karakuri.audit import audit
 from karakuri.paths import canary_dir, mutable_generated_dir, project_root, promotion_queue_path
@@ -15,7 +15,7 @@ from karakuri.promotion.tester import run_sandbox_tests
 from karakuri.stop import is_stopped
 
 
-def _load_queue() -> Dict[str, Any]:
+def _load_queue() -> dict[str, Any]:
     path = promotion_queue_path()
     if not path.exists():
         return {"pending": []}
@@ -28,7 +28,7 @@ def _load_queue() -> Dict[str, Any]:
     return {"pending": list(pending)}
 
 
-def _save_queue(data: Dict[str, Any]) -> None:
+def _save_queue(data: dict[str, Any]) -> None:
     path = promotion_queue_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
@@ -41,7 +41,7 @@ def _resolve_canary(path: Path) -> Path:
     return candidate.resolve()
 
 
-def _promotion_limit_reached(permissions: Dict[str, Any] | None = None) -> bool:
+def _promotion_limit_reached(permissions: dict[str, Any] | None = None) -> bool:
     perms = permissions or load_permissions()
     promo = perms.get("promotion") or {}
     max_per_day = int(promo.get("max_auto_promotions_per_day", 0))
@@ -111,7 +111,7 @@ def enqueue_canary(canary_path: Path) -> None:
     resolved = _resolve_canary(canary_path)
     rel = resolved.relative_to(project_root()).as_posix()
     queue = _load_queue()
-    pending: List[str] = queue["pending"]
+    pending: list[str] = queue["pending"]
     if rel not in pending:
         pending.append(rel)
         _save_queue(queue)
@@ -122,13 +122,13 @@ def process_promotion_queue(dry_run: bool = False) -> int:
     """Process pending canary promotions. Returns number of successful promotions."""
     audit("promotion.queue_start", dry_run=dry_run)
     queue = _load_queue()
-    pending: List[str] = list(queue.get("pending") or [])
+    pending: list[str] = list(queue.get("pending") or [])
     if not pending:
         audit("promotion.queue_empty")
         return 0
 
     processed = 0
-    remaining: List[str] = []
+    remaining: list[str] = []
     for rel in pending:
         ok = promote_canary(project_root() / rel, dry_run=dry_run, auto=True)
         if ok:

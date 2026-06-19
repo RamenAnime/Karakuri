@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "subsystem": "hane",
+  "vacuum_threshold_kpa": 15.0,
+  "depth_camera_timeout_ms": 45,
+  "fluid_delivery": {
+    "dual_tank": true,
+    "max_payload_kg": 2.5,
+    "symmetry_required": true
+  },
+  "clearance": {
+    "walking_mode_ground_clearance_mm": 45.0,
+    "utility_height_interlock": true
+  },
+  "diagnostics": {
+    "ERR_VAC_PRESS_03": {
+      "trigger": "vacuum_pressure_kpa < 15.0",
+      "action": "clear_debris_path_and_reseat_nozzle"
+    },
+    "ERR_SENS_FUSE_04": {
+      "trigger": "depth_latency_ms > 45",
+      "action": "check_usb3_and_restart_perception_pipeline"
+    }
+  }
+}

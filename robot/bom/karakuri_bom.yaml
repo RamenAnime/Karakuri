@@ -1,0 +1,71 @@
+version: 1
+currency: USD
+notes:
+  - Verify seller authenticity and dimensions before purchase.
+  - Use these identifiers as the project baseline and record the final vendor SKU in build logs.
+items:
+  - id: compute_ms_a1
+    description: Minisforum MS-A1 class mini PC
+    manufacturer_part: MS-A1
+    quantity: 1
+    subsystem: karada
+  - id: battery_cell_headway_38120hp
+    description: Headway 38120HP LiFePO4 cylindrical cell, 3.2 V, 8000 mAh
+    manufacturer_part: 38120HP
+    quantity: 16
+    subsystem: power
+  - id: bms_8s_100a_smart
+    description: 8S LiFePO4 smart BMS, 100 A continuous, UART or Bluetooth telemetry
+    manufacturer_part: 8S-100A-LFP-SMART
+    quantity: 1
+    subsystem: power
+  - id: optocoupler_el817
+    description: EL817 optocoupler for isolated PWM signal paths
+    manufacturer_part: EL817
+    quantity: 16
+    subsystem: power
+  - id: buck_19v_10a
+    description: DC-DC buck converter, 24 V nominal input, 19 V output, 10 A
+    manufacturer_part: DCDC-24V-19V-10A
+    quantity: 1
+    subsystem: power
+  - id: buck_5v_10a
+    description: DC-DC buck converter, 24 V nominal input, 5 V output, 10 A
+    manufacturer_part: DCDC-24V-5V-10A
+    quantity: 1
+    subsystem: power
+  - id: bearing_flanged_688zz
+    description: Flanged ball bearing, 8 mm ID, 16 mm OD, 5 mm width
+    manufacturer_part: F688ZZ
+    quantity: 24
+    subsystem: ashi
+  - id: screw_m3_12
+    description: Alloy steel socket head cap screw, M3 x 0.5 mm, 12 mm length
+    manufacturer_part: ISO4762-M3x12
+    quantity: 150
+    subsystem: mechanical
+  - id: screw_m4_20
+    description: Alloy steel socket head cap screw, M4 x 0.7 mm, 20 mm length
+    manufacturer_part: ISO4762-M4x20
+    quantity: 80
+    subsystem: mechanical
+  - id: nut_m3_nyloc
+    description: Nylon locking nut, M3 x 0.5 mm
+    manufacturer_part: DIN985-M3
+    quantity: 150
+    subsystem: mechanical
+  - id: nut_m4_nyloc
+    description: Nylon locking nut, M4 x 0.7 mm
+    manufacturer_part: DIN985-M4
+    quantity: 80
+    subsystem: mechanical
+  - id: drag_chain_15x30
+    description: Cable drag chain, 15 mm x 30 mm inner channel
+    manufacturer_part: DRAG-15x30
+    quantity: 3
+    subsystem: wiring
+  - id: emi_tape_50mm
+    description: Conductive copper foil EMI shielding tape, 50 mm wide
+    manufacturer_part: COPPER-FOIL-50MM
+    quantity: 2
+    subsystem: wiring

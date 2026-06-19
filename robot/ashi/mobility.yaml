@@ -1,0 +1,142 @@
+version: 1
+subsystem: ashi
+description: Mobile base, drive geometry, and cliff safety (脚)
+
+ros2:
+  package: ashi_mobility
+  node: base_controller
+  topics:
+    cmd_vel: /ashi/cmd_vel
+    odom: /ashi/odom
+    cliff: /ashi/cliff
+    bumper: /ashi/bumper
+
+drive:
+  type: differential
+  wheel_diameter_mm: 80
+  track_width_mm: 170
+  max_speed_m_s: 0.25
+  max_turn_rad_s: 1.0
+  motor: JGA25-370 12V with encoder
+
+# Optional legged mobility. Wheels are the recommended first build; the
+# hexapod is statically stable (three feet always down in tripod gait)
+# but needs 18 servos and far more power. See docs/LEGS-AND-ARM.md.
+legged:
+  enabled: false
+  layout: hexapod
+  legs: 6
+  servos_per_leg: 3
+  servo_model: DS3235 35kg digital
+  coxa_length_mm: 45
+  femur_length_mm: 70
+  tibia_length_mm: 90
+  body_clearance_mm: 60
+  gait:
+    type: tripod
+    step_length_mm: 60
+    step_height_mm: 30
+    cycle_s: 1.2
+    max_speed_m_s: 0.10
+
+battery:
+  chemistry: LiFePO4
+  nominal_voltage: 12.8
+  capacity_ah: 12.0
+  # Voltage to percent curve, interpolated between points
+  curve:
+    - [13.6, 100]
+    - [13.3, 95]
+    - [13.2, 80]
+    - [13.1, 60]
+    - [13.0, 40]
+    - [12.9, 20]
+    - [12.8, 12]
+    - [12.0, 5]
+    - [10.0, 0]
+  return_home_percent: 25
+  critical_percent: 10
+
+dock:
+  marker: apriltag_36h11
+  marker_id: 7
+  marker_size_mm: 80
+  seek_turn_rad_s: 0.5
+  approach_speed_m_s: 0.08
+  final_speed_m_s: 0.03
+  align_tolerance_rad: 0.06
+  contact_timeout_s: 20
+  max_attempts: 3
+
+# Cliff safety. The robot operates on one floor only and treats every
+# descending edge as a hard stop. Sensors face straight down past the
+# deck edge. A reading deeper than trigger_distance_mm means the floor
+# has dropped away and motion must stop before the wheels reach the edge.
+cliff:
+  sensor_model: VL53L0X
+  mount_height_mm: 35
+  trigger_distance_mm: 60
+  poll_hz: 50
+  max_speed_near_unknown_m_s: 0.15
+  sensors:
+    - id: cliff_front_left
+      position: front_left
+    - id: cliff_front_right
+      position: front_right
+    - id: cliff_rear_left
+      position: rear_left
+    - id: cliff_rear_right
+      position: rear_right
+
+schema:
+  move_plan:
+    type: object
+    required:
+      - mission_id
+      - waypoints
+    properties:
+      mission_id:
+        type: string
+      workspace_frame:
+        type: string
+        default: odom
+      max_speed_m_s:
+        type: number
+        minimum: 0.0
+        maximum: 0.25
+        default: 0.2
+      waypoints:
+        type: array
+        min_items: 1
+        items:
+          type: object
+          required:
+            - waypoint_id
+            - x
+            - y
+          properties:
+            waypoint_id:
+              type: string
+            x:
+              type: number
+            y:
+              type: number
+            heading_rad:
+              type: number
+            pause_s:
+              type: number
+              default: 0.0
+
+example:
+  mission_id: patrol_living_room_001
+  workspace_frame: odom
+  max_speed_m_s: 0.2
+  waypoints:
+    - waypoint_id: mv_01
+      x: 0.8
+      y: 0.0
+      pause_s: 1.0
+    - waypoint_id: mv_02
+      x: 0.8
+      y: 0.6
+      heading_rad: 1.57

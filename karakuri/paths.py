@@ -3,15 +3,55 @@
 from __future__ import annotations
 
 import os
+from importlib import resources
 from pathlib import Path
+
+_DEFAULT_CORE_FILES = ("MANIFEST.md", "permissions.yaml", "integrity.snapshot")
+
+
+def _source_tree_root() -> Path | None:
+    root = Path(__file__).resolve().parents[1]
+    if (root / "core" / "permissions.yaml").exists():
+        return root
+    return None
+
+
+def installed_runtime_root() -> Path:
+    base = os.getenv("LOCALAPPDATA")
+    if base:
+        return Path(base).expanduser().resolve() / "KARAKURI"
+    return Path.home().expanduser().resolve() / ".karakuri"
+
+
+def ensure_runtime_tree(root: Path) -> Path:
+    root.mkdir(parents=True, exist_ok=True)
+    for rel in (
+        "core",
+        "memory/logs",
+        "memory/web",
+        "mutable/generated",
+        "mutable/templates",
+        "sandbox/canary",
+        "robot/ws",
+    ):
+        (root / rel).mkdir(parents=True, exist_ok=True)
+
+    defaults = resources.files("karakuri.defaults").joinpath("core")
+    for name in _DEFAULT_CORE_FILES:
+        target = root / "core" / name
+        if not target.exists():
+            target.write_bytes(defaults.joinpath(name).read_bytes())
+    return root
 
 
 def project_root() -> Path:
     env = os.getenv("KARAKURI_ROOT")
     if env:
         return Path(env).expanduser().resolve()
-    # karakuri/karakuri/paths.py -> repo root
-    return Path(__file__).resolve().parents[1]
+    source_root = _source_tree_root()
+    if source_root is not None:
+        return source_root
+    return ensure_runtime_tree(installed_runtime_root())
 
 
 def core_dir() -> Path:

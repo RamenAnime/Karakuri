@@ -2,7 +2,9 @@
 
 from pathlib import Path
 
-from karakuri.paths import project_root, stop_flag_path
+import pytest
+
+from karakuri.paths import ensure_runtime_tree, project_root
 from karakuri.permissions import assert_mutable_path, is_domain_allowed, load_permissions
 from karakuri.stop import clear, engage, is_stopped
 from karakuri.watchdog import tick, verify_core_integrity, write_integrity_snapshot
@@ -37,11 +39,8 @@ def test_mutable_path_guard():
     root = project_root()
     assert_mutable_path(root / "mutable" / "generated" / "x.py")
     assert_mutable_path(root / "memory" / "logs" / "audit.log")
-    try:
+    with pytest.raises(PermissionError):
         assert_mutable_path(root / "core" / "permissions.yaml")
-        assert False, "expected PermissionError"
-    except PermissionError:
-        pass
 
 
 def test_mutable_path_requires_yaml_list():
@@ -51,16 +50,10 @@ def test_mutable_path_requires_yaml_list():
 
 def test_forbidden_absolute_path_outside_project():
     root = project_root()
-    try:
+    with pytest.raises(PermissionError, match="(?i)forbidden"):
         assert_mutable_path(Path("/etc/passwd"))
-        assert False, "expected PermissionError"
-    except PermissionError as exc:
-        assert "forbidden" in str(exc).lower()
-    try:
+    with pytest.raises(PermissionError):
         assert_mutable_path(Path("/usr/local/bin/evil"))
-        assert False, "expected PermissionError"
-    except PermissionError:
-        pass
     # Still allowed under project memory/
     assert_mutable_path(root / "memory" / "web" / "cache" / "x.json")
 
@@ -69,3 +62,12 @@ def test_permissions_load():
     perms = load_permissions()
     assert perms["version"] == 1
     assert "network" in perms
+
+
+def test_installed_runtime_tree_seed(tmp_path):
+    root = ensure_runtime_tree(tmp_path / "runtime")
+    assert (root / "core" / "permissions.yaml").exists()
+    assert (root / "core" / "MANIFEST.md").exists()
+    assert (root / "memory" / "logs").is_dir()
+    assert (root / "mutable" / "generated").is_dir()
+    assert (root / "robot" / "ws").is_dir()

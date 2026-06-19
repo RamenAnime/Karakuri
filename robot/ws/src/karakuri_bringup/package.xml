@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>karakuri_bringup</name>
+  <version>0.8.2</version>
+  <description>KARAKURI launch files for simulation and hardware bringup.</description>
+  <maintainer email="maintainer@example.com">KARAKURI Maintainers</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>ament_python</buildtool_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>karakuri_description</exec_depend>
+</package>

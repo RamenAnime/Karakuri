@@ -2,7 +2,7 @@
 
 **からくり · Fusion stack for a self-adapting floor robot**
 
-KARAKURI is a home floor robot project that picks up dog toys and puts them in a toy box, then cleans foam from squeaky toys, pet hair, and general trash from the floor. The software is built as a **fusion stack**: ten Japanese codenames, one system, with an immutable core you can always shut down and a mutable body that researches the web, tests changes in a sandbox, and promotes improvements on its own.
+KARAKURI is a home floor robot project that picks up dog toys and puts them in a toy box, then cleans foam from squeaky toys, pet hair, and general trash from the floor. The software is built as a **fusion stack**: twelve Japanese codenames, one system, with an immutable core you can always shut down and a mutable body that researches the web, tests changes in a sandbox, and promotes improvements on its own.
 
 **Repository:** https://github.com/RamenAnime/Karakuri
 
@@ -53,7 +53,23 @@ Behind the robot runs KARAKURI software:
 
 ### What exists today
 
-Phases **0, 1, and 2** are implemented in software: core safety, web research, promotion pipeline, and robot config stubs. Phases **3 onward** (ROS 2 simulation, camera training, real arm, vacuum) are documented and ready to build.
+Phases **0 through 2 plus the mobile stack** are implemented and tested in software: core safety, rate-limited web research with extraction, the promotion pipeline, robot config loading, schema validation, the safety envelope, and a working **fusion planner** that turns a frame of detections into schema-valid pick and vacuum plans. Trust scoring and failure history lay the groundwork for Phase 7 autonomy. Phases **3 onward** (ROS 2 simulation, camera training, real arm, vacuum) are documented and ready to build.
+
+```text
+DetectionFrame --> plan_frame() --> pick_plan (MUSUBI) + vacuum_plan (HANE)
+                       |
+                       +-- safety envelope check (workspace bounds)
+                       +-- schema validation against subsystem YAML
+                       +-- skipped detections recorded with reasons
+```
+
+The mobile stack (ASHI) adds: a hardware abstraction layer with mock and
+Raspberry Pi backends, differential drive mixing and odometry, a coverage
+behavior, quadruped leg kinematics with a statically stable creep gait, arm
+inverse kinematics with a continuous 360 degree wrist, cliff protection for
+stairs, battery monitoring, and a self-charging dock state machine. All 39
+structural parts are printable STLs in `robot/blueprints/stl/` with
+parametric OpenSCAD sources, sized for an Ender 3 V3.
 
 ---
 
@@ -112,6 +128,8 @@ You use **all** names. Each maps to one part of the system.
 | **SHIKAI** | 視界 | Field of vision | Camera and YOLO object detection |
 | **MUSUBI** | 結 | Binding | Gripper pick and place into toy box |
 | **HANE** | 羽 | Feather | Vacuum path for foam, hair, crumbs |
+| **ASHI** | 脚 | Leg | Mobile base: drive, odometry, cliff safety for stairs |
+| **KARADA** | 体 | Body | Humanoid: 23 joints, retractable foot wheels, grip force, onboard mapping |
 
 More detail: [docs/FUSION.md](docs/FUSION.md)
 
@@ -183,26 +201,38 @@ Karakuri/
 |   |-- stop.py                    # STOP kill switch
 |   |-- watchdog.py                # Core integrity + scheduler
 |   |-- permissions.py             # Load and enforce permissions.yaml
-|   |-- audit.py                   # Append-only audit log
+|   |-- audit.py                   # Append-only audit log + read-back queries
+|   |-- settings.py                # Typed env settings with validation
 |   |-- paths.py                   # Project root and directory helpers
 |   |
 |   |-- research/                  # RAIKO + SENRAI
-|   |   |-- web.py                 # Allowlisted HTTP fetch + cache
+|   |   |-- web.py                 # Allowlisted HTTP fetch + cache + rate limit
+|   |   |-- extract.py             # HTML title, text, link extraction
+|   |   |-- ratelimit.py           # Sliding window request budget
 |   |   |-- queue.py               # Search job queue
 |   |   |-- searx.py               # Optional SearXNG search
 |   |   |-- fetcher.py             # Batch fetch wrapper
-|   |   |-- worker.py              # Process queue end to end
+|   |   |-- worker.py              # Process queue end to end + trust updates
 |   |
 |   |-- promotion/                 # KAGE + MIRAI pipeline
 |   |   |-- sandbox.py             # Copy templates to canary
 |   |   |-- tester.py              # Run pytest on sandbox
 |   |   |-- promote.py             # Promote passing canary to mutable/
 |   |
-|   |-- mutable/                 # KAGE runner hook
+|   |-- memory/                    # TSUKUMO long-term stores
+|   |   |-- trust.py               # Source reputation scores
+|   |   |-- failures.py            # Robot failure history (Phase 7 trigger)
+|   |
+|   |-- mutable/                   # KAGE runner hook
 |   |   |-- runner.py              # Called each watchdog tick
 |   |
-|   |-- robot/                     # Config bridge to robot/
+|   |-- robot/                     # Config bridge + perception-to-action
 |       |-- config.py              # load_mission_config()
+|       |-- detections.py          # BoundingBox, Detection, DetectionFrame
+|       |-- safety.py              # Workspace and velocity envelope
+|       |-- schema.py              # Mission schema validator
+|       |-- validate.py            # Validate plans against subsystem schemas
+|       |-- planner.py             # Fusion planner: detections to plans
 |
 |-- mutable/                       # KAGE (Ring 1, self-rewrite zone)
 |   |-- templates/                 # Human and machine authored templates
@@ -248,7 +278,7 @@ Karakuri/
 |   |-- install-windows.ps1        # One-shot Windows installer
 |   |-- install-wsl.sh             # WSL2 / Ubuntu side install
 |
-|-- tests/                         # pytest suite (29 tests)
+|-- tests/                         # pytest suite (252 tests)
 |-- STOP                           # Created when kill switch engaged
 |-- .env.example                   # Environment template
 |-- pyproject.toml                 # Package metadata and deps
@@ -525,6 +555,47 @@ ROS action (planned): `/musubi/pick_place`
 
 ROS node (planned): `hane_vacuum`
 
+### Fusion planner: detections to plans
+
+The planner closes the loop between SHIKAI and the two effectors entirely in software, so it can run against simulated detections today and a live camera later.
+
+```python
+from karakuri.robot import BoundingBox, Detection, DetectionFrame, plan_frame, validate_plan
+
+frame = DetectionFrame(detections=[
+    Detection("toy", 0.91, BoundingBox(100, 120, 60, 60), world=(300.0, 250.0, 20.0)),
+    Detection("toy_box", 0.98, BoundingBox(600, 600, 120, 120), world=(700.0, 700.0, 0.0)),
+    Detection("foam_bit", 0.77, BoundingBox(420, 180, 12, 12), world=(420.0, 180.0, 5.0)),
+])
+
+result = plan_frame(frame, mission_id="evening_cleanup")
+ok, errors = validate_plan("musubi", result.pick_plan)
+```
+
+Routing rules come straight from `robot/shikai/config.yaml`:
+
+- `grasp` classes (toy) become pick and place steps targeting the toy box.
+- `vacuum` classes (foam_bit, hair_clump) become waypoints in metres.
+- `grasp_or_vacuum` (trash) is split by the `size_threshold_mm` against the larger box dimension.
+- World positions outside the safety envelope are skipped and reported, never planned.
+
+From the command line:
+
+```powershell
+python -m karakuri plan                          # demo frame
+python -m karakuri plan --detections frame.json --json
+python -m karakuri validate                      # check shipped examples
+```
+
+### TSUKUMO: trust and failure memory
+
+```powershell
+python -m karakuri trust                         # source reputation scores
+python -m karakuri failures --threshold 3        # repeated robot failures
+```
+
+The research worker records an outcome per domain after every run, so over time RAIKO learns which allowlisted sources actually deliver content. Failure history under `memory/robot/failures.jsonl` is the Phase 7 trigger: when the same action keeps failing on the same object class, that signature becomes a candidate for an automated canary fix.
+
 ---
 
 ## Self-enhancement loop
@@ -576,16 +647,40 @@ Never run raw shell commands copied from the web. Only template actions in the p
 | Command | Subsystem | Purpose |
 |---------|-----------|---------|
 | `python -m karakuri doctor` | KODAMA | Health and integrity check |
+| `python -m karakuri status` | KODAMA | Machine-readable status JSON |
+| `python -m karakuri snapshot` | KODAMA | Rewrite core integrity snapshot after human edits |
 | `python -m karakuri run --once` | KODAMA | Single watchdog tick |
 | `python -m karakuri run` | KODAMA | Watchdog loop |
 | `python -m karakuri stop` | KODAMA | Engage kill switch |
 | `python -m karakuri stop --clear` | KODAMA | Clear kill switch |
 | `python -m karakuri research query "..."` | RAIKO | Enqueue web research |
 | `python -m karakuri research run --once` | RAIKO | Process one queue item |
+| `python -m karakuri research list` | RAIKO | List queue items by status |
+| `python -m karakuri trust` | TSUKUMO | Show source trust scores |
+| `python -m karakuri failures` | TSUKUMO | Show repeated robot failures |
 | `python -m karakuri promote --dry-run` | KAGE | Test promotion without write |
 | `python -m karakuri promote --canary PATH` | KAGE | Promote canary file |
+| `python -m karakuri validate` | robot | Validate shipped example missions |
+| `python -m karakuri validate --file F --subsystem S` | robot | Validate a mission YAML against a schema |
+| `python -m karakuri plan` | robot | Run the fusion planner on a demo frame |
+| `python -m karakuri plan --detections F --json` | robot | Plan from a detection frame JSON file |
+| `python -m karakuri drive --keys "..."` | ASHI | Teleop key mixing simulation |
+| `python -m karakuri gait` | ASHI | Quadruped creep cycle joint angles |
+| `python -m karakuri arm --x X --y Y --z Z --roll R` | MUSUBI | Arm IK; the wrist accepts any roll, it is continuous |
+| `python -m karakuri dock` | ASHI | Battery drain to docked-and-charged simulation |
+| `python -m karakuri ask "..."` | reasoner | Speak a task in plain words: sweep, mop, vacuum, fetch, carry |
+| `python -m karakuri who` | people | List the people the robot recognizes |
+| `python -m karakuri relax --person NAME` | relax | Personalized wind-down: calm room, tidy floor, a drink within reach |
+| `python -m karakuri wardrobe --person NAME` | wardrobe | Set out a recognized person's home clothes (fetch and place only) |
+| `python -m karakuri supplies` | supplies | Show tracked consumable stock and what is low |
+| `python -m karakuri reorder --mode list_only` | supplies | Stage low items on your Amazon shopping list |
+| `python -m karakuri chores` | autonomy | Show what the robot would do on its own |
+| `python -m karakuri balance` | KARADA | Balance recovery simulation gate (IMU, ankle and hip strategy) |
+| `python -m karakuri map` | KARADA | Onboard occupancy mapping and obstacle-safe path demo |
+| `python -m karakuri evolve` | KAGE | Draft a canary fix from repeated failures |
 | `python -m karakuri names` | docs | Print codename reference |
-| `python -m pytest -q` | tests | Run full test suite |
+| `python -m karakuri version` | meta | Print version |
+| `python -m pytest` | tests | Run full test suite |
 
 ---
 
@@ -628,7 +723,13 @@ WSL install script: `bash scripts/install-wsl.sh`
 python -m pytest -q
 ```
 
-Current suite: **29 tests** covering core, research, promotion, and robot config loading.
+Current suite: **252 tests** covering core safety, permissions, research, rate limiting, extraction, promotion, robot config loading, schema validation, the safety envelope, the fusion planner, trust scoring, failure history, settings, and the CLI.
+
+Lint gate:
+
+```powershell
+ruff check karakuri tests mutable/templates
+```
 
 ---
 
@@ -639,11 +740,31 @@ Current suite: **29 tests** covering core, research, promotion, and robot config
 | [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md) | Git Bash setup and install |
 | [docs/GITHUB.md](docs/GITHUB.md) | Push rules and sole contributor |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Phase 0-8 deliverables and exit criteria |
+| [docs/CORPORATE-ROBOTICS-BUILD.md](docs/CORPORATE-ROBOTICS-BUILD.md) | Multi-agent build plan, topology, power, BOM, diagnostics, and STL QA |
+| [docs/GAPS-AND-ENHANCEMENTS.md](docs/GAPS-AND-ENHANCEMENTS.md) | Missing build needs, enhancements, and next engineering gates |
+| [docs/ESTOP-PROOF.md](docs/ESTOP-PROOF.md) | Physical e-stop wiring and timing proof procedure |
 | [docs/HARDWARE-BLUEPRINT.md](docs/HARDWARE-BLUEPRINT.md) | BOM, layout, mechanical/electronics tree, wiring |
+| [docs/MOBILE-BASE.md](docs/MOBILE-BASE.md) | Mobile build: printed parts, Kinect, Walmart vacuum donor, stairs safety |
+| [docs/ASSEMBLY.md](docs/ASSEMBLY.md) | Exploded build order, exact fastener counts, legs or wheels decision, cable pass |
+| [docs/HUMANOID.md](docs/HUMANOID.md) | Full humanoid: 23 DOF, retractable foot wheels, chest compute and Noctua airflow, touch claws |
+| [docs/ADVANCED-STACK.md](docs/ADVANCED-STACK.md) | IMU balance, encoders, CAN-FD at 1 kHz, behavior trees, smart PDB, the honest tier map |
+| [docs/SKILLS-AND-AUTONOMY.md](docs/SKILLS-AND-AUTONOMY.md) | Plain-language commands, self-started chores, the skill tiers, why carrying groceries is hard |
+| [docs/RECOGNITION-AND-RELAX.md](docs/RECOGNITION-AND-RELAX.md) | Private on-device face recognition, personal profiles, and the relax-mode routine |
+| [docs/HOME-CLOTHES.md](docs/HOME-CLOTHES.md) | Setting out home clothes and sleepwear by time of day, fetch-and-place only |
+| [docs/SUPPLIES.md](docs/SUPPLIES.md) | Consumable stock tracking, setting supplies out with clothes, and reordering with you in the loop |
+| [robot/blueprints/wiring.md](robot/blueprints/wiring.md) | Full wiring diagram, electrical purchase list, power budget, dock circuit |
 | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Rings of trust and module map |
 | [docs/FUSION.md](docs/FUSION.md) | All codenames |
 | [docs/ROBOT-MISSION.md](docs/ROBOT-MISSION.md) | Mission, classes, safety |
 | [docs/WINDOWS.md](docs/WINDOWS.md) | Windows 11 setup |
+
+Quality gates:
+
+```bash
+python scripts/validate_stl.py
+python scripts/verify_system_integrity.py
+python scripts/verify_non_editable_install.py
+```
 
 ---
 
@@ -653,4 +774,4 @@ MIT. See [LICENSE](LICENSE).
 
 ---
 
-**KARAKURI fusion stack:** KODAMA, KAGE, MIRAI, TSUKUMO, RAIKO, SENRAI, SHIKAI, MUSUBI, HANE
+**KARAKURI fusion stack:** KODAMA, KAGE, MIRAI, TSUKUMO, RAIKO, SENRAI, SHIKAI, MUSUBI, HANE, ASHI, KARADA

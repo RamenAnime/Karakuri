@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Dict, List, Optional
+from typing import Any
 from urllib.parse import urljoin
 
 import httpx
@@ -12,7 +12,7 @@ from karakuri.audit import audit
 from karakuri.permissions import is_domain_allowed, load_permissions
 
 
-def searxng_url() -> Optional[str]:
+def searxng_url() -> str | None:
     url = os.getenv("SEARXNG_URL", "").strip()
     return url or None
 
@@ -25,8 +25,8 @@ def search(
     query: str,
     *,
     max_results: int = 10,
-    permissions: Dict[str, Any] | None = None,
-) -> List[Dict[str, str]]:
+    permissions: dict[str, Any] | None = None,
+) -> list[dict[str, str]]:
     """Run a SearXNG search and return allowlisted result URLs."""
     base = searxng_url()
     if not base:
@@ -44,7 +44,7 @@ def search(
     )
     response.raise_for_status()
     payload = response.json()
-    results: List[Dict[str, str]] = []
+    results: list[dict[str, str]] = []
     for hit in payload.get("results") or []:
         url = hit.get("url") or ""
         if not url or not is_domain_allowed(url, perms):

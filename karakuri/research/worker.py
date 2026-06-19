@@ -4,11 +4,28 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any
+from urllib.parse import urlparse
 
 from karakuri.audit import audit
+from karakuri.memory.trust import load_trust_store
 from karakuri.research import fetcher, queue, searx
 from karakuri.stop import is_stopped
+
+
+def _record_source_trust(urls: list, fetched: list) -> None:
+    """Reward domains that returned content, penalize those that did not."""
+    fetched_urls = {f.get("url") for f in fetched if isinstance(f, dict)}
+    store = load_trust_store()
+    touched = False
+    for url in urls:
+        host = (urlparse(url).hostname or "").lower()
+        if not host:
+            continue
+        store.record(host, success=url in fetched_urls)
+        touched = True
+    if touched:
+        store.save()
 
 
 def _cache_ttl_hours() -> float:
@@ -20,11 +37,11 @@ def _cache_ttl_hours() -> float:
 
 
 def process_item(
-    item: Dict[str, Any],
+    item: dict[str, Any],
     *,
     path: Path | None = None,
     max_results: int = 10,
-) -> Dict[str, Any]:
+) -> dict[str, Any]:
     """Run search + fetch for one queue item."""
     item_id = item["id"]
     query = item["query"]
@@ -35,6 +52,7 @@ def process_item(
         hits = searx.search(query, max_results=max_results)
         urls = [hit["url"] for hit in hits]
         fetches = fetcher.fetch_urls(urls, ttl_hours=_cache_ttl_hours())
+        _record_source_trust(urls, fetches)
         updated = queue.update_item(
             item_id,
             path=path,
@@ -61,7 +79,7 @@ def process_item(
         raise
 
 
-def run_once(path: Path | None = None) -> Optional[Dict[str, Any]]:
+def run_once(path: Path | None = None) -> dict[str, Any] | None:
     """Process the next pending queue item. Returns item or None if queue empty."""
     if is_stopped():
         audit("research.worker_stopped")

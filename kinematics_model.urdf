@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<robot name="karakuri_ashi_baseline">
+  <link name="base_link"/>
+
+  <link name="leg_coxa">
+    <inertial>
+      <origin xyz="0.0225 0 0" rpy="0 0 0"/>
+      <mass value="0.18"/>
+      <inertia ixx="0.00008" ixy="0" ixz="0" iyy="0.00012" iyz="0" izz="0.00012"/>
+    </inertial>
+  </link>
+
+  <link name="leg_femur">
+    <inertial>
+      <origin xyz="0.035 0 0" rpy="0 0 0"/>
+      <mass value="0.22"/>
+      <inertia ixx="0.00010" ixy="0" ixz="0" iyy="0.00022" iyz="0" izz="0.00022"/>
+    </inertial>
+  </link>
+
+  <link name="leg_tibia">
+    <inertial>
+      <origin xyz="0.045 0 0" rpy="0 0 0"/>
+      <mass value="0.20"/>
+      <inertia ixx="0.00008" ixy="0" ixz="0" iyy="0.00020" iyz="0" izz="0.00020"/>
+    </inertial>
+  </link>
+
+  <link name="biaxial_joint"/>
+  <link name="foot_wheel_module"/>
+
+  <joint name="hip_yaw" type="revolute">
+    <parent link="base_link"/>
+    <child link="leg_coxa"/>
+    <origin xyz="0.085 0.075 0.035" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.785398" upper="0.785398" effort="8" velocity="0.5"/>
+  </joint>
+
+  <joint name="hip_pitch" type="revolute">
+    <parent link="leg_coxa"/>
+    <child link="leg_femur"/>
+    <origin xyz="0.045 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-0.785398" upper="1.047198" effort="12" velocity="0.5"/>
+  </joint>
+
+  <joint name="knee_pitch" type="revolute">
+    <parent link="leg_femur"/>
+    <child link="leg_tibia"/>
+    <origin xyz="0.070 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="-1.570796" upper="0.523599" effort="12" velocity="0.5"/>
+  </joint>
+
+  <joint name="ankle_biaxial" type="revolute">
+    <parent link="leg_tibia"/>
+    <child link="biaxial_joint"/>
+    <origin xyz="0.090 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-0.785398" upper="0.785398" effort="10" velocity="0.5"/>
+  </joint>
+
+  <joint name="wheel_deploy" type="revolute">
+    <parent link="biaxial_joint"/>
+    <child link="foot_wheel_module"/>
+    <origin xyz="0.030 0 -0.045" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit lower="0" upper="0.785398" effort="10" velocity="0.5"/>
+  </joint>
+</robot>

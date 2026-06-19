@@ -1,0 +1,61 @@
+# Immutable permission matrix. Mutable code cannot override this file.
+# Only humans edit core/.
+
+version: 1
+
+paths:
+  immutable:
+    - core
+  mutable:
+    - mutable
+    - sandbox/canary
+    - memory
+  forbidden_write:
+    - /
+    - /etc
+    - /usr
+    - /bin
+    - /sbin
+    - /home/*/.ssh
+
+network:
+  allow_domains:
+    - docs.ros.org
+    - github.com
+    - raw.githubusercontent.com
+    - answers.ros.org
+    - arxiv.org
+    - docs.ultralytics.com
+    - learnopencv.com
+    - index.ros.org
+  deny_all_others: true
+  max_requests_per_hour: 120
+
+actions:
+  allowed:
+    - write_file:prefix=mutable/
+    - write_file:prefix=sandbox/canary/
+    - write_file:prefix=memory/
+    - read_file:prefix=memory/
+    - read_file:prefix=mutable/
+    - fetch_url:allowlist=true
+    - run_command:prefix=scripts/safe/
+  forbidden:
+    - write_file:prefix=core/
+    - run_command:raw=sudo
+    - run_command:raw=rm -rf
+    - format_disk
+    - disable_kill_switch
+
+robot:
+  max_joint_velocity_rad_s: 0.5
+  workspace_bounds_mm:
+    x: [0, 800]
+    y: [0, 800]
+    z: [0, 400]
+  require_estop_gpio: false
+
+promotion:
+  require_tests_pass: true
+  require_core_approval: false
+  max_auto_promotions_per_day: 5

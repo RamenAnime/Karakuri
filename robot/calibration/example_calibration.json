@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "joint_offsets": [
+    {
+      "joint": "hip_pitch",
+      "offset_deg": 0.4,
+      "tolerance_deg": 2.5
+    },
+    {
+      "joint": "knee_pitch",
+      "offset_deg": -0.6,
+      "tolerance_deg": 2.5
+    }
+  ],
+  "sensors": [
+    {
+      "name": "imu_roll",
+      "bias": 0.01,
+      "units": "rad",
+      "max_abs_bias": 0.05
+    },
+    {
+      "name": "cliff_front_left",
+      "bias": 1.5,
+      "units": "mm",
+      "max_abs_bias": 5.0
+    }
+  ],
+  "dock_marker_offset_mm": [1.0, 0.5, 0.0]
+}

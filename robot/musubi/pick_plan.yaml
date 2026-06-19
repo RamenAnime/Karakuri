@@ -9,6 +9,31 @@ ros2:
   services:
     plan_valid: /musubi/validate_plan
 
+# Physical arm: 5 DOF plus claw, Feetech STS3215 serial bus servos.
+# The wrist roll runs the servo in multi-turn mode, which is what gives
+# the claw unlimited 360 degree rotation with position feedback.
+arm:
+  servo_model: STS3215 serial bus
+  base_height_mm: 70
+  upper_arm_mm: 100
+  forearm_mm: 80
+  joints:
+    - id: base_yaw
+      range_deg: [-150, 150]
+    - id: shoulder_pitch
+      range_deg: [-10, 100]
+    - id: elbow_pitch
+      range_deg: [-130, 0]
+    - id: wrist_pitch
+      range_deg: [-90, 90]
+    - id: wrist_roll
+      continuous: true
+    - id: claw
+      range_deg: [0, 70]
+  claw:
+    open_width_m: 0.06
+    close_width_m: 0.0
+
 schema:
   pick_plan:
     type: object

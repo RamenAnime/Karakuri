@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
 import httpx
 
@@ -10,7 +10,7 @@ from karakuri.audit import audit
 from karakuri.research import web
 
 
-def fetch_url(url: str, ttl_hours: float | None = None) -> Dict[str, Any]:
+def fetch_url(url: str, ttl_hours: float | None = None) -> dict[str, Any]:
     """Fetch a single URL through the allowlisted web layer."""
     if ttl_hours is None:
         return web.fetch(url)
@@ -18,11 +18,11 @@ def fetch_url(url: str, ttl_hours: float | None = None) -> Dict[str, Any]:
 
 
 def fetch_urls(
-    urls: List[str],
+    urls: list[str],
     ttl_hours: float | None = None,
-) -> List[Dict[str, Any]]:
+) -> list[dict[str, Any]]:
     """Fetch multiple URLs, skipping denied domains without raising."""
-    payloads: List[Dict[str, Any]] = []
+    payloads: list[dict[str, Any]] = []
     for url in urls:
         try:
             payloads.append(fetch_url(url, ttl_hours=ttl_hours))

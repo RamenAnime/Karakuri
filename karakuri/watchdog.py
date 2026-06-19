@@ -6,10 +6,9 @@ import hashlib
 import os
 import time
 from pathlib import Path
-from typing import Dict, Iterable
 
 from karakuri.audit import audit
-from karakuri.paths import core_dir, project_root, stop_flag_path, watchdog_pid_path
+from karakuri.paths import core_dir, project_root, watchdog_pid_path
 from karakuri.stop import is_stopped
 
 
@@ -21,8 +20,8 @@ def _hash_file(path: Path) -> str:
     return h.hexdigest()
 
 
-def core_integrity_manifest() -> Dict[str, str]:
-    manifest: Dict[str, str] = {}
+def core_integrity_manifest() -> dict[str, str]:
+    manifest: dict[str, str] = {}
     for path in sorted(core_dir().rglob("*")):
         if path.is_file() and path.name != "integrity.snapshot":
             rel = path.relative_to(project_root()).as_posix()
@@ -30,7 +29,7 @@ def core_integrity_manifest() -> Dict[str, str]:
     return manifest
 
 
-def write_integrity_snapshot() -> Dict[str, str]:
+def write_integrity_snapshot() -> dict[str, str]:
     manifest = core_integrity_manifest()
     snap = core_dir() / "integrity.snapshot"
     lines = [f"{k} {v}\n" for k, v in sorted(manifest.items())]
@@ -45,7 +44,7 @@ def verify_core_integrity() -> bool:
         write_integrity_snapshot()
         return True
 
-    expected: Dict[str, str] = {}
+    expected: dict[str, str] = {}
     for line in snap.read_text(encoding="utf-8").splitlines():
         if not line.strip():
             continue

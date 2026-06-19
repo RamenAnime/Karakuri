@@ -1,17 +1,61 @@
-.venv/
+# Python
 __pycache__/
 *.py[cod]
-.pytest_cache/
-.env
-STOP
 *.egg-info/
-dist/
 build/
-memory/web/cache/
-memory/promotion_queue.json
+dist/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment and secrets
+.env
+.env.local
+*.pem
+*.key
+
+# Test and tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# KARAKURI runtime state (never committed)
+STOP
 memory/logs/*
 !memory/logs/.gitkeep
-sandbox/canary/*
-!sandbox/canary/.gitkeep
+memory/promotion_queue.json
+memory/trust.json
+memory/watchdog.pid
+memory/web/queue.json
+memory/web/ratelimit.json
+memory/web/cache/
+memory/robot/
 mutable/generated/*
+sandbox/canary/*
 !mutable/generated/.gitkeep
+!sandbox/canary/.gitkeep
+
+# Models and training output (Phase 4+)
+models/
+runs/
+*.pt
+*.onnx
+
+# ROS 2 workspace build output (Phase 3+)
+robot/ws/build/
+robot/ws/install/
+robot/ws/log/
+
+# Editors and OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>karakuri_diagnostics</name>
+  <version>0.8.2</version>
+  <description>KARAKURI diagnostic schemas and ROS 2 diagnostic node scaffold.</description>
+  <maintainer email="maintainer@example.com">KARAKURI Maintainers</maintainer>
+  <license>MIT</license>
+  <buildtool_depend>ament_python</buildtool_depend>
+  <exec_depend>rclpy</exec_depend>
+</package>

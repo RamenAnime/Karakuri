@@ -152,9 +152,11 @@ def test_worker_process_item(queue_file, monkeypatch):
     hits = [{"url": "https://docs.ros.org/x", "title": "t", "snippet": "s"}]
     fetches = [{"url": "https://docs.ros.org/x", "text": "body", "status": 200}]
 
-    with patch("karakuri.research.worker.searx.search", return_value=hits):
-        with patch("karakuri.research.worker.fetcher.fetch_urls", return_value=fetches):
-            result = worker.process_item(item, path=queue_file)
+    with (
+        patch("karakuri.research.worker.searx.search", return_value=hits),
+        patch("karakuri.research.worker.fetcher.fetch_urls", return_value=fetches),
+    ):
+        result = worker.process_item(item, path=queue_file)
 
     assert result["status"] == "done"
     assert result["urls"] == ["https://docs.ros.org/x"]
@@ -188,9 +190,11 @@ def test_cli_research_query_and_run(tmp_path, monkeypatch, capsys):
 
     hits = [{"url": "https://github.com/x/y", "title": "y", "snippet": "z"}]
     fetches = [{"url": "https://github.com/x/y", "text": "ok", "status": 200}]
-    with patch("karakuri.research.worker.searx.search", return_value=hits):
-        with patch("karakuri.research.worker.fetcher.fetch_urls", return_value=fetches):
-            rc = main(["research", "run", "--once"])
+    with (
+        patch("karakuri.research.worker.searx.search", return_value=hits),
+        patch("karakuri.research.worker.fetcher.fetch_urls", return_value=fetches),
+    ):
+        rc = main(["research", "run", "--once"])
 
     assert rc == 0
     out = capsys.readouterr().out

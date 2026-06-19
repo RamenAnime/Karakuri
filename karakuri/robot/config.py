@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import yaml
 
@@ -13,10 +13,12 @@ _SUBSYSTEM_FILES = {
     "shikai": "config.yaml",
     "musubi": "pick_plan.yaml",
     "hane": "vacuum_plan.yaml",
+    "ashi": "mobility.yaml",
+    "karada": "body.yaml",
 }
 
 
-def _load_yaml(path: Path) -> Dict[str, Any]:
+def _load_yaml(path: Path) -> dict[str, Any]:
     with path.open(encoding="utf-8") as fh:
         data = yaml.safe_load(fh)
     if not isinstance(data, dict):
@@ -24,15 +26,15 @@ def _load_yaml(path: Path) -> Dict[str, Any]:
     return data
 
 
-def load_mission_config(root: Path | None = None) -> Dict[str, Any]:
+def load_mission_config(root: Path | None = None) -> dict[str, Any]:
     """Load merged mission config from robot subsystem YAML stubs.
 
     Returns a dict with top-level ``version``, ``subsystems`` (shikai, musubi,
     hane), and ``paths`` to each loaded file. Intended as the single entry
     point before ROS 2 launch files or mission runners consume subsystem data.
     """
-    subsystems: Dict[str, Dict[str, Any]] = {}
-    paths: Dict[str, str] = {}
+    subsystems: dict[str, dict[str, Any]] = {}
+    paths: dict[str, str] = {}
     version = 1
 
     for name, filename in _SUBSYSTEM_FILES.items():

@@ -1,0 +1,17 @@
+diagnostics:
+  ERR_VOLT_DROP_01:
+    source: bms
+    severity: stop_motion
+    trigger: main_bus_v < 21.8
+  ERR_KIN_LIMIT_02:
+    source: calibration
+    severity: stop_motion
+    trigger: joint_error_deg > 2.5
+  ERR_VAC_PRESS_03:
+    source: hane
+    severity: pause_task
+    trigger: vacuum_pressure_kpa < 15.0
+  ERR_SENS_FUSE_04:
+    source: perception
+    severity: slow_then_stop
+    trigger: depth_latency_ms > 45

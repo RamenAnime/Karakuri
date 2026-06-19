@@ -4,14 +4,14 @@ from __future__ import annotations
 
 import fnmatch
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import yaml
 
 from karakuri.paths import core_dir
 
 
-def load_permissions(path: Path | None = None) -> Dict[str, Any]:
+def load_permissions(path: Path | None = None) -> dict[str, Any]:
     perm_path = path or (core_dir() / "permissions.yaml")
     with perm_path.open(encoding="utf-8") as fh:
         data = yaml.safe_load(fh)
@@ -20,14 +20,14 @@ def load_permissions(path: Path | None = None) -> Dict[str, Any]:
     return data
 
 
-def allowed_domains(permissions: Dict[str, Any] | None = None) -> List[str]:
+def allowed_domains(permissions: dict[str, Any] | None = None) -> list[str]:
     perms = permissions or load_permissions()
     network = perms.get("network") or {}
     domains = network.get("allow_domains") or []
     return list(domains)
 
 
-def is_domain_allowed(url: str, permissions: Dict[str, Any] | None = None) -> bool:
+def is_domain_allowed(url: str, permissions: dict[str, Any] | None = None) -> bool:
     from urllib.parse import urlparse
 
     host = (urlparse(url).hostname or "").lower()
@@ -40,7 +40,7 @@ def is_domain_allowed(url: str, permissions: Dict[str, Any] | None = None) -> bo
     return False
 
 
-def assert_mutable_path(target: Path, permissions: Dict[str, Any] | None = None) -> None:
+def assert_mutable_path(target: Path, permissions: dict[str, Any] | None = None) -> None:
     """Raise if a write target is not under an allowed mutable prefix."""
     perms = permissions or load_permissions()
     root = core_dir().parent.resolve()
@@ -74,11 +74,14 @@ def _matches_forbidden(resolved: Path, rel: str, pattern: str) -> bool:
     """Match project-relative or absolute forbidden_write patterns."""
     if pattern.startswith("/"):
         target = resolved.as_posix()
-        if fnmatch.fnmatch(target, pattern):
+        candidates = [target]
+        if len(target) > 2 and target[1] == ":":
+            candidates.append(target[2:])
+        if any(fnmatch.fnmatch(candidate, pattern) for candidate in candidates):
             return True
         if pattern.endswith("*"):
-            return target.startswith(pattern[:-1])
-        return target == pattern or target.startswith(pattern + "/")
+            return any(candidate.startswith(pattern[:-1]) for candidate in candidates)
+        return any(candidate == pattern or candidate.startswith(pattern + "/") for candidate in candidates)
     return _matches_relative(rel, pattern)
 
 

@@ -1,0 +1,50 @@
+version: 1
+subsystem: karada
+description: Humanoid body, cooling, compute, grip presets (体)
+
+ros2:
+  package: karada_body
+  node: body_controller
+  topics:
+    joint_states: /karada/joint_states
+    head: /karada/head
+    grip: /karada/grip
+
+# 23 powered joints. Channels are PCA9685 board:pin. Limits live in
+# karakuri/robot/humanoid.py beside the kinematics so code and config
+# cannot drift apart.
+dof:
+  head: [neck_pan, neck_tilt]
+  torso: [waist_yaw]
+  arm_each: [shoulder_pitch, shoulder_roll, elbow_pitch, wrist_roll_continuous, gripper]
+  leg_each: [hip_roll, hip_pitch, knee_pitch, ankle_pitch, ankle_roll]
+  feet: [wheel_deploy_left, wheel_deploy_right]
+
+cooling:
+  intake_fan: Noctua NF-A8 PWM, front panel low
+  exhaust_fan: Noctua NF-A8 PWM, rear panel high
+  airflow: diagonal wash, intake low front to exhaust high rear across the compute bay
+  fan_pwm_gpio: 18
+  target_intake_c: 35
+  throttle_c: 70
+
+compute:
+  primary: Minisforum MS-A1 class mini PC with AMD Ryzen 9 8945HS, 32 GB DDR5,
+    running Arch Linux with a low-latency or realtime kernel
+  realtime: dedicated microcontroller safety and PWM layer for GPIO, I2C, and
+    hard motor interlocks
+  link: ethernet, point to point, no internet required
+  power: isolated 19 V DC-DC regulator from the 25.6 V main pack
+  reasoning: fully local; optional on-device LLM through a localhost runtime only
+
+battery:
+  pack: 25.6 V LiFePO4 8S2P Headway 38120HP cells with 8S smart BMS
+  humanoid_ah: 16
+  rolling_base_ah: 16
+  location: pelvis straps, lowest mass point
+
+grip_presets:
+  plush: { current_a: 0.35, max_width_m: 0.06 }
+  rigid: { current_a: 0.55, max_width_m: 0.05 }
+  delicate: { current_a: 0.18, max_width_m: 0.06 }
+  heavy: { current_a: 0.80, max_width_m: 0.045 }

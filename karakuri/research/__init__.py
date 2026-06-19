@@ -1,5 +1,9 @@
-"""Allowlisted web research (RAIKO subsystem)."""
+"""Allowlisted web research (RAIKO subsystem).
 
-from karakuri.research import fetcher, queue, searx, web, worker
+Queueing, optional SearXNG search, allowlisted fetch with caching and rate
+limiting, HTML extraction, and an end to end worker that ties them together.
+"""
 
-__all__ = ["fetcher", "queue", "searx", "web", "worker"]
+from karakuri.research import extract, fetcher, queue, ratelimit, searx, web, worker
+
+__all__ = ["extract", "fetcher", "queue", "ratelimit", "searx", "web", "worker"]

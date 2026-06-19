@@ -12,6 +12,8 @@ KARAKURI is the umbrella project. Each Japanese name maps to one subsystem. You 
 | **SHIKAI** | 視界 | 3 | `robot/shikai/` | Vision: YOLO classes, camera topics |
 | **MUSUBI** | 結 | 3 | `robot/musubi/` | Binding: pick toy, place in box |
 | **HANE** | 羽 | 3 | `robot/hane/` | Feather: vacuum foam, hair, crumbs |
+| **ASHI** | 脚 | 3 | `robot/ashi/` | Legs: mobile base, drive, cliff safety for stairs |
+| **KARADA** | 体 | 3 | `robot/karada/` | Body: humanoid joints, head, torso, grip touch, cooling |
 | **SENRAI** | 千来 | - | `memory/web/` | Many arrivals: search queue and fetch cache |
 | **KARAKURI** | 絡繰 | all | repo root | Clockwork whole: the living machine |
 

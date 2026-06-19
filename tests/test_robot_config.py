@@ -13,8 +13,8 @@ def test_robot_paths():
 def test_load_mission_config_structure():
     mission = load_mission_config()
     assert mission["version"] >= 1
-    assert set(mission["subsystems"]) == {"shikai", "musubi", "hane"}
-    assert set(mission["paths"]) == {"shikai", "musubi", "hane"}
+    assert set(mission["subsystems"]) == {"shikai", "musubi", "hane", "ashi", "karada"}
+    assert set(mission["paths"]) == {"shikai", "musubi", "hane", "ashi", "karada"}
 
 
 def test_shikai_yolo_classes():
@@ -60,3 +60,4 @@ def test_ros2_stubs_present():
     assert mission["subsystems"]["shikai"]["ros2"]["package"] == "shikai_perception"
     assert mission["subsystems"]["musubi"]["ros2"]["package"] == "musubi_manipulation"
     assert mission["subsystems"]["hane"]["ros2"]["package"] == "hane_vacuum"
+    assert mission["subsystems"]["ashi"]["ros2"]["package"] == "ashi_mobility"

@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="karakuri">
+  <xacro:property name="deck_x" value="0.210"/>
+  <xacro:property name="deck_y" value="0.200"/>
+  <xacro:property name="deck_z" value="0.006"/>
+  <xacro:property name="wheel_radius" value="0.040"/>
+  <xacro:property name="wheel_width" value="0.022"/>
+
+  <xacro:macro name="box_inertial" params="mass x y z">
+    <inertial>
+      <mass value="${mass}"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia
+        ixx="${mass * (y * y + z * z) / 12.0}"
+        ixy="0"
+        ixz="0"
+        iyy="${mass * (x * x + z * z) / 12.0}"
+        iyz="0"
+        izz="${mass * (x * x + y * y) / 12.0}"/>
+    </inertial>
+  </xacro:macro>
+
+  <link name="base_link"/>
+
+  <link name="chassis_deck">
+    <visual>
+      <geometry><box size="${deck_x} ${deck_y} ${deck_z}"/></geometry>
+      <material name="karakuri_black"><color rgba="0.05 0.05 0.05 1.0"/></material>
+    </visual>
+    <collision><geometry><box size="${deck_x} ${deck_y} ${deck_z}"/></geometry></collision>
+    <xacro:box_inertial mass="1.2" x="${deck_x}" y="${deck_y}" z="${deck_z}"/>
+  </link>
+
+  <joint name="base_to_chassis" type="fixed">
+    <parent link="base_link"/>
+    <child link="chassis_deck"/>
+    <origin xyz="0 0 0.030" rpy="0 0 0"/>
+  </joint>
+
+  <link name="battery_pack">
+    <visual><geometry><box size="0.160 0.090 0.055"/></geometry></visual>
+    <collision><geometry><box size="0.160 0.090 0.055"/></geometry></collision>
+    <xacro:box_inertial mass="4.8" x="0.160" y="0.090" z="0.055"/>
+  </link>
+
+  <joint name="battery_mount" type="fixed">
+    <parent link="chassis_deck"/>
+    <child link="battery_pack"/>
+    <origin xyz="0 0 -0.035" rpy="0 0 0"/>
+  </joint>
+
+  <link name="compute_module">
+    <visual><geometry><box size="0.127 0.127 0.050"/></geometry></visual>
+    <collision><geometry><box size="0.127 0.127 0.050"/></geometry></collision>
+    <xacro:box_inertial mass="0.75" x="0.127" y="0.127" z="0.050"/>
+  </link>
+
+  <joint name="compute_mount" type="fixed">
+    <parent link="chassis_deck"/>
+    <child link="compute_module"/>
+    <origin xyz="0 0 0.090" rpy="0 0 0"/>
+  </joint>
+
+  <link name="kinect_depth_camera"/>
+  <joint name="camera_mount" type="fixed">
+    <parent link="chassis_deck"/>
+    <child link="kinect_depth_camera"/>
+    <origin xyz="0.000 0.075 0.460" rpy="0.349 0 0"/>
+  </joint>
+
+  <xacro:macro name="wheel" params="side y">
+    <link name="${side}_wheel">
+      <visual>
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry><cylinder radius="${wheel_radius}" length="${wheel_width}"/></geometry>
+      </collision>
+      <inertial>
+        <mass value="0.18"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.00008" ixy="0" ixz="0" iyy="0.00008" iyz="0" izz="0.00008"/>
+      </inertial>
+    </link>
+    <joint name="${side}_wheel_joint" type="continuous">
+      <parent link="chassis_deck"/>
+      <child link="${side}_wheel"/>
+      <origin xyz="0 ${y} 0.000" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:wheel side="left" y="0.085"/>
+  <xacro:wheel side="right" y="-0.085"/>
+
+  <xacro:macro name="leg" params="name x y">
+    <link name="${name}_leg_coxa"/>
+    <link name="${name}_leg_femur"/>
+    <link name="${name}_leg_tibia"/>
+    <link name="${name}_biaxial_joint"/>
+    <link name="${name}_foot_wheel_module"/>
+    <joint name="${name}_hip_yaw" type="revolute">
+      <parent link="chassis_deck"/>
+      <child link="${name}_leg_coxa"/>
+      <origin xyz="${x} ${y} 0.015" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-0.785398" upper="0.785398" effort="8" velocity="0.5"/>
+    </joint>
+    <joint name="${name}_hip_pitch" type="revolute">
+      <parent link="${name}_leg_coxa"/>
+      <child link="${name}_leg_femur"/>
+      <origin xyz="0.045 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-0.785398" upper="1.047198" effort="12" velocity="0.5"/>
+    </joint>
+    <joint name="${name}_knee_pitch" type="revolute">
+      <parent link="${name}_leg_femur"/>
+      <child link="${name}_leg_tibia"/>
+      <origin xyz="0.070 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-1.570796" upper="0.523599" effort="12" velocity="0.5"/>
+    </joint>
+    <joint name="${name}_ankle_biaxial" type="revolute">
+      <parent link="${name}_leg_tibia"/>
+      <child link="${name}_biaxial_joint"/>
+      <origin xyz="0.090 0 0" rpy="0 0 0"/>
+      <axis xyz="1 0 0"/>
+      <limit lower="-0.785398" upper="0.785398" effort="10" velocity="0.5"/>
+    </joint>
+    <joint name="${name}_wheel_deploy" type="revolute">
+      <parent link="${name}_biaxial_joint"/>
+      <child link="${name}_foot_wheel_module"/>
+      <origin xyz="0.030 0 -0.045" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="0" upper="0.785398" effort="10" velocity="0.5"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:leg name="front_left" x="0.080" y="0.075"/>
+  <xacro:leg name="front_right" x="0.080" y="-0.075"/>
+  <xacro:leg name="rear_left" x="-0.080" y="0.075"/>
+  <xacro:leg name="rear_right" x="-0.080" y="-0.075"/>
+
+  <link name="vacuum_nozzle"/>
+  <joint name="vacuum_mount" type="fixed">
+    <parent link="chassis_deck"/>
+    <child link="vacuum_nozzle"/>
+    <origin xyz="0.105 0 -0.020" rpy="0 0 0"/>
+  </joint>
+
+  <link name="mop_module"/>
+  <joint name="mop_mount" type="fixed">
+    <parent link="chassis_deck"/>
+    <child link="mop_module"/>
+    <origin xyz="-0.080 0 -0.020" rpy="0 0 0"/>
+  </joint>
+
+  <link name="cliff_front_left"/>
+  <link name="cliff_front_right"/>
+  <link name="cliff_rear_left"/>
+  <link name="cliff_rear_right"/>
+  <joint name="cliff_front_left_mount" type="fixed">
+    <parent link="chassis_deck"/>
+    <child link="cliff_front_left"/>
+    <origin xyz="0.105 0.085 -0.010" rpy="0 0 0"/>
+  </joint>
+  <joint name="cliff_front_right_mount" type="fixed">
+    <parent link="chassis_deck"/>
+    <child link="cliff_front_right"/>
+    <origin xyz="0.105 -0.085 -0.010" rpy="0 0 0"/>
+  </joint>
+  <joint name="cliff_rear_left_mount" type="fixed">
+    <parent link="chassis_deck"/>
+    <child link="cliff_rear_left"/>
+    <origin xyz="-0.105 0.085 -0.010" rpy="0 0 0"/>
+  </joint>
+  <joint name="cliff_rear_right_mount" type="fixed">
+    <parent link="chassis_deck"/>
+    <child link="cliff_rear_right"/>
+    <origin xyz="-0.105 -0.085 -0.010" rpy="0 0 0"/>
+  </joint>
+</robot>

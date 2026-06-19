@@ -3,14 +3,14 @@
 from __future__ import annotations
 
 import shutil
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable, List
 
 from karakuri.audit import audit
 from karakuri.paths import canary_dir, mutable_templates_dir
 
 
-def _template_files(templates: Iterable[str] | None = None) -> List[Path]:
+def _template_files(templates: Iterable[str] | None = None) -> list[Path]:
     src_dir = mutable_templates_dir()
     if not src_dir.exists():
         return []
@@ -18,7 +18,7 @@ def _template_files(templates: Iterable[str] | None = None) -> List[Path]:
     if templates is None:
         return sorted(path for path in src_dir.iterdir() if path.is_file())
 
-    selected: List[Path] = []
+    selected: list[Path] = []
     for name in templates:
         path = src_dir / name
         if path.is_file():
@@ -26,7 +26,7 @@ def _template_files(templates: Iterable[str] | None = None) -> List[Path]:
     return selected
 
 
-def copy_canary_templates(templates: Iterable[str] | None = None, dry_run: bool = False) -> List[Path]:
+def copy_canary_templates(templates: Iterable[str] | None = None, dry_run: bool = False) -> list[Path]:
     """Copy template files into sandbox/canary. Returns destination paths."""
     sources = _template_files(templates)
     if not sources:
@@ -34,7 +34,7 @@ def copy_canary_templates(templates: Iterable[str] | None = None, dry_run: bool 
         return []
 
     dest_dir = canary_dir()
-    copied: List[Path] = []
+    copied: list[Path] = []
     audit("promotion.sandbox_start", count=len(sources), dry_run=dry_run)
 
     for src in sources:
