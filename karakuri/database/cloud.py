@@ -146,7 +146,7 @@ def _create_ledger_view_sql(spec: TableSpec) -> str:
     table = _quote(spec.name)
     return (
         f"CREATE OR REPLACE VIEW {view} AS\n"
-        "SELECT id, created_at, updated_at, producer, subject, severity, sequence_no\n"
+        "SELECT id, created_at, updated_at, domain, stream, zone, producer, subject, severity, sequence_no\n"
         f"FROM {table}\n"
         "WHERE retained_until IS NULL OR retained_until >= CURRENT_TIMESTAMP(3);"
     )
@@ -158,7 +158,7 @@ def _schema_statements(table_count: int = DEFAULT_TABLE_COUNT) -> list[str]:
         statements.append(_create_table_sql(spec))
         for index in spec.indexes:
             statements.append(_create_index_sql(spec.name, index.name, index.columns, unique=index.unique))
-        if spec.kind.startswith("ledger:"):
+        if spec.kind == "ledger":
             statements.append(_create_ledger_view_sql(spec))
     return statements
 

@@ -6,9 +6,11 @@ immutable: true
 
 components:
   - stop.flag
-  - watchdog.py
-  - permissions.yaml
-  - integrity.manifest
+  - core/permissions.yaml
+  - karakuri/watchdog.py
+  - karakuri/stop.py
+  - karakuri/permissions.py
+  - core/integrity.snapshot
 
 rules:
   - Mutable code must never write under core/

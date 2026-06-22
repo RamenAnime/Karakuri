@@ -51,6 +51,13 @@ def test_out_of_bounds_detection_skipped():
     assert any("out of bounds" in s.reason for s in result.skipped)
 
 
+def test_pixel_only_out_of_bounds_detection_skipped():
+    frame = _frame([Detection("foam_bit", 0.9, BoundingBox(5000, 0, 10, 10), world=None)])
+    result = plan_frame(frame)
+    assert result.vacuum_waypoint_count == 0
+    assert any("out of bounds" in s.reason for s in result.skipped)
+
+
 def test_unknown_class_skipped():
     frame = _frame([Detection("banana", 0.9, BoundingBox(0, 0, 10, 10), world=(100.0, 100.0, 0.0))])
     result = plan_frame(frame)

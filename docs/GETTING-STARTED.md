@@ -58,7 +58,7 @@ Windows CMD equivalent for venv activate:
 Paste in repo settings on github.com:
 
 ```text
-Sovereign self-adapting floor robot: picks up dog toys into a box and cleans foam, hair, and trash. Immutable KODAMA core, RAIKO web research, SHIKAI vision, MUSUBI arm, HANE vacuum. Windows 11 + ROS 2.
+Home floor robot: picks up dog toys into a box and cleans foam, hair, and trash. Tamper-evident KODAMA core, allowlisted RAIKO research, SHIKAI vision, MUSUBI arm, HANE vacuum. Windows 11 + ROS 2.
 ```
 
 Suggested topics: `robotics`, `ros2`, `computer-vision`, `python`, `autonomous`, `karakuri`

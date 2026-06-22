@@ -1,4 +1,4 @@
-"""KAGE/MIRAI self-promotion pipeline for mutable code."""
+"""KAGE/MIRAI canary promotion pipeline for mutable code."""
 
 from karakuri.promotion.promote import process_promotion_queue, promote_canary
 from karakuri.promotion.sandbox import copy_canary_templates

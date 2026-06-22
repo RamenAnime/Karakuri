@@ -6,7 +6,7 @@ import os
 from importlib import resources
 from pathlib import Path
 
-_DEFAULT_CORE_FILES = ("MANIFEST.md", "permissions.yaml", "integrity.snapshot")
+_DEFAULT_CORE_FILES = ("MANIFEST.md", "permissions.yaml")
 
 
 def _source_tree_root() -> Path | None:

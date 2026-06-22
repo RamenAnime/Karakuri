@@ -7,7 +7,7 @@ import pytest
 from karakuri.paths import ensure_runtime_tree, project_root
 from karakuri.permissions import assert_mutable_path, is_domain_allowed, load_permissions
 from karakuri.stop import clear, engage, is_stopped
-from karakuri.watchdog import tick, verify_core_integrity, write_integrity_snapshot
+from karakuri.watchdog import core_integrity_manifest, tick, verify_core_integrity, write_integrity_snapshot
 
 
 def test_stop_flag():
@@ -22,6 +22,13 @@ def test_stop_flag():
 def test_core_integrity():
     write_integrity_snapshot()
     assert verify_core_integrity() is True
+
+
+def test_core_integrity_covers_enforcement_code():
+    manifest = core_integrity_manifest()
+    assert "karakuri/watchdog.py" in manifest
+    assert "karakuri/stop.py" in manifest
+    assert "karakuri/permissions.py" in manifest
 
 
 def test_watchdog_tick_when_stopped():

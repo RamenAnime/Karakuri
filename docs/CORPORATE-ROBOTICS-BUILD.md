@@ -1,4 +1,4 @@
-# Corporate robotics build plan
+# Robot build plan
 
 This document converts the 147-role robotics prompt into buildable KARAKURI work packages. It is written as a practical engineering map for the current repository.
 

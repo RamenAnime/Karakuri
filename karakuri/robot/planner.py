@@ -147,7 +147,7 @@ def plan_frame(
 
         x, y, z = _world_xy(detection)
         out_of_bounds = safety.violations(x, y, z)
-        if detection.world is not None and out_of_bounds:
+        if out_of_bounds:
             skipped.append(SkippedDetection(name, f"out of bounds: {', '.join(out_of_bounds)}"))
             continue
 

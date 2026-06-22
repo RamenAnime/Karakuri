@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 
 from karakuri.cli import main
+from karakuri.database import DEFAULT_TABLE_COUNT
 from karakuri.stop import clear
 
 
@@ -120,16 +121,17 @@ def test_database_schema_command_json(capsys):
     rc = main(["database", "schema", "--json"])
     assert rc == 0
     data = json.loads(capsys.readouterr().out)
-    assert data["tables"] == 750
+    assert data["tables"] == DEFAULT_TABLE_COUNT
     assert data["dialect"] == "sqlite"
-    assert data["ledger_tables"] > data["core_tables"]
+    assert data["ledger_tables"] == 1
+    assert data["core_tables"] == DEFAULT_TABLE_COUNT - 1
 
 
 def test_database_schema_command_tidb_json(capsys):
     rc = main(["database", "schema", "--dialect", "tidb", "--json"])
     assert rc == 0
     data = json.loads(capsys.readouterr().out)
-    assert data["tables"] == 750
+    assert data["tables"] == DEFAULT_TABLE_COUNT
     assert data["dialect"] == "tidb"
 
 
@@ -138,4 +140,4 @@ def test_database_health_command_json(tmp_path, capsys):
     assert rc == 0
     data = json.loads(capsys.readouterr().out)
     assert data["ok"] is True
-    assert data["table_count"] == 750
+    assert data["table_count"] == DEFAULT_TABLE_COUNT

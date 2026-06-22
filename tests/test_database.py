@@ -21,23 +21,28 @@ from karakuri.database import (
 from karakuri.hardware.bms import BmsSample, store_bms_sample
 
 
-def test_enterprise_profile_has_750_unique_tables():
+def test_enterprise_profile_has_unique_normalized_tables():
     specs = enterprise_table_specs()
     names = [spec.name for spec in specs]
     assert len(specs) == DEFAULT_TABLE_COUNT
     assert len(names) == len(set(names))
     assert "meta_schema_catalog" in names
     assert "robot_stop_events" in names
-    assert any(name.startswith("ledger_safety_") for name in names)
+    assert "ledger_records" in names
+    assert not any(name.startswith("ledger_safety_") for name in names)
 
 
 def test_schema_sql_contains_all_create_statements():
     sql = schema_sql()
     assert sql.count("CREATE TABLE IF NOT EXISTS") == DEFAULT_TABLE_COUNT
     assert 'CREATE TABLE IF NOT EXISTS "meta_schema_catalog"' in sql
-    assert 'CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_audit_accepted_ring0_hash"' in sql
-    assert 'CREATE TRIGGER IF NOT EXISTS "trg_ledger_audit_accepted_ring0_touch"' in sql
-    assert 'CREATE VIEW IF NOT EXISTS "v_ledger_audit_accepted_ring0"' in sql
+    assert 'CREATE TABLE IF NOT EXISTS "ledger_records"' in sql
+    assert '"domain" TEXT NOT NULL CHECK' not in sql
+    assert "domain TEXT NOT NULL CHECK" in sql
+    assert 'CREATE UNIQUE INDEX IF NOT EXISTS "idx_ledger_records_hash"' in sql
+    assert 'CREATE TRIGGER IF NOT EXISTS "trg_ledger_records_touch"' in sql
+    assert 'CREATE VIEW IF NOT EXISTS "v_ledger_records"' in sql
+    assert "ledger_audit_accepted_ring0" not in sql
 
 
 def test_tidb_schema_sql_uses_cloud_dialect():
@@ -45,9 +50,11 @@ def test_tidb_schema_sql_uses_cloud_dialect():
     assert sql.count("CREATE TABLE IF NOT EXISTS") == DEFAULT_TABLE_COUNT
     assert "AUTO_INCREMENT" in sql
     assert "`meta_schema_catalog`" in sql
-    assert "`ledger_audit_accepted_ring0`" in sql
+    assert "`ledger_records`" in sql
+    assert "domain VARCHAR(255) NOT NULL CHECK" in sql
     assert "CURRENT_TIMESTAMP(3)" in sql
     assert "TRIGGER" not in sql
+    assert "ledger_audit_accepted_ring0" not in sql
     assert '"meta_schema_catalog"' not in sql
 
 
@@ -122,7 +129,14 @@ def test_evidence_writers_populate_operational_tables(tmp_path):
     conn = connect(db)
     try:
         assert conn.execute("SELECT COUNT(*) FROM audit_event_log").fetchone()[0] == 1
-        assert conn.execute("SELECT COUNT(*) FROM ledger_audit_events_ring0").fetchone()[0] == 1
+        ledger_count = conn.execute(
+            """
+            SELECT COUNT(*) FROM ledger_records
+            WHERE domain = ? AND stream = ? AND zone = ?
+            """,
+            ("audit", "events", "ring0"),
+        ).fetchone()[0]
+        assert ledger_count == 1
         diagnostic_count = conn.execute(
             "SELECT COUNT(*) FROM diagnostic_runs WHERE run_key = ?",
             (run_key,),

@@ -4,11 +4,11 @@ KARAKURI now has a managed persistence layer for audit mirrors, safety state,
 robot missions, hardware inventory, diagnostics, firmware records, calibration,
 simulation results, and high volume telemetry ledgers.
 
-The default enterprise profile contains 750 managed SQL tables. It can run in a
-local SQLite file for offline development or in a TiDB cloud database through
-the MySQL-compatible backend. The schema is generated from audited Python
+The default profile contains 41 managed SQL tables. It can run in a local
+SQLite file for offline development or in a TiDB cloud database through the
+MySQL-compatible backend. The schema is generated from audited Python
 definitions so the same source can be tested, printed as SQL, and applied to a
-live database without hand copying a huge migration.
+live database without hand-copying migration text.
 
 ## Commands
 
@@ -97,17 +97,18 @@ The first tables are hand named operational tables:
 - research fetch events, promotion candidates, configuration entries, backups,
   incident actions, simulation runs, and simulation metrics
 
-The remaining tables are ledger partitions. They separate noisy data by domain,
-stream, and zone so safety events, telemetry, ROS heartbeats, firmware states,
-diagnostics, and simulation runs can grow without mixing unrelated records.
+Ledger records share one normalized table, `ledger_records`, with `domain`,
+`stream`, and `zone` discriminator columns. Composite indexes preserve the
+common query paths without requiring UNION queries across generated tables.
 
 ## Health Gates
 
 The SQLite helper enables foreign keys, recursive triggers, a busy timeout, WAL
 mode for file backed databases, and `trusted_schema=OFF` when the local SQLite
 build supports it. The TiDB helper emits cloud-compatible DDL with
-`AUTO_INCREMENT`, JSON columns, views, and table coverage checks. Runtime writers
-set timestamp fields directly so TiDB does not need trigger support.
+`AUTO_INCREMENT`, JSON columns, a ledger view, and table coverage checks.
+Runtime writers set timestamp fields directly so TiDB does not need trigger
+support.
 
 The health command checks:
 
@@ -120,6 +121,7 @@ The health command checks:
 
 ## Design Rule
 
-The code does not add filler modules to chase a line count. The schema is large
-because it separates operational concerns that matter for a robot: safety,
-auditability, diagnostics, field replay, and restore proof.
+The code does not add filler modules or generated table fanout to chase size.
+Operational concerns stay separated where the data shape is different. High
+volume ledger data uses discriminator columns because the record shape is the
+same across domains.

@@ -2,7 +2,7 @@
 
 **からくり · Fusion stack for a self-adapting floor robot**
 
-KARAKURI is a home floor robot project that picks up dog toys and puts them in a toy box, then cleans foam from squeaky toys, pet hair, and general trash from the floor. The software is built as a **fusion stack**: twelve Japanese codenames, one system, with an immutable core you can always shut down and a mutable body that researches the web, tests changes in a sandbox, and promotes improvements on its own.
+KARAKURI is a home floor robot project that picks up dog toys and puts them in a toy box, then cleans foam from squeaky toys, pet hair, and general trash from the floor. The software is built as a **fusion stack**: twelve Japanese codenames, one system, with a tamper-evident core you can always shut down and a mutable body for allowlisted research, canary tests, and reviewed generated helpers.
 
 **Repository:** https://github.com/RamenAnime/Karakuri
 
@@ -149,7 +149,7 @@ More detail: [docs/FUSION.md](docs/FUSION.md)
 +------------------------v-------------------------+
 |  RING 1: KAGE  mutable/                          |
 |  Playbooks, generated helpers, ROS adapters      |
-|  Self-rewrite allowed after sandbox tests.       |
+|  Reviewed helper generation after canary tests.  |
 +------------------------+-------------------------+
                          | tested in
 +------------------------v-------------------------+
@@ -217,7 +217,7 @@ Karakuri/
 |   |
 |   |-- promotion/                 # KAGE + MIRAI pipeline
 |   |   |-- sandbox.py             # Copy templates to canary
-|   |   |-- tester.py              # Run pytest on sandbox
+|   |   |-- tester.py              # Run pytest on canary files
 |   |   |-- promote.py             # Promote passing canary to mutable/
 |   |
 |   |-- memory/                    # TSUKUMO long-term stores
@@ -308,14 +308,14 @@ Karakuri/
 
 ### Phase 1: RAIKO research + KAGE promotion [COMPLETE]
 
-**Purpose:** Learn from the web safely and promote tested code changes.
+**Purpose:** Cache allowlisted research, test canary files, and promote reviewed helper artifacts.
 
 | Item | Location |
 |------|----------|
 | Allowlisted web fetch | `karakuri/research/web.py` |
 | Research job queue | `memory/web/queue.json` |
 | SearXNG search (optional) | `karakuri/research/searx.py` |
-| Sandbox copy + pytest + promote | `karakuri/promotion/` |
+| Canary copy + local pytest + promote | `karakuri/promotion/` |
 | Example floor playbook | `mutable/templates/example_playbook.yaml` |
 
 **You run:**
@@ -520,7 +520,7 @@ SEARXNG_URL=http://127.0.0.1:8080
 ```text
 Template in mutable/templates/
     --> copy to sandbox/canary/
-    --> pytest in sandbox
+    --> pytest against canary files
     --> if pass: copy to mutable/generated/
 ```
 
@@ -530,6 +530,9 @@ python -m karakuri promote --dry-run
 ```
 
 Max 5 auto-promotions per day (configurable in `core/permissions.yaml`).
+
+This is a canary workflow, not an OS sandbox. It should only run trusted local
+templates until process isolation is added.
 
 ### SHIKAI: vision config
 
@@ -595,7 +598,7 @@ python -m karakuri trust                         # source reputation scores
 python -m karakuri failures --threshold 3        # repeated robot failures
 ```
 
-The research worker records an outcome per domain after every run, so over time RAIKO learns which allowlisted sources actually deliver content. Failure history under `memory/robot/failures.jsonl` is the Phase 7 trigger: when the same action keeps failing on the same object class, that signature becomes a candidate for an automated canary fix.
+The research worker records an outcome per domain after every run, so over time RAIKO learns which allowlisted sources actually deliver content. It fetches and caches source material only. Failure history under `memory/robot/failures.jsonl` can trigger a local canary draft from existing templates, but fetched pages are not turned into executable code.
 
 ---
 
@@ -605,13 +608,13 @@ The research worker records an outcome per domain after every run, so over time 
   Detect problem or repeated failure
            |
            v
-  RAIKO searches allowlisted web sources
+  RAIKO fetches and caches allowlisted source material
            |
            v
-  Draft change in sandbox/canary/ only
+  Draft local template change in sandbox/canary/ only
            |
            v
-  pytest + optional ROS sim test
+  local pytest + optional ROS sim test
            |
            v
   KODAMA checks STOP flag + permissions
@@ -623,7 +626,8 @@ The research worker records an outcome per domain after every run, so over time 
   TSUKUMO logs outcome and updates trust
 ```
 
-Mutable code **never** edits `core/`. If core integrity fails, STOP engages automatically.
+Mutable code **never** edits `core/`. If the integrity snapshot for `core/` and
+the safety-critical package modules fails, STOP engages automatically.
 
 ---
 
@@ -678,7 +682,7 @@ Never run raw shell commands copied from the web. Only template actions in the p
 | `python -m karakuri chores` | autonomy | Show what the robot would do on its own |
 | `python -m karakuri balance` | KARADA | Balance recovery simulation gate (IMU, ankle and hip strategy) |
 | `python -m karakuri map` | KARADA | Onboard occupancy mapping and obstacle-safe path demo |
-| `python -m karakuri database schema --json` | persistence | Show the 750-table managed schema summary |
+| `python -m karakuri database schema --json` | persistence | Show the normalized managed schema summary |
 | `python -m karakuri database health --json` | persistence | Initialize SQLite and run integrity checks |
 | `python -m karakuri evolve` | KAGE | Draft a canary fix from repeated failures |
 | `python -m karakuri names` | docs | Print codename reference |
@@ -748,7 +752,7 @@ ruff check karakuri tests mutable/templates
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Phase 0-8 deliverables and exit criteria |
 | [docs/CORPORATE-ROBOTICS-BUILD.md](docs/CORPORATE-ROBOTICS-BUILD.md) | Multi-agent build plan, topology, power, BOM, diagnostics, and STL QA |
 | [docs/GAPS-AND-ENHANCEMENTS.md](docs/GAPS-AND-ENHANCEMENTS.md) | Missing build needs, enhancements, and next engineering gates |
-| [docs/DATABASE-HARDENING.md](docs/DATABASE-HARDENING.md) | SQLite persistence, 750-table managed schema, and integrity checks |
+| [docs/DATABASE-HARDENING.md](docs/DATABASE-HARDENING.md) | SQLite and TiDB persistence, normalized ledger table, and integrity checks |
 | [docs/ESTOP-PROOF.md](docs/ESTOP-PROOF.md) | Physical e-stop wiring and timing proof procedure |
 | [docs/HARDWARE-BLUEPRINT.md](docs/HARDWARE-BLUEPRINT.md) | BOM, layout, mechanical/electronics tree, wiring |
 | [docs/MOBILE-BASE.md](docs/MOBILE-BASE.md) | Mobile build: printed parts, Kinect, Walmart vacuum donor, stairs safety |

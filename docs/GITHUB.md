@@ -15,7 +15,7 @@ Setup guide: [GETTING-STARTED.md](GETTING-STARTED.md)
 ## Repo description (paste in GitHub settings)
 
 ```text
-Sovereign self-adapting floor robot: picks up dog toys into a box and cleans foam, hair, and trash. Immutable KODAMA core, RAIKO web research, SHIKAI vision, MUSUBI arm, HANE vacuum. Windows 11 + ROS 2.
+Home floor robot: picks up dog toys into a box and cleans foam, hair, and trash. Tamper-evident KODAMA core, allowlisted RAIKO research, SHIKAI vision, MUSUBI arm, HANE vacuum. Windows 11 + ROS 2.
 ```
 
 Topics: `robotics`, `ros2`, `computer-vision`, `python`, `autonomous`, `karakuri`

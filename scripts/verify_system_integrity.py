@@ -23,7 +23,7 @@ def _fail(message: str) -> int:
 
 
 def verify_system_integrity() -> int:
-    print("[INFO] Launching corporate robotics integrity monitor...")
+    print("[INFO] Launching Karakuri robotics integrity monitor...")
     checks: list[dict[str, object]] = []
 
     chassis_path = ROOT / "chassis_config.yaml"
@@ -125,7 +125,7 @@ def verify_system_integrity() -> int:
     except Exception:
         pass
 
-    print("[SUCCESS] Corporate robotics system parameters match baseline specifications.")
+    print("[SUCCESS] Karakuri robotics system parameters match baseline specifications.")
     return 0
 
 

@@ -16,6 +16,7 @@ from typing import Any
 from dotenv import load_dotenv
 
 from karakuri import PROJECT_CODENAME, __version__
+from karakuri.database import DEFAULT_TABLE_COUNT
 from karakuri.paths import project_root
 from karakuri.promotion.promote import process_promotion_queue, promote_canary
 from karakuri.promotion.sandbox import copy_canary_templates
@@ -605,8 +606,8 @@ def cmd_database(args: argparse.Namespace) -> int:
             return 0
         payload = {
             "tables": len(specs),
-            "core_tables": sum(1 for spec in specs if not spec.kind.startswith("ledger:")),
-            "ledger_tables": sum(1 for spec in specs if spec.kind.startswith("ledger:")),
+            "core_tables": sum(1 for spec in specs if spec.kind != "ledger"),
+            "ledger_tables": sum(1 for spec in specs if spec.kind == "ledger"),
             "dialect": args.dialect,
         }
         if args.json:
@@ -656,7 +657,7 @@ def _demo_frame():
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="karakuri", description="Sovereign self-adapting robot platform")
+    parser = argparse.ArgumentParser(prog="karakuri", description="Home floor robot control platform")
     parser.add_argument("--version", action="store_true", help="Print version and exit")
     sub = parser.add_subparsers(dest="command")
 
@@ -769,7 +770,12 @@ def build_parser() -> argparse.ArgumentParser:
     database_p = sub.add_parser("database", help="Manage the hardened local database")
     database_sub = database_p.add_subparsers(dest="database_command")
     database_schema_p = database_sub.add_parser("schema", help="Inspect or export the SQL schema")
-    database_schema_p.add_argument("--tables", type=int, default=750, help="Managed table count")
+    database_schema_p.add_argument(
+        "--tables",
+        type=int,
+        default=DEFAULT_TABLE_COUNT,
+        help="Managed table count",
+    )
     database_schema_p.add_argument(
         "--dialect",
         default="sqlite",
@@ -783,7 +789,12 @@ def build_parser() -> argparse.ArgumentParser:
         "health",
         help="Initialize the database and run integrity checks",
     )
-    database_health_p.add_argument("--tables", type=int, default=750, help="Managed table count")
+    database_health_p.add_argument(
+        "--tables",
+        type=int,
+        default=DEFAULT_TABLE_COUNT,
+        help="Managed table count",
+    )
     database_health_p.add_argument("--path", type=Path, default=None, help="SQLite file path")
     database_health_p.add_argument("--url", default=None, help="TiDB or MySQL cloud database URL")
     database_health_p.add_argument("--json", action="store_true", help="Output JSON health report")

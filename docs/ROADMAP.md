@@ -6,7 +6,7 @@ Full build plan from software core to physical robot. Each phase has deliverable
 
 ## Phase 0: KODAMA core (complete)
 
-**Goal:** Immutable safety layer that never self-edits.
+**Goal:** Tamper-evident safety layer that never self-edits.
 
 | Deliverable | Path | Status |
 |-------------|------|--------|
@@ -23,7 +23,7 @@ Full build plan from software core to physical robot. Each phase has deliverable
 
 ## Phase 1: RAIKO web + KAGE promotion (complete)
 
-**Goal:** Fast allowlisted research and safe self-promotion of mutable code.
+**Goal:** Fast allowlisted research and reviewed canary promotion of mutable code.
 
 | Deliverable | Path | Status |
 |-------------|------|--------|

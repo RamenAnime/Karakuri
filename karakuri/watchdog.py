@@ -11,6 +11,8 @@ from karakuri.audit import audit
 from karakuri.paths import core_dir, project_root, watchdog_pid_path
 from karakuri.stop import is_stopped
 
+_PROTECTED_PACKAGE_FILES = ("watchdog.py", "stop.py", "permissions.py")
+
 
 def _hash_file(path: Path) -> str:
     h = hashlib.sha256()
@@ -26,12 +28,18 @@ def core_integrity_manifest() -> dict[str, str]:
         if path.is_file() and path.name != "integrity.snapshot":
             rel = path.relative_to(project_root()).as_posix()
             manifest[rel] = _hash_file(path)
+    package_dir = Path(__file__).resolve().parent
+    for name in _PROTECTED_PACKAGE_FILES:
+        path = package_dir / name
+        if path.is_file():
+            manifest[f"{package_dir.name}/{name}"] = _hash_file(path)
     return manifest
 
 
 def write_integrity_snapshot() -> dict[str, str]:
     manifest = core_integrity_manifest()
     snap = core_dir() / "integrity.snapshot"
+    snap.parent.mkdir(parents=True, exist_ok=True)
     lines = [f"{k} {v}\n" for k, v in sorted(manifest.items())]
     snap.write_text("".join(lines), encoding="utf-8")
     audit("core.snapshot_written", files=len(manifest))

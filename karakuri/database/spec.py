@@ -1,10 +1,9 @@
 """Database schema catalog.
 
 The project keeps the SQL model in Python so tests can prove the full profile
-is internally consistent before a migration is written to disk. The first
-tables are hand named operational tables. The remaining tables are ledger
-partitions for high volume domains such as telemetry, diagnostics, simulation,
-and safety events.
+is internally consistent before a migration is written to disk. Most tables are
+hand named operational tables. High volume audit and telemetry records share one
+ledger table with domain, stream, and zone discriminator columns.
 """
 
 from __future__ import annotations
@@ -12,7 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from re import fullmatch
 
-DEFAULT_TABLE_COUNT = 750
+DEFAULT_TABLE_COUNT = 41
 
 _IDENTIFIER = r"[a-z][a-z0-9_]*"
 
@@ -724,6 +723,12 @@ def _ledger_columns() -> tuple[str, ...]:
         "id INTEGER PRIMARY KEY",
         "created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
         "updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ','now'))",
+        "domain TEXT NOT NULL CHECK "
+        f"(domain IN ({', '.join(repr(value) for value in _LEDGER_DOMAINS)}))",
+        "stream TEXT NOT NULL CHECK "
+        f"(stream IN ({', '.join(repr(value) for value in _LEDGER_STREAMS)}))",
+        "zone TEXT NOT NULL CHECK "
+        f"(zone IN ({', '.join(repr(value) for value in _LEDGER_ZONES)}))",
         "producer TEXT NOT NULL",
         "subject TEXT NOT NULL",
         "severity TEXT NOT NULL DEFAULT 'info' CHECK "
@@ -737,44 +742,36 @@ def _ledger_columns() -> tuple[str, ...]:
     )
 
 
-def _ledger_specs(existing_names: set[str], remaining: int) -> list[TableSpec]:
-    specs: list[TableSpec] = []
-    for domain in _LEDGER_DOMAINS:
-        for stream in _LEDGER_STREAMS:
-            for zone in _LEDGER_ZONES:
-                name = f"ledger_{domain}_{stream}_{zone}"
-                if name in existing_names:
-                    continue
-                specs.append(
-                    _table(
-                        name,
-                        f"Partitioned {domain} {stream} ledger for {zone}.",
-                        _ledger_columns(),
-                        indexes=(
-                            IndexSpec(f"idx_{name}_created", ("created_at",)),
-                            IndexSpec(f"idx_{name}_subject", ("subject",)),
-                            IndexSpec(f"idx_{name}_hash", ("record_hash",), unique=True),
-                        ),
-                        kind=f"ledger:{domain}",
-                    )
-                )
-                existing_names.add(name)
-                if len(specs) == remaining:
-                    return specs
-    if len(specs) < remaining:
-        raise RuntimeError("ledger catalog does not contain enough table names")
-    return specs
+def _ledger_spec(existing_names: set[str]) -> TableSpec:
+    name = "ledger_records"
+    if name in existing_names:
+        raise RuntimeError("duplicate ledger table name")
+    return _table(
+        name,
+        "Normalized append-only ledger for audit, telemetry, diagnostics, and robot runtime evidence.",
+        _ledger_columns(),
+        indexes=(
+            IndexSpec("idx_ledger_records_partition_created", ("domain", "stream", "zone", "created_at")),
+            IndexSpec("idx_ledger_records_subject", ("subject",)),
+            IndexSpec("idx_ledger_records_hash", ("record_hash",), unique=True),
+        ),
+        kind="ledger",
+    )
 
 
 def enterprise_table_specs(table_count: int = DEFAULT_TABLE_COUNT) -> list[TableSpec]:
-    """Return exactly ``table_count`` table definitions for the hardened profile."""
+    """Return the normalized database profile."""
     base = base_table_specs()
-    if table_count < len(base):
-        raise ValueError(f"table_count must be at least {len(base)}")
     names = {spec.name for spec in base}
     if len(names) != len(base):
         raise RuntimeError("duplicate base table name")
-    return base + _ledger_specs(names, table_count - len(base))
+    specs = base + [_ledger_spec(names)]
+    if table_count != len(specs):
+        raise ValueError(
+            f"normalized profile contains {len(specs)} tables; "
+            f"table_count={table_count} is not supported"
+        )
+    return specs
 
 
 def table_names(table_count: int = DEFAULT_TABLE_COUNT) -> list[str]:

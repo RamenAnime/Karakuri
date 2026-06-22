@@ -121,7 +121,7 @@ def _create_ledger_view_sql(spec: TableSpec) -> str:
     table = quote_identifier(spec.name)
     return (
         f"CREATE VIEW IF NOT EXISTS {quote_identifier(view)} AS\n"
-        "SELECT id, created_at, updated_at, producer, subject, severity, sequence_no\n"
+        "SELECT id, created_at, updated_at, domain, stream, zone, producer, subject, severity, sequence_no\n"
         f"FROM {table}\n"
         "WHERE retained_until IS NULL OR retained_until >= strftime('%Y-%m-%dT%H:%M:%fZ','now');"
     )
@@ -136,7 +136,7 @@ def schema_sql(table_count: int = DEFAULT_TABLE_COUNT) -> str:
             statements.append(_create_index_sql(spec.name, index.name, index.columns, unique=index.unique))
         if _has_column(spec, "id") and _has_column(spec, "updated_at"):
             statements.append(_create_touch_trigger_sql(spec))
-        if spec.kind.startswith("ledger:"):
+        if spec.kind == "ledger":
             statements.append(_create_ledger_view_sql(spec))
     return "\n\n".join(statements) + "\n"
 

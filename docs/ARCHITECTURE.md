@@ -9,7 +9,7 @@
 └────────────────────┬─────────────────────────┘
                      │ supervises
 ┌────────────────────▼─────────────────────────┐
-│  RING 1: mutable/ (self-rewrite allowed)    │
+│  RING 1: mutable/ (reviewed helpers)        │
 │  researchers · playbooks · ROS helpers       │
 └────────────────────┬─────────────────────────┘
                      │ tests in
@@ -25,10 +25,10 @@
 ## Self-enhancement loop
 
 1. **Detect** failure or repeated pattern (robot or system).
-2. **Research** web via allowlisted sources (cached in `memory/web/`).
-3. **Draft** change only under `sandbox/canary/`.
-4. **Test** sandbox test suite + optional ROS sim.
-5. **Promote** to `mutable/` if core approves and STOP is not set.
+2. **Research** allowlisted sources and cache text in `memory/web/`.
+3. **Draft** local template changes only under `sandbox/canary/`.
+4. **Test** canary files with local pytest and optional ROS sim checks.
+5. **Promote** reviewed artifacts to `mutable/` if core approves and STOP is not set.
 6. **Remember** outcome in `memory/trust.json`.
 
 ## Kill switch
@@ -43,6 +43,7 @@
 ## Web research (RAIKO)
 
 Not full-web scrape. Local SearXNG or HTTP fetch to allowlist only (see `core/permissions.yaml`).
+Fetched pages are evidence, not executable canary code.
 
 Default allowlist: ROS docs, GitHub, arXiv, OpenCV/Ultralytics docs, vendor datasheets.
 

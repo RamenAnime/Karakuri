@@ -122,11 +122,24 @@ def record_audit_event(
         )
         conn.execute(
             """
-            INSERT INTO ledger_audit_events_ring0
-              (created_at, updated_at, producer, subject, severity, sequence_no, payload_json, record_hash)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO ledger_records
+              (created_at, updated_at, domain, stream, zone, producer, subject, severity,
+               sequence_no, payload_json, record_hash)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
-            (created_at, created_at, "karakuri.audit", event, "info", 0, payload, record_hash),
+            (
+                created_at,
+                created_at,
+                "audit",
+                "events",
+                "ring0",
+                "karakuri.audit",
+                event,
+                "info",
+                0,
+                payload,
+                record_hash,
+            ),
         )
         conn.commit()
     finally:
