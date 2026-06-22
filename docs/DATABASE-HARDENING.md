@@ -105,9 +105,9 @@ diagnostics, and simulation runs can grow without mixing unrelated records.
 
 The SQLite helper enables foreign keys, recursive triggers, a busy timeout, WAL
 mode for file backed databases, and `trusted_schema=OFF` when the local SQLite
-build supports it. The TiDB helper emits MySQL-compatible DDL with
-`AUTO_INCREMENT`, JSON columns, touch triggers, cloud-safe views, and table
-coverage checks.
+build supports it. The TiDB helper emits cloud-compatible DDL with
+`AUTO_INCREMENT`, JSON columns, views, and table coverage checks. Runtime writers
+set timestamp fields directly so TiDB does not need trigger support.
 
 The health command checks:
 

@@ -141,23 +141,6 @@ def _create_index_sql(table: str, index: str, columns: tuple[str, ...], *, uniqu
     )
 
 
-def _has_column(spec: TableSpec, column_name: str) -> bool:
-    prefix = f"{column_name} "
-    return any(column.startswith(prefix) for column in spec.columns)
-
-
-def _create_touch_trigger_sql(spec: TableSpec) -> str:
-    trigger = _quote(f"trg_{spec.name}_touch")
-    table = _quote(spec.name)
-    return (
-        f"DROP TRIGGER IF EXISTS {trigger};\n"
-        f"CREATE TRIGGER {trigger}\n"
-        f"BEFORE UPDATE ON {table}\n"
-        "FOR EACH ROW\n"
-        "SET NEW.updated_at = CURRENT_TIMESTAMP(3);"
-    )
-
-
 def _create_ledger_view_sql(spec: TableSpec) -> str:
     view = _quote(f"v_{spec.name}")
     table = _quote(spec.name)
@@ -175,8 +158,6 @@ def _schema_statements(table_count: int = DEFAULT_TABLE_COUNT) -> list[str]:
         statements.append(_create_table_sql(spec))
         for index in spec.indexes:
             statements.append(_create_index_sql(spec.name, index.name, index.columns, unique=index.unique))
-        if _has_column(spec, "id") and _has_column(spec, "updated_at"):
-            statements.append(_create_touch_trigger_sql(spec))
         if spec.kind.startswith("ledger:"):
             statements.append(_create_ledger_view_sql(spec))
     return statements

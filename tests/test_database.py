@@ -47,6 +47,7 @@ def test_tidb_schema_sql_uses_cloud_dialect():
     assert "`meta_schema_catalog`" in sql
     assert "`ledger_audit_accepted_ring0`" in sql
     assert "CURRENT_TIMESTAMP(3)" in sql
+    assert "TRIGGER" not in sql
     assert '"meta_schema_catalog"' not in sql
 
 
