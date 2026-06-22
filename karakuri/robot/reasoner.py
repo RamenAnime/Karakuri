@@ -1,7 +1,7 @@
 """Offline intent reasoning. No cloud, no paid API, nothing leaves the robot.
 
 A rule layer turns plain requests into mission steps the existing modules
-already execute. For richer language the chest computer can run a local LLM
+already execute. For richer phrasing the chest computer can run a local parser
 behind a localhost runtime; the hook here only ever accepts loopback
 addresses, so the no-external-services guarantee is enforced in code, not
 just promised in a document.
@@ -61,6 +61,6 @@ def parse_intent(text: str) -> Intent | None:
     return None
 
 
-def allowed_llm_url(url: str) -> bool:
-    """Only loopback runtimes pass: localhost LLMs yes, cloud APIs never."""
+def allowed_local_model_url(url: str) -> bool:
+    """Only loopback runtimes pass: localhost yes, cloud APIs never."""
     return url.startswith(("http://127.0.0.1", "http://localhost", "http://[::1]"))

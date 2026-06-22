@@ -35,7 +35,7 @@ compute:
     hard motor interlocks
   link: ethernet, point to point, no internet required
   power: isolated 19 V DC-DC regulator from the 25.6 V main pack
-  reasoning: fully local; optional on-device LLM through a localhost runtime only
+  reasoning: fully local; optional on-device parser through a localhost runtime only
 
 battery:
   pack: 25.6 V LiFePO4 8S2P Headway 38120HP cells with 8S smart BMS

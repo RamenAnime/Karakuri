@@ -43,7 +43,7 @@ tests on every machine.
 | CAN-FD bus @ 1 kHz | `bus.py` frames, checksum, SYNC; `rt.py` LoopTimer schedules and measures the kilohertz | Waveshare MCP2518FD hat on the Pi; second unit at the foot node | 15 USD each |
 | Real-time controller | `rt.py` absolute-deadline scheduler with jitter and missed-deadline stats | Ubuntu 24.04 real-time kernel, free with Ubuntu Pro personal, on both computers | 0 USD |
 | Behavior trees | `behavior.py`: Sequence, Selector, Condition, Action, RUNNING; `build_clean_tree` wires safety, battery, mapping, vacuum, dock | none needed | 0 USD |
-| Edge AI and vision computer | your 2014 mini, mounted, documented | owned | 0 USD |
+| Edge vision computer | your 2014 mini, mounted, documented | owned | 0 USD |
 | Whole-body control | `balance.py` distributes corrections ankle 60, hip 30, torso 10, every output clamped to joint limits | none needed | 0 USD |
 | Sim-to-real pipeline | `BalanceSim` inverted pendulum with authority sized from real DS5160 torque; the recovery gate runs in CI on every commit, so control changes prove themselves in sim before touching servos | none needed | 0 USD |
 | Integrated cable management | wiring.md section 4, printed clips, mast and limb whips | done since v0.4 | done |
@@ -79,7 +79,7 @@ tests on every machine.
   ports to EtherCAT unchanged if you ever cross that bridge.
 - **VLA foundation models**: vision-language-action models are real and
   moving fast, but they want serious GPU. The honest local path: the
-  reasoner's loopback-only LLM hook is the integration point; an Orin Nano
+  reasoner's loopback-only local model hook is the integration point; an Orin Nano
   (249 USD) in the chest bay later runs small VLA checkpoints on-device with
   the no-cloud rule intact. The 2014 mini runs the rule layer and small
   quantized chat models today, and that genuinely covers the household

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from karakuri.robot.grip import GripController, load_presets
-from karakuri.robot.reasoner import allowed_llm_url, parse_intent
+from karakuri.robot.reasoner import allowed_local_model_url, parse_intent
 
 
 def test_presets_load_from_body_yaml():
@@ -38,8 +38,8 @@ def test_intent_parsing():
     assert parse_intent("sing me a song") is None      # unsure means ask, not guess
 
 
-def test_llm_hook_is_loopback_only():
-    assert allowed_llm_url("http://127.0.0.1:11434")
-    assert allowed_llm_url("http://localhost:8080")
-    assert not allowed_llm_url("https://api.example.com/v1")
-    assert not allowed_llm_url("http://192.168.1.50:11434")
+def test_local_model_hook_is_loopback_only():
+    assert allowed_local_model_url("http://127.0.0.1:11434")
+    assert allowed_local_model_url("http://localhost:8080")
+    assert not allowed_local_model_url("https://api.example.com/v1")
+    assert not allowed_local_model_url("http://192.168.1.50:11434")

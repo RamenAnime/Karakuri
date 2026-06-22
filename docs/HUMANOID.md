@@ -139,9 +139,9 @@ specifics, honestly:
   targets; visit frontiers until none remain and the floor has mapped
   itself. `python -m karakuri map` demonstrates the whole loop in ASCII.
 - `karakuri/robot/reasoner.py` turns plain requests into mission steps
-  using rules, and optionally a local LLM (Ollama class) on the chest
-  computer. The hook refuses any address that is not loopback, so the
-  no-cloud rule is enforced by code: `allowed_llm_url` returns False for
+  using rules, and optionally a local parser on the chest computer. The
+  hook refuses any address that is not loopback, so the
+  no-cloud rule is enforced by code: `allowed_local_model_url` returns False for
   anything off the robot.
 
 ## 6. Touch: force-aware claws

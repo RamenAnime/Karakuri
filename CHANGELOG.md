@@ -136,7 +136,7 @@ The humanoid release: a 23 joint printed body with retractable foot wheels, onbo
 - **Humanoid kinematics** (`karakuri/robot/humanoid.py`): 23 joint map with per joint limits, head pan and tilt, waist twist with combined gaze splitting, support polygon checks for static walking, and the retractable wheel state machine that prefers skating on flat runs to save battery.
 - **Onboard mapping** (`karakuri/robot/mapping.py`): occupancy grid built from the robot's own depth scans, obstacle inflation by body radius so clear paths are clear for the whole machine, unknown-space blocking, and frontier based auto exploration. `karakuri map` demonstrates it.
 - **Touch claws** (`karakuri/robot/grip.py`): current-sensed force control with plush, rigid, delicate, and heavy presets and an overload release that latches open.
-- **Offline reasoner** (`karakuri/robot/reasoner.py`): rule based intent to mission steps, with a local LLM hook that rejects every non loopback address in code.
+- **Offline reasoner** (`karakuri/robot/reasoner.py`): rule based intent to mission steps, with a local model hook that rejects every non loopback address in code.
 - **Ten humanoid print plates**, all verified watertight and bed-fit: head pan and tilt set, waist drum and disc, chest rings, posts, Noctua vent panels, side panels, pelvis, the universal biaxial joint used at shoulders, hips, and ankles, heavy limb links, and the wheel-hiding feet. STL library now 35 parts.
 - **docs/HUMANOID.md**: DOF table, separated print plate list, chest airflow with fan placement, the honest Mac mini pairing note, all-onboard mapping and reasoning, touch presets, assembled battery table, phased build order.
 

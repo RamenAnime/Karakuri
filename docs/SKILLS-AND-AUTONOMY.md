@@ -26,9 +26,9 @@ I can plan carry in groceries but I am missing: person_tracker, outdoor_traverse
 
 On the robot, speech becomes text through Vosk or whisper.cpp, both fully
 offline, both running on the 2014 mini. The text hits the same `match_skill`
-the command uses. For free-form phrasing a small local LLM (Ollama, the
-loopback-only hook already in `reasoner.py`) rewrites a sentence into one of
-the known skills; the rule matcher is the floor, the LLM is the polish, and
+the command uses. For free-form phrasing a small local parser, the
+loopback-only hook already in `reasoner.py`, rewrites a sentence into one of
+the known skills; the rule matcher is the floor, the local parser is the polish, and
 neither needs internet.
 
 ## It acts on its own
