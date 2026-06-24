@@ -5,7 +5,7 @@ Repository: **https://github.com/RamenAnime/Karakuri**
 Local folder:
 
 ```text
-C:\Users\Jason Jones\Downloads\Karakuri
+C:\Users\RamenAnime\Downloads\Karakuri
 ```
 
 Setup guide: [GETTING-STARTED.md](GETTING-STARTED.md)
@@ -25,7 +25,7 @@ Topics: `robotics`, `ros2`, `computer-vision`, `python`, `autonomous`, `karakuri
 ## Git Bash: first push
 
 ```bash
-cd "/c/Users/Jason Jones/Downloads/Karakuri"
+cd "/c/Users/RamenAnime/Downloads/Karakuri"
 git config user.name "RamenAnime"
 git config user.email "your-github-email@example.com"
 git add -A
@@ -62,7 +62,7 @@ Use force push only on repos you own and others have not cloned yet.
 ## Daily workflow
 
 ```bash
-cd "/c/Users/Jason Jones/Downloads/Karakuri"
+cd "/c/Users/RamenAnime/Downloads/Karakuri"
 git status
 git add -A
 git commit -m "Describe your change"
